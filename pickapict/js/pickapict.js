@@ -4,9 +4,7 @@ var	indexOfImagePressed;
 var isInitialized;
 var modeIndex;
 var targetIndex;
-
-console.log("pickapict");
-init();
+var	myIP;
 
 function init() {
 
@@ -18,16 +16,10 @@ function init() {
 	$("body").append("<audio id='keystroke'><source src='data/Keystroke.ogg' type='audio/ogg'><source src='data/Keystroke.mp3' type='audio/mp3'></audio>");
 	$.get("php/list-images.php",function(data) {
 		picts=data;
+		interactSave({"app":"pickapict","ip":myIP},
+					 "allPicts",
+					 {"picts":picts});
 		shuffle();
-	})
-	.done(function() {
-		console.log( "second success" );
-	})
-	.fail(function( jqXHR, textStatus) {
-		console.log( "error",jqXHR );
-	})
-	.always(function() {
-		console.log( "finished" );
 	});
 }
 
@@ -58,6 +50,10 @@ function shuffle()
 	targetIndex=n[parseInt(4*Math.random())];
 	
 	drawFourImages();
+
+	interactSave({"app":"pickapict","ip":myIP},
+				 "question",
+				 {"selected":selected,"target":targetIndex});
 }
 function drawFourImages()
 {
@@ -76,6 +72,7 @@ function drawFourImages()
 		$("#pict"+(i+1)).html(html);
 		$("#pict"+(i+1)+" a.word").click(function(){
 			var me=$(this).attr('id');
+			var success=true;
 			if(me==picts[targetIndex]) {
 				var audio=$("#magicwand").get(0);
 				audio.play();
@@ -84,7 +81,12 @@ function drawFourImages()
 			else {
 				var audio=$("#keystroke").get(0);
 				audio.play();
+				success=false;
 			}
+			
+			interactSave({"app":"pickapict","ip":myIP},
+						 "selection",
+						 {"name":me,"success":success});
 		});
 	}
 	
@@ -98,14 +100,31 @@ function drawFourImages()
 	$(audio).on( "ended",function(){$("#"+picts[targetIndex]+" audio").get(0).play()});
 	audio.play();
 }
-/* Push/Pull */
-function save(origin,key,value) {
+
+/* Interact push/pull */
+function interactSave(origin,key,value) {
 	$.get("http://siphonophore.org/interact/php/interact.php",{
 		"action":"save",
-		"origin":origin,
+		"origin":JSON.stringify(origin),
 		"key":key,
 		"value":JSON.stringify(value)
-	},function(data) {
+	}).success(function(data) {
 		console.log("save",data);
-	});
+	}).error(function(jqXHR, textStatus, errorThrown) {
+        console.log("Error: " + textStatus + " " + errorThrown);
+    });
 }
+function interactIP() {
+	$.get("http://siphonophore.org/interact/php/interact.php",{
+		"action":"remote_address"
+	}).success(function(data) {
+		myIP=data;
+		interactSave({"app":"pickapict","ip":myIP},"entered",null);
+	}).error(function(jqXHR, textStatus, errorThrown) {
+        console.log("Error: " + textStatus + " " + errorThrown);
+    });
+}
+
+interactIP();
+window.onbeforeunload=function(){interactSave({"app":"pickapict","ip":myIP},"exited",null)};
+init();
