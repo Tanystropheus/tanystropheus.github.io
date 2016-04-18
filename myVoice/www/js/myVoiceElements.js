@@ -10,37 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-function maVoixElem(pictId, elemUrl, songUrl, Width, Height) {
-    this.pictid = pictId;
-    this.elemurl = elemUrl,
-    this.songurl = songUrl,
-    this.width = Width,
-    this.height = Height,
-    
-    console.log('debut new elem avec: ' + pictId + ' ' + elemUrl + ' ' + songUrl + ' ' + Width + ' ' + Height + ' ');
-    this.toLinkConv = function(document, whereToPlace){
-        //debugelem(document);
-        this.elemurl = "img/logo.png";
-        var elem = document.getElementById(this.pictid);
-        if (elem !== null){
-            elem.setAttribute("src", this.elemurl);
-            elem.setAttribute("height", this.height);
-            elem.setAttribute("width", this.width);
-        } else {
-            var elem = document.createElement("img");
-            elem.setAttribute("id", this.pictid);
-            elem.setAttribute("src", this.elemurl);
-            elem.setAttribute("height", this.height);
-            elem.setAttribute("width", this.width);
-            whereToPlace.appendChild(elem);
-        }
-    }
+function maVoixSong(songUrl, languageId, songId) {
+    this.songid = songId,
+    this.languageid = languageId,
+    this.songurl = songUrl
 };
 
-function maVoixLib() {
-    this.libid = undefined;
-    this.userid = undefined,
-    this.title = undefined
+function maVoixElem(pictId, elemUrl, Width, Height, songUrl, languageId, songId) {
+    this.elemid = pictId,
+    this.elemurl = elemUrl,
+    this.songelem = songUrl,
+    //this.songelem = maVoixSong(songUrl, languageId, songId),
+    this.width = Width,
+    this.height = Height,
+};
+
+function maVoixLib(libId, userId, libTitle) {
+    this.libid = libId,
+    this.userid = userId,
+    this.title = libTitle
 };
 
 function debugelem(elem) {

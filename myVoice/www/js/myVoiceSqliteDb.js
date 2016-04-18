@@ -28,14 +28,20 @@ function initDb(callback){
 		var tableName = 'SimpsonFamily';
 		try {
 			document.db.executeSql("CREATE TABLE SimpsonFamily (id integer primary key, nom text)");
-			//createSqliteTable(tableName, 'id integer primary key, nom text');
+			document.db.executeSql("CREATE TABLE Elements (elemid integer primary key, elemurl text, songelem text, width integer)");
+   /*this.pictid = pictId,
+    this.elemurl = elemUrl,
+    this.songelem = songUrl,
+    //this.songelem = maVoixSong(songUrl, languageId, songId),
+    this.width = Width,
+    this.height = Height,*/
 		} catch(err){
 			alert("Error Create Table: " + JSON.strigify(err));
 		} finally {
-			insertInSqliteTable(tableName, 'id, nom', "1, 'Homer'");
-			insertInSqliteTable(tableName, 'id, nom', "2, 'Marge'");
-			insertInSqliteTable(tableName, 'id, nom', "3, 'Bart'");
-			insertInSqliteTable(tableName, 'id, nom', "4, 'Lisa'");
+			insertInSqliteTable(tableName, "1, 'Homer'");
+			insertInSqliteTable(tableName, "2, 'Marge'");
+			insertInSqliteTable(tableName, "3, 'Bart'");
+			insertInSqliteTable(tableName, "4, 'Lisa'");
 		//    for (var tmpi = 5; tmpi < 20; tmpi++){
 		//        insertInSqliteTable(tableName, 'id, nom', tmpi+",'Lisa"+tmpi+"'");
 		//    }
@@ -46,40 +52,35 @@ function initDb(callback){
 		if (callback){
 			callback();
 		}
-	}
-    
-    //getAllTheDataDEBUG(tableName);
+		try {
+			getAllTheDataDEBUG(tableName);
+		} catch(e){
+			allert("Error!! " + JSON.strigify(e));
+		} finally {
+			dropSqliteTable(tableName);
+			dropSqliteTable('Elements');
+		}
+	}    
 };
 
-function myExecSqliteSQL(sql, result, okcb, errcb) {
-    //alert(sql);
-//    if (okcb){
+function myExecSqliteSQL(sql, okcb, errcb) {
         document.db.transaction(function(tx) {
-             result = tx.executeSql(sql, null, errcb, okcb);
+             tx.executeSql(sql, null, okcb, errcb);
         }, function(){alert("Error transaction init");});
-/*    } else if(okcb === null){
-        document.db.transaction(function(tx) {
-             result = tx.executeSql(sql, null, onError, null);
-        }, function(){alert("Error transaction init");});
-    }else {
-        document.db.transaction(function(tx) {
-             result = tx.executeSql(sql, null, onError);
-        }, function(){alert("Error transaction init");}); 
-    }*/
 };
 
 function createSqliteTable(tableName, champ) {
-    myExecSqliteSQL('CREATE TABLE IF NOT EXISTS ' + tableName + ' ('+champ+')', function(){alert("table created");}, function(){alert("table creation fail");});
+    myExecSqliteSQL('CREATE TABLE IF NOT EXISTS ' + tableName + ' ('+champ+')', function(){alert("table "+ tableName +" created");}, function(){alert("table "+ tableName +" creation fail");});
     return true;
 };
 
 function dropSqliteTable (tableName) {
-    myExecSqliteSQL('DROP TABLE' + tableName, function(){alert("drop table succes");}, function(){alert("Drop table fail");});
+    myExecSqliteSQL('DROP TABLE ' + tableName, function(){alert("drop " + tableName + " table succes");}, function(){alert("Drop table "+ tableName +" fail");});
     return true;
 };
 
-function insertInSqliteTable (tableName, champToModifie, values){
-    myExecSqliteSQL("INSERT INTO "+ tableName + " VALUES ("+ values +")", function(){alert("elem inserted");} , function(){alert("elem insertion fail");});
+function insertInSqliteTable (tableName, values){
+    myExecSqliteSQL("INSERT INTO "+ tableName + " VALUES ("+ values +")", function(){alert("inserted");} , function(){alert("insertion fail");});
     return true;
 };
 
@@ -94,7 +95,6 @@ function deleteInSqliteTable (db, tableName, condition){
 };
 
 function selectRecords(fn, sql, where, by) {
-    //db = openDb(initDb());
     try{
 		alert(sql);
         document.db.transaction(function(tx) {
@@ -117,11 +117,27 @@ function onSucces(e){
 
 function getAllTheDataDEBUG(tabName) {
     var render = function(tx, rs) {
-        // rs contains our SQLite recordset
+		var text = "Content of "+ tabName +": --> \n" ;
         alert("nb rows: " + rs.rows.length);
         for (var i = 0; i < rs.rows.length; i++) {
-            alert("Row: -->" + JSON.stringify(rs.rows.item(i))+ "<--");
+			text = text + JSON.stringify(rs.rows.item(i)) + "\n";
+            //alert("Row: -->" + JSON.stringify(rs.rows.item(i))+ "<--");
+            alert(text);
         }
+        text = text + "<--\n";
+        alert(text);
     };
     selectRecords(render, "SELECT * FROM " + tabName);
+};
+
+
+function myObjExecSqliteSQL(sql, values, okcb, errcb) {
+        document.db.transaction(function(tx) {
+             tx.executeSql(sql, values, okcb, errcb);
+        }, function(){alert("Error transaction init");});
+};
+
+function insertElements (elem){
+    myObjExecSqliteSQL("INSERT INTO Elements VALUES ( ?, ?, ?)", elem, function(){alert("elem inserted");} , function(){alert("elem insertion fail");});
+    return true;
 };
