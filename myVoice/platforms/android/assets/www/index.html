@@ -1,38 +1,17 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!--<meta name="msapplication-tap-highlight" content="no" />-->
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="SQLitePlugin.js"></script>
+        <script type="text/javascript" src="js/myVoiceSqliteDb.js"></script>
+        <script type="text/javascript" src="js/myVoiceElements.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
         <title>Hello World</title>
     </head>
     <body>
@@ -43,7 +22,67 @@
                 <p class="event received">Device is Ready</p>
             </div>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+        <p id="demo"></p>
+        Id l'image: <input id="pictId"><br/>
+        Url de l'image: <input id="pictUrl"><br/>
+        Url de la bande son: <input id="songUrl"><br/>
+        Weidth de l'image: <input id="pictWeidth"><br/>
+        Height de l'image: <input id="pictHeight"><br/>
+
+        <button type="button" onclick="onClickCreatElem()">Submit</button><br/>
+        <button type="button" onclick="print()">Show All Item</button><br/>
+        Id as suprimer: <input id="idToRemove">
+        Dans la table: <input id="inTable">
+        <button type="button" onclick="deleteId()">Remove Id</button><br/>
+
+        <!--<button type="button" onclick="deleteWholeDB()">Reset</button><br/>-->
+        <!--<p id="Debug"></p>-->
+        <div id="bandeParole"></div>
+        <div>
+            <button type="button" onclick="app.dropSqliteTable('SimpsonFamily')">Reset tab</button><br/>
+        </div>
+            <script>
+                function onClickCreatElem(){
+                        elem1 = new maVoixElem();
+                        elem1.elemurl = document.getElementById("pictUrl").value;
+                        elem1.songurl = document.getElementById("songUrl").value;
+                        elem1.weidth = document.getElementById("pictWeidth").value;
+                        elem1.height = document.getElementById("pictHeight").value;
+                        elem1.pictid = document.getElementById("pictId").value;
+                        request.addpict(elem1);
+                        request.oncomplet = function (){
+                                alert("Element ajoute!");
+                        }
+                }
+                function printPictLst(allPictLst)
+                {
+                        for (i in allPictLst) {
+                                allPictLst[i].toLinkConv(document, document.getElementById("Debug"));
+                        }
+                }
+                function printAllItems(callback)
+                {
+                        var htmlText;
+                        var allPictLst = [];
+                        getAllItems(allPictLst);
+                        alert("Les images vont s'afficher");
+                        /*for (i in allPictLst) {
+                                allPictLst[i].toLinkConv(document, document.getElementById("Debug"));
+                        }*/
+                        callback(allPictLst);
+                        //console.log("test log -->" + htmlText + "<--");
+                    //document.getElementById("Debug").innerHTML += ' ' + htmlText + '}';
+                }
+                function print(){
+                    var tableName = 'SimpsonFamily';
+                    getAllTheDataDEBUG(tableName);
+                }
+                function deleteId(){
+                        var table = document.getElementById("inTable").value;
+                        var id = document.getElementById("idToRemove");
+                        dbEntryDeleteOne(table, id.value);
+                        //document.getElementById("bandeParole").removeChild(document.getElementById("idToRemove"));
+                }
+        </script>
     </body>
 </html>

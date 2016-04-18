@@ -9,6 +9,9 @@
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "com.interact.myvoice"
         }
     },
     "dependent_plugins": {}
