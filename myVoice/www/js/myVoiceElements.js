@@ -10,19 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-function maVoixSong(songUrl, languageId, songId) {
-    this.songid = songId,
+function maVoixSound(soundUrl, languageId, soundId) {
+    this.soundid = soundId,
     this.languageid = languageId,
-    this.songurl = songUrl
+    this.soundurl = soundUrl
 };
 
-function maVoixElem(pictId, elemUrl, Width, Height, songUrl, languageId, songId) {
-    this.elemid = pictId,
-    this.elemurl = elemUrl,
-    this.songelem = songUrl,
-    //this.songelem = maVoixSong(songUrl, languageId, songId),
-    this.width = Width,
-    this.height = Height,
+function maVoixText(text, languageId, textId) {
+    this.soundid = textId;
+    this.languageid = languageId;
+    this.soundurl = text;
+};
+
+function maVoixElem(pictId, elemUrl, Width, soundUrl, languageId, soundId, text, textId) {
+    this.elemid = pictId;
+    this.elemurl = elemUrl;
+    this.soundid = soundId;
+    this.soundelem = new maVoixSound(soundUrl, languageId, soundId);
+    this.textelem = new maVoixText(text, languageId, textId);
+    this.width = Width;
 };
 
 function maVoixLib(libId, userId, libTitle) {
