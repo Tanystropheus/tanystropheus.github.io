@@ -1,0 +1,53 @@
+
+/*Div Blocks*/
+#elementArea1, #elementArea2, #elementArea3 {
+  height: 550px;
+}
+#elementArea1, #actions {
+  background-color: #ccccb3;
+}
+#elementArea2, #objects {
+  background-color: #c2c2a3;
+}
+#elementArea3, #items {
+  background-color: #b8b894;
+}
+.topCornersOnly {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+#speakArea {
+  text-align: right;
+  height: 100px;
+}
+#elementAreaT1, #elementAreaT2, #elementAreaT3 {
+  height: 550px;
+}
+#elementAreaT1, #actionsT {
+  background-color: #f2f2f2;
+}
+#elementAreaT2, #objectsT {
+  background-color: #e6e6e6;
+}
+#elementAreaT3, #itemsT {
+  background-color: #d9d9d9;
+}
+#speakAreaT {
+  text-align: right;
+  height: 100px;
+}
+
+/*Image*/
+img {
+  width: 95px;
+  height: 95px;
+  padding:1px;
+}
+
+/*Color icons valid*/
+#iconCheck {
+  background-color: green;
+}
+#iconNoCheck {
+  background-color: red;
+}
