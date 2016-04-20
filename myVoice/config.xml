@@ -23,5 +23,7 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-    </platform>
+	</platform>
+	<preference name="Orientation" value="landscape"/>
+	<preference name="Fullscreen" value="true"/>
 </widget>
