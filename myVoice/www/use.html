@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        <meta name="msapplication-tap-highlight" content="no"> -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" src="js/myVoiceSqliteDb.js"></script>
+        <script type="text/javascript" src="js/myVoiceElements.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <title>Ma Voix</title>
+    </head>
+
+    <!-- Page Utilisation -->
+    <body>
+		<div class="app"></div>
+
+        <div data-role="page" id="pageone">
+            <div data-role="header">
+                <h1>Mode Utilisation</h1>
+                 <!-- Bouton de paramétrage -->
+                <a href="#pagetwo" data-transition="slide" class="ui-btn ui-btn-right ui-icon-gear ui-btn-icon-right ui-btn-inline ui-corner-all">Paramètres</a>
+            </div>
+
+            <div data-role="main" class="ui-content">
+                <div data-role="tabs">
+                    <div data-role="navbar">
+                        <ul>
+                            <li><a href="#elementArea1" id="actions" class="ui-btn-active ui-btn-inline topCornersOnly">Actions</a></li>
+                            <li><a href="#elementArea2" id="objects" class="ui-btn-inline topCornersOnly">Objets</a></li>
+                            <li><a href="#elementArea3" id="items" class="ui-btn-inline topCornersOnly">Attributs</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Zone des éléments -->
+                    <div id="elementArea1">
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test1"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test2"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test3"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test4"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test5"/>
+                    </div>
+                    <div id="elementArea2">
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test1"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test2"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test3"/>
+                    </div>
+                    <div id="elementArea3">
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test1"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test2"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test3"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test4"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test5"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test6"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test7"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test8"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bande de parole -->
+            <div data-role="footer" id="speakArea">
+                <a href="#" class="ui-btn ui-icon-audio ui-btn-icon-right ui-btn-inline ui-corner-all">Ecouter</a>
+                <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-right ui-btn-inline ui-corner-all">Supprimer</a>
+            </div>
+        </div>
+
+        <!-- Page paramètres -->
+        <div data-role="page" id="pagetwo">
+            <div data-role="header">
+                <h1>Paramétrage</h1>
+            </div>
+
+             <div data-role="main" class="ui-content">
+                <p>
+                    <h4>Pour passer au mode apprentissage :</h4>
+                    <!-- Switch mode -->
+                    <fieldset>
+                        <div data-role="fieldcontain">
+                            <select id="select-based-flipswitch" data-role="flipswitch">
+                                <option value="leave">MU</option>
+                                <option value="arrive">MA</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                </p>
+
+                <!-- Bouton de validation des paramètres -->
+                <a href="#popupSave" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all" id="button_param" data-transition="pop">Sauvegarder</a>
+                <!-- Popup formulaire pour mode apprentissage -->
+                <div data-role="popup" id="popupSave" class="ui-content" data-overlay-theme="b">
+                    <form method="post" action="demoform.asp">
+                        <input type="text" name="fname" id="fname" placeholder="Entrez votre nom" data-clear-btn="true">
+                        <input type="text" name="flocation" id="flocation" placeholder="Entrez l'activité" data-clear-btn="true">
+                        <input type="text" name="factivity" id="factivity" placeholder="Entrez le lieu" data-clear-btn="true">
+                        <a href="#form" id="button_form" data-transition="slide" class="ui-btn  ui-corner-all">Enregistrer</a>
+                    </form>
+                </div>
+             </div>
+
+            <div data-role="footer">
+                <h1>Footer Text</h1>
+            </div>
+        </div>
+
+        <!-- Page Apprentissage -->
+        <div data-role="page" id="pagethree">
+            <div data-role="header">
+                <h1>Mode Apprentissage</h1>
+                 <!-- Bouton de paramétrage -->
+                <a href="#pagetwo" data-transition="slide" class="ui-btn ui-btn-right ui-icon-gear ui-btn-icon-right ui-btn-inline ui-corner-all">Paramètres</a>
+             </div>
+
+            <div data-role="main" class="ui-content">
+                <div data-role="tabs">
+                    <div data-role="navbar">
+                        <ul>
+                            <li><a href="#elementAreaT1" id="actionsT" class="ui-btn-active ui-btn-inline topCornersOnly">Actions</a></li>
+                            <li><a href="#elementAreaT2" id="objectsT" class="ui-btn-inline topCornersOnly">Objets</a></li>
+                            <li><a href="#elementAreaT3" id="itemsT" class="ui-btn-inline topCornersOnly">Attributs</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Zone des éléments -->
+                    <div id="elementAreaT1">
+                        <div class="allImg">
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test1"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test2"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test3"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test4"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test5"/>
+                        </div>
+                    </div>
+                    <div id="elementAreaT2">
+                        <div class="allImg">
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test1"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test2"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test3"/>
+                        </div>
+                    </div>
+                    <div id="elementAreaT3">
+                        <div class="allImg">
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test1"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test2"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test3"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test4"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test5"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test6"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test7"/>
+                            <img class="imgClass" src="img/testCarre95.png" alt="Test8"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Bande de parole -->
+            <div data-role="footer" id="speakAreaT">
+                <a href="#" class="ui-btn ui-icon-audio ui-btn-icon-right ui-btn-inline ui-corner-all">Ecouter</a>
+                <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-right ui-btn-inline ui-corner-all">Supprimer</a>
+                <a href="#popupCheck" data-rel="popup" class="ui-btn ui-icon-check ui-btn-icon-right ui-btn-inline ui-corner-all" data-transition="pop">Valider</a>
+                <!-- Popup de validation -->
+                <div data-role="popup" id="popupCheck" data-overlay-theme="b">
+                    <p>La phrase est-elle correcte ?</p>
+                    <a href="#" id="iconCheck" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-inline ui-btn-icon-notext"></a>
+                    <a href="#" id="iconNoCheck" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-inline ui-btn-icon-notext"></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- include the jQuery library-->
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <!-- include the jQuery Mobile library -->
+        <script>
+            $(document).bind('mobileinit',function(){
+                $.mobile.changePage.defaults.changeHash = false;
+                $.mobile.hashListeningEnabled = false;
+                $.mobile.pushStateEnabled = false;
+            });
+        </script> 
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <!-- <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+        <script src="js/jquery.ui.touch-punch.min.js"></script>
+        <script src="js/myscript.js"></script> -->
+
+        <script type="text/javascript">
+            //draggable
+            //$( "#imgTest" ).draggable({containment: "#containerAll"});
+            //droppable
+            //$( "#speakArea" ).droppable({
+            //    drop: function( event, ui ) {
+            //         $( this ).find( "p" ).html( "Dropped!" );
+            //    }
+            //});
+
+            // Switch mode
+            $(document).ready(function(){
+                $("#button_param").click(function() {
+                    if ($('#select-based-flipswitch').val() == "leave") {
+                        $.mobile.changePage('#pageone', { transition: "slide"} );
+                    }
+                    else if ($('#select-based-flipswitch').val() == "arrive") {
+                        $("#popupSave").popup("open");
+                        $("#button_form").click(function() {
+                             $.mobile.changePage('#pagethree', { transition: "slide"} );
+                        });
+                    }
+                });
+            });
+            // Click
+            $(document).on("tap", ".imgClass", function(){
+                console.log("test");
+                if ($(this).parent().attr("id") == "elementArea1") {
+                    $(this).prependTo("#speakArea");
+                }
+                else if ($(this).parent().attr("id") == "speakArea") {
+                    $(this).prependTo("#elementArea1");
+                }
+            });
+        </script>
+    </body>
+</html>
