@@ -1,12 +1,12 @@
 function openDb(callback) {
-    var dbName = "TMPDataBase2";
+    var dbName = "myVoice.db";
     //if (typeof window.sqlitePlugin !== undefined) {
         document.db = window.sqlitePlugin.openDatabase(
             {
                 name: dbName, 
                 //androidDatabaseImplementation: 2,
                 //androidLockWorkaround: 1,
-                location: 1
+                location: 2
             },
             function (msg) {
 				if(callback){
@@ -32,24 +32,26 @@ function initDb(callback){
 			document.db.executeSql("CREATE TABLE TagText (tagtextid integer primary key, languageid integer," +
 				" FOREIGN KEY(languageid) REFERENCES Language(languageid))");
 			document.db.executeSql("CREATE TABLE Tag (tagid integer primary key, tagtextid integer, languageid integer," +
-				" FOREIGN KEY(languageid) REFERENCES Language(languageid)), FOREIGN KEY(tagtextid) REFERENCES TagText(tagtextid))");
+				" FOREIGN KEY(languageid) REFERENCES Language(languageid), FOREIGN KEY(tagtextid) REFERENCES TagText(tagtextid))");
 			document.db.executeSql("CREATE TABLE LibraryLst (librarylstid integer primary key, libraryid text," +
-				" liblsttitle text, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
+				" liblsttitle text)");
 			document.db.executeSql("CREATE TABLE Library (libraryid integer primary key, userid integer," +
-				" libtitle text)");
+				" libtitle text, FOREIGN KEY(userid) REFERENCES User(userid))");
 			document.db.executeSql("CREATE TABLE User (userid integer primary key, languageid integer," +
-				" librarylstid integer, login text, email text, password text, backupurl text, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
-			document.db.executeSql("CREATE TABLE ElemAssociation (elemassoid integer primary key," +
-				" globelemassoid integer, userid integer, nbuse integer, date date)");
+				" librarylstid integer, login text, email text, password text, backupurl text, FOREIGN KEY(languageid) REFERENCES Language(languageid)" + 
+				", FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))");
 			document.db.executeSql("CREATE TABLE GlobElemAssociation (globelemassoid integer primary key," +
 				" listelemid integer, nbuse integer)");
+			document.db.executeSql("CREATE TABLE ElemAssociation (elemassoid integer primary key," +
+				" globelemassoid integer, userid integer, nbuse integer, date date, FOREIGN KEY(userid) REFERENCES User(userid)," +
+				" FOREIGN KEY(globelemassoid) REFERENCES GlobElemAssociation(globelemassoid))");
+			document.db.executeSql("CREATE TABLE Elements (elemid integer primary key, elemurl text," +
+				" soundid integer, width integer)");
 			document.db.executeSql("CREATE TABLE ElemStat (elemstatid integer primary key, elemid integer," +
 				" userid integer, nbuse integer, elemassoid integer)");
 			document.db.executeSql("CREATE TABLE GlobElemStat (globelemstatid integer primary key, nbuse integer)");
-			document.db.executeSql("CREATE TABLE Elements (elemid integer primary key, elemurl text," +
-				" soundid integer, width integer)");
-			document.db.executeSql("CREATE TABLE Sound (elemid integer primary key, elemurl text," +
-				" soundid integer, width integer)");
+			document.db.executeSql("CREATE TABLE Sound (soundid integer primary key, soundurl text," +
+				" languageid, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
  		} catch(err){
 			alert("Error Create Table: " + JSON.strigify(err));
 		} finally {
@@ -130,7 +132,7 @@ function selectRecords(fn, sql, where, by) {
     try{
 		//alert(sql);
         document.db.transaction(function(tx) {
-            tx.executeSql(sql, [], fn, function(e){alert("Erreur Selection");});
+            tx.executeSql(sql, [], fn, function(e){alert("Erreur Selection ( " + sql +" ): " + JSON.stringify(e));});
         });
     }catch(e){
         alert("error reading: " + e);
