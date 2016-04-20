@@ -76,7 +76,7 @@ function initDb(callback){
 		}
 		try {
 			//getAllTheDataDEBUG(tableName);
-			getAllTheDataDEBUG('Language');
+			/*getAllTheDataDEBUG('Language');
 			getAllTheDataDEBUG('Tag');
 			getAllTheDataDEBUG('TagText');
 			getAllTheDataDEBUG('LibraryLst');
@@ -87,7 +87,7 @@ function initDb(callback){
 			getAllTheDataDEBUG('ElemStat');
 			getAllTheDataDEBUG('GlobElemStat');
 			getAllTheDataDEBUG('Elements');
-			getAllTheDataDEBUG('Sound');
+			getAllTheDataDEBUG('Sound');*/
 
 		} catch(e){
 			allert("Error!! " + JSON.strigify(e));
