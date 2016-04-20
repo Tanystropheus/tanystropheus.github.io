@@ -29,14 +29,13 @@ function initDb(callback){
 		try {
 			//document.db.executeSql("CREATE TABLE SimpsonFamily (id integer primary key, nom text)");
 			document.db.executeSql("CREATE TABLE Language (languageid integer primary key, langname text)");
-			document.db.executeSql("CREATE TABLE TagText (tagtextid integer primary key, languageid integer," +
-				" FOREIGN KEY(languageid) REFERENCES Language(languageid))");
-			document.db.executeSql("CREATE TABLE Tag (tagid integer primary key, tagtextid integer, languageid integer," +
-				" FOREIGN KEY(languageid) REFERENCES Language(languageid), FOREIGN KEY(tagtextid) REFERENCES TagText(tagtextid))");
+			document.db.executeSql("CREATE TABLE Tag (tagid integer primary key, tagname text)");
+			document.db.executeSql("CREATE TABLE TagText (tagtextid integer primary key, languageid integer, tagid integer," +
+				" FOREIGN KEY(languageid) REFERENCES Language(languageid), FOREIGN KEY(tagid) REFERENCES Tag(tagid))");
 			document.db.executeSql("CREATE TABLE LibraryLst (librarylstid integer primary key, libraryid text," +
 				" liblsttitle text)");
 			document.db.executeSql("CREATE TABLE Library (libraryid integer primary key, userid integer," +
-				" libtitle text, FOREIGN KEY(userid) REFERENCES User(userid))");
+				" libtitle text, lstelemid text, FOREIGN KEY(userid) REFERENCES User(userid))");
 			document.db.executeSql("CREATE TABLE User (userid integer primary key, languageid integer," +
 				" librarylstid integer, login text, email text, password text, backupurl text, FOREIGN KEY(languageid) REFERENCES Language(languageid)" + 
 				", FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))");
@@ -45,11 +44,15 @@ function initDb(callback){
 			document.db.executeSql("CREATE TABLE ElemAssociation (elemassoid integer primary key," +
 				" globelemassoid integer, userid integer, nbuse integer, date date, FOREIGN KEY(userid) REFERENCES User(userid)," +
 				" FOREIGN KEY(globelemassoid) REFERENCES GlobElemAssociation(globelemassoid))");
+			document.db.executeSql("CREATE TABLE Text (textid integer primary key, languageid text," +
+				" text text, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
 			document.db.executeSql("CREATE TABLE Elements (elemid integer primary key, elemurl text," +
-				" soundid integer, width integer)");
-			document.db.executeSql("CREATE TABLE ElemStat (elemstatid integer primary key, elemid integer," +
-				" userid integer, nbuse integer, elemassoid integer)");
-			document.db.executeSql("CREATE TABLE GlobElemStat (globelemstatid integer primary key, nbuse integer)");
+				" soundid integer, width integer, textid text, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid))");
+			document.db.executeSql("CREATE TABLE ElemStat (elemstatid integer primary key," +
+				" userid integer, nbuse integer, elemassoid integer, FOREIGN KEY(userid) REFERENCES User(userid),"+
+				" FOREIGN KEY(elemassoid) REFERENCES ElemAssociation(elemassoid))");
+			document.db.executeSql("CREATE TABLE GlobElemStat (globelemstatid integer primary key, nbuse integer," +
+				" elemstatid, FOREIGN KEY(elemstatid) REFERENCES ElemStat(elemstatid))");
 			document.db.executeSql("CREATE TABLE Sound (soundid integer primary key, soundurl text," +
 				" languageid, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
  		} catch(err){
