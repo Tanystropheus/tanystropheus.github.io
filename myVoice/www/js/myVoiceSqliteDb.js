@@ -37,7 +37,7 @@ function initDb(callback){
 			document.db.executeSql("CREATE TABLE Library (libraryid integer primary key, userid integer," +
 				" libtitle text, lstelemid text, FOREIGN KEY(userid) REFERENCES User(userid))");
 			document.db.executeSql("CREATE TABLE User (userid integer primary key, languageid integer," +
-				" librarylstid integer, login text, email text, password text, backupurl text, FOREIGN KEY(languageid) REFERENCES Language(languageid)" + 
+				" librarylstid integer, login text, password text, backupurl text, FOREIGN KEY(languageid) REFERENCES Language(languageid)" + 
 				", FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))");
 			document.db.executeSql("CREATE TABLE GlobElemAssociation (globelemassoid integer primary key," +
 				" listelemid integer, nbuse integer)");
@@ -179,8 +179,62 @@ function insertLanguage(elem){
     return true;
 };
 
+function insertTag(elem){
+    myObjExecSqliteSQL("INSERT INTO Tag (tagid, tagname ) VALUES ( ?, ?)", [elem.tagid , elem.tagname], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
+    return true;
+};
+
+function insertTagText(elem){
+    myObjExecSqliteSQL("INSERT INTO TagText (tagtextid, languageid, tagid ) VALUES ( ?, ?, ?)", [elem.tagtextid , elem.languageid, elem.tagid], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
+    return true;
+};
+
+function insertLibraryLst(elem){
+    myObjExecSqliteSQL("INSERT INTO LibraryLst (librarylstid, libraryid, liblsttitle ) VALUES ( ?, ?, ?)", [elem.librarylstid , elem.libraryid, elem.liblsttitle], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
+    return true;
+};
+
+function insertLibrary(elem){
+    myObjExecSqliteSQL("INSERT INTO Library (libraryid, userid, libtitle, lstelemid ) VALUES ( ?, ?, ?, ?)", [elem.libraryid , elem.userid, elem.libtitle, elem.lstelemid], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
+    return true;
+};
+
+function insertUser(elem){
+    myObjExecSqliteSQL("INSERT INTO User (userid, languageid, librarylstid, login, password, backupurl ) VALUES ( ?, ?, ?, ?, ?, ?)", [elem.userid, elem.languageid, elem.librarylstid, elem.login, elem.password, elem.backupurl], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
+    return true;
+};
+
+function insertGlobElemAssociation(elem){
+    myObjExecSqliteSQL("INSERT INTO GlobElemAssociation (globelemassoid, listelemid, nbuse) VALUES ( ?, ?, ?)", [elem.globelemassoid, elem.listelemid, elem.nbuse], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
+    return true;
+};
+
+function insertElemAssociation(elem){
+    myObjExecSqliteSQL("INSERT INTO ElemAssociation (elemassoid, globelemassoid, userid, nbuse, date) VALUES ( ?, ?, ?, ?, ?)", [elem.elemassoid, elem.globelemassoid, elem.userid, elem.nbuse, elem.date], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
+    return true;
+};
+
+function insertText(elem){
+    myObjExecSqliteSQL("INSERT INTO Text (textid, languageid, text) VALUES ( ?, ?, ?)", [elem.textid, elem.languageid, elem.text], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
+    return true;
+};
+
 function insertElements(elem){
     myObjExecSqliteSQL("INSERT INTO Elements (elemid , elemurl , soundid, width) VALUES ( ?, ?, ?, ?)", [elem.elemid , elem.elemurl , elem.soundelem.soundid, elem.width], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
     return true;
 };
 
+function insertElemStat(elem){
+    myObjExecSqliteSQL("INSERT INTO ElemStat (elemstatid , userid , nbuse, elemassoid) VALUES ( ?, ?, ?, ?)", [elem.elemstatid , elem.userid , elem.nbuse, elem.elemassoid], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
+    return true;
+};
+
+function insertGlobElemStat(elem){
+    myObjExecSqliteSQL("INSERT INTO GlobElemStat (globelemstatid , nbuse , elemstatid) VALUES ( ?, ?, ?, ?)", [elem.globelemstatid , elem.nbuse , elem.elemstatid], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
+    return true;
+};
+
+function insertSound(elem){
+    myObjExecSqliteSQL("INSERT INTO Sound (soundid , soundurl , languageid) VALUES ( ?, ?, ?, ?)", [elem.soundid , elem.soundurl , elem.languageid], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
+    return true;
+};
