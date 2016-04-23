@@ -63,10 +63,12 @@ function initDb(callback){
 			insertInSqliteTable(tableName, "3, 'Bart'");
 			insertInSqliteTable(tableName, "4, 'Lisa'");*/
 			/*insertLanguage({languageid: 1, langname: "Français"});
-			insertElements( new maVoixElem(1, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));
-			insertElements( new maVoixElem(2, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));
-			insertElements( new maVoixElem(4, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));
-			insertElements( new maVoixElem(5, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));*/
+			insertElements( new myVoiceElem(1, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));
+			insertElements( new myVoiceElem(2, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));
+			insertElements( new myVoiceElem(4, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));
+			insertElements( new myVoiceElem(5, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));*/
+			insertLanguage(new myVoiceLanguage(1, "Français"));
+			insertLanguage(new myVoiceLanguage(2, "Anglais"));
 		}
 	} catch (err){
 		alert("Error:" + JSON.stringify(err));
@@ -74,10 +76,12 @@ function initDb(callback){
 		if (callback){
 			callback();
 		}
+		languageObjectLst = {};
 		try {
+			selectLanguage("", languageObjectLst, function(objLst){for(var i in objLst)debugelem(objLst[i])});
 			//getAllTheDataDEBUG(tableName);
-			/*getAllTheDataDEBUG('Language');
-			getAllTheDataDEBUG('Tag');
+			//getAllTheDataDEBUG('Language');
+			/*getAllTheDataDEBUG('Tag');
 			getAllTheDataDEBUG('TagText');
 			getAllTheDataDEBUG('LibraryLst');
 			getAllTheDataDEBUG('Library');
@@ -95,7 +99,9 @@ function initDb(callback){
 //			dropSqliteTable(tableName);
 //			dropSqliteTable('Elements');
 //			dropSqliteTable('Sound');
-//			dropSqliteTable('Language');
+			dropSqliteTable('Language');
+			//debugelem(languageObjectLst);
+			//alert("test languageObjectLst: " + JSON.stringify(languageObjectLst));
 		}
 	}
 };
@@ -170,7 +176,7 @@ function getAllTheDataDEBUG(tabName) {
 
 function myObjExecSqliteSQL(sql, values, okcb, errcb) {
         document.db.transaction(function(tx) {
-             tx.executeSql(sql, values, null, errcb);
+             tx.executeSql(sql, values, okcb, errcb);
         }, function(e){alert("Error transaction init " + JSON.stringify(e));});
 };
 
@@ -237,4 +243,24 @@ function insertGlobElemStat(elem){
 function insertSound(elem){
     myObjExecSqliteSQL("INSERT INTO Sound (soundid , soundurl , languageid) VALUES ( ?, ?, ?, ?)", [elem.soundid , elem.soundurl , elem.languageid], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
     return true;
+};
+
+function selectLanguage(sql, languageObjectLst, cb){ // sql form : WHERE languageid=1 and languagename='Français'
+	//languageObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			languageObjectLst[i] = new myVoiceLanguage();
+			for (var propName in rs.rows.item(i)) {
+				languageObjectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(languageObjectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM Language " + sql);
+	} else {
+		selectRecords(render, "SELECT * FROM Language");
+	}
 };

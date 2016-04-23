@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   maVoixElement.js                                   :+:      :+:    :+:   */
+/*   myVoiceElement.js                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsamuel <bsamuel@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,37 +9,37 @@
 /*   Updated: 2016/04/16 11:59:16 by bsamuel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-function maVoixLanguage(languageid, langname) {
+languageObjectLst = {};
+function myVoiceLanguage(languageid, langname) {
     this.languageid = languageid;
 	this.langname = langname;
 };
 
-function maVoixTag(tagid, tagname) {
+function myVoiceTag(tagid, tagname) {
     this.tagid = tagid;
 	this.tagname = tagname;
 };
 
-function maVoixTagText(tagid, tagname, languageId, tagtextid) {
+function myVoiceTagText(tagid, tagname, languageId, tagtextid) {
     this.tagtextid = tagtextid;
     this.languageid = languageId;
-    this.tagelem = new maVoixTag(tagid, tagname);
+    this.tagelem = new myVoiceTag(tagid, tagname);
 };
 
-function maVoixLibraryLst(tagid, tagname, libraryid, liblsttitle, librarylstid) {
+function myVoiceLibraryLst(tagid, tagname, libraryid, liblsttitle, librarylstid) {
     this.librarylstid = librarylstid;
     this.libraryid = libraryid;  // str contenant les id des lib de l'utilisateur
     this.liblsttitle = liblsttitle;
 };
 
-function maVoixLibrary(libraryId, userId, libTitle, lstelemid) {
+function myVoiceLibrary(libraryId, userId, libTitle, lstelemid) {
     this.libraryid = libraryId;
     this.userid = userId;
     this.libtitle = libTitle;
     this.lstelemid = lstelemid; // str contenant les id des élément de la library
 };
 
-function maVoixUser(librarylstid, userId, languageid, login, password, backupurl) {
+function myVoiceUser(librarylstid, userId, languageid, login, password, backupurl) {
     this.languageid = languageid;
     this.userid = userId;
     this.librarylstid = librarylstid;
@@ -48,12 +48,12 @@ function maVoixUser(librarylstid, userId, languageid, login, password, backupurl
     this.backupurl = backupurl;
 };
 
-function maVoixGlobElemAssociation(globelemassoid, listelemid) {
+function myVoiceGlobElemAssociation(globelemassoid, listelemid) {
     this.globelemassoid = globelemassoid;
     this.listelemid = listelemid;
 };
 
-function maVoixElemAssociation(elemassoid, userId, globelemassoid, nbuse, date) {
+function myVoiceElemAssociation(elemassoid, userId, globelemassoid, nbuse, date) {
     this.elemassoid = elemassoid;
     this.userid = userId;
     this.globelemassoid = globelemassoid;
@@ -61,16 +61,16 @@ function maVoixElemAssociation(elemassoid, userId, globelemassoid, nbuse, date) 
     this.date = date;
 };
 
-function maVoixElem(elemid, elemUrl, Width, soundUrl, languageId, soundId, text, textId) {
+function myVoiceElem(elemid, elemUrl, Width, soundUrl, languageId, soundId, text, textId) {
     this.elemid = elemid;
     this.elemurl = elemUrl;
     this.soundid = soundId;
-    this.soundelem = new maVoixSound(soundUrl, languageId, soundId);
-    this.textelem = new maVoixText(text, languageId, textId);
+    this.soundelem = new myVoiceSound(soundUrl, languageId, soundId);
+    this.textelem = new myVoiceText(text, languageId, textId);
     this.width = Width;
 };
 
-function maVoixElemStat(elemstatid, userId, elemid, nbuse, elemassoid) {
+function myVoiceElemStat(elemstatid, userId, elemid, nbuse, elemassoid) {
     this.elemstatid = elemstatid;
     this.userid = userId;
     this.elemid = elemid;
@@ -78,19 +78,19 @@ function maVoixElemStat(elemstatid, userId, elemid, nbuse, elemassoid) {
     this.elemassoid = elemassoid;
 };
 
-function maVoixGlobElemStat(elemstatid, globelemstatid, nbuse) {
+function myVoiceGlobElemStat(elemstatid, globelemstatid, nbuse) {
     this.elemstatid = elemstatid;
     this.globelemstatid = globelemstatid;
     this.nbuse = nbuse;
 };
 
-function maVoixSound(soundUrl, languageId, soundId) {
+function myVoiceSound(soundUrl, languageId, soundId) {
     this.soundid = soundId;
     this.languageid = languageId;
     this.soundurl = soundUrl;
 };
 
-function maVoixText(text, languageId, textId) {
+function myVoiceText(text, languageId, textId) {
     this.soundid = textId;
     this.languageid = languageId;
     this.soundurl = text;
@@ -109,5 +109,6 @@ function debugelem(elem) {
     }
     text = text + '}';
     console.log(text);
+    alert(text);
 	return htmlText;
 }
