@@ -245,22 +245,262 @@ function insertSound(elem){
     return true;
 };
 
-function selectLanguage(sql, languageObjectLst, cb){ // sql form : WHERE languageid=1 and languagename='Français'
+function selectLanguage(sql, objectLst, cb){ // sql form : WHERE languageid=1 and languagename='Français'
 	//languageObjectLst = {};
     var render = function(tx, rs) {
         for (var i = 0; i < rs.rows.length; i++) {
-			languageObjectLst[i] = new myVoiceLanguage();
+			objectLst[i] = new myVoiceLanguage();
 			for (var propName in rs.rows.item(i)) {
-				languageObjectLst[i][propName] = rs.rows.item(i)[propName];
+				objectLst[i][propName] = rs.rows.item(i)[propName];
 			}
         }
         if (typeof cb !== undefined){
-			cb(languageObjectLst);
+			cb(objectLst);
 		}
     };
     if(sql !== undefined){
-		selectRecords(render, "SELECT * FROM Language " + sql);
+		selectRecords(render, "SELECT * FROM Language " + sql + " ORDER by languageid");
 	} else {
-		selectRecords(render, "SELECT * FROM Language");
+		selectRecords(render, "SELECT * FROM Language ORDER by languageid");
+	}
+};
+
+function selectTag(sql, objectLst, cb){ // sql form : WHERE tagid=1 and tagname='Français'
+	//tagObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[i] = new myVoiceTag();
+			for (var propName in rs.rows.item(i)) {
+				objectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM Tag " + sql + " ORDER by tagid");
+	} else {
+		selectRecords(render, "SELECT * FROM Tag ORDER by tagid");
+	}
+};
+
+function selectTagText(sql, objectLst, cb){ // sql form : WHERE tagTextid=1 and tagTextname='Français'
+	//tagTextObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[i] = new myVoiceTagText();
+			for (var propName in rs.rows.item(i)) {
+				objectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM TagText " + sql + " ORDER by tagTextid");
+	} else {
+		selectRecords(render, "SELECT * FROM TagText ORDER by tagTextid");
+	}
+};
+
+function selectLibraryLst(sql, objectLst, cb){ // sql form : WHERE libraryLstid=1 and libraryLstname='Français'
+	//libraryLstObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[i] = new myVoiceLibraryLst();
+			for (var propName in rs.rows.item(i)) {
+				objectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM LibraryLst " + sql + " ORDER by libraryLstid");
+	} else {
+		selectRecords(render, "SELECT * FROM LibraryLst ORDER by libraryLstid");
+	}
+};
+
+function selectLibrary(sql, objectLst, cb){ // sql form : WHERE libraryid=1 and libraryname='Français'
+	//libraryObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[i] = new myVoiceLibrary();
+			for (var propName in rs.rows.item(i)) {
+				objectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM Library " + sql + " ORDER by libraryid");
+	} else {
+		selectRecords(render, "SELECT * FROM Library  ORDER by libraryid");
+	}
+};
+
+function selectUser(sql, objectLst, cb){ // sql form : WHERE userid=1 and username='Français'
+	//userObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[i] = new myVoiceUser();
+			for (var propName in rs.rows.item(i)) {
+				objectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM User " + sql + " ORDER by userid");
+	} else {
+		selectRecords(render, "SELECT * FROM User ORDER by userid");
+	}
+};
+
+function selectGlobElemAssociation(sql, objectLst, cb){ // sql form : WHERE globElemAssociationid=1 and globElemAssociationname='Français'
+	//globElemAssociationObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[i] = new myVoiceGlobElemAssociation();
+			for (var propName in rs.rows.item(i)) {
+				objectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM GlobElemAssociation " + sql + " ORDER by globElemAssociationid");
+	} else {
+		selectRecords(render, "SELECT * FROM GlobElemAssociation ORDER by globElemAssociationid");
+	}
+};
+
+function selectElemAssociation(sql, objectLst, cb){ // sql form : WHERE elemAssociationid=1 and elemAssociationname='Français'
+	//elemAssociationObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[i] = new myVoiceElemAssociation();
+			for (var propName in rs.rows.item(i)) {
+				objectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM ElemAssociation " + sql + " ORDER by elemAssociationid");
+	} else {
+		selectRecords(render, "SELECT * FROM ElemAssociation ORDER by elemAssociationid");
+	}
+};
+
+function selectText(sql, objectLst, cb){ // sql form : WHERE textid=1 and textname='Français'
+	//textObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[i] = new myVoiceText();
+			for (var propName in rs.rows.item(i)) {
+				objectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM Text " + sql + " ORDER by textid");
+	} else {
+		selectRecords(render, "SELECT * FROM Text ORDER by textid");
+	}
+};
+
+function selectElements(sql, objectLst, cb){ // sql form : WHERE elementsid=1 and elementsname='Français'
+	//elementsObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[i] = new myVoiceElements();
+			for (var propName in rs.rows.item(i)) {
+				objectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM Elements " + sql + " ORDER by elementsid");
+	} else {
+		selectRecords(render, "SELECT * FROM Elements ORDER by elementsid");
+	}
+};
+
+function selectElemStat(sql, objectLst, cb){ // sql form : WHERE elemStatid=1 and elemStatname='Français'
+	//elemStatObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[i] = new myVoiceElemStat();
+			for (var propName in rs.rows.item(i)) {
+				objectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM ElemStat " + sql + " ORDER by elemStatid");
+	} else {
+		selectRecords(render, "SELECT * FROM ElemStat ORDER by elemStatid");
+	}
+};
+
+function selectGlobElemStat(sql, objectLst, cb){ // sql form : WHERE globElemStatid=1
+	//globElemStatObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[i] = new myVoiceGlobElemStat();
+			for (var propName in rs.rows.item(i)) {
+				objectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM GlobElemStat " + sql + " ORDER by globElemStatid");
+	} else {
+		selectRecords(render, "SELECT * FROM GlobElemStat ORDER by globElemStatid");
+	}
+};
+
+function selectSound(sql, objectLst, cb){ // sql form : WHERE soundid=1
+	//soundObjectLst = {};
+    var render = function(tx, rs) {
+        for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[i] = new myVoiceSound();
+			for (var propName in rs.rows.item(i)) {
+				objectLst[i][propName] = rs.rows.item(i)[propName];
+			}
+        }
+        if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+    };
+    if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM Sound " + sql + " ORDER by soundid");
+	} else {
+		selectRecords(render, "SELECT * FROM Sound ORDER by soundid");
 	}
 };
