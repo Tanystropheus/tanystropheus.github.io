@@ -30,7 +30,7 @@ function initDb(callback){
 			//document.db.executeSql("CREATE TABLE SimpsonFamily (id integer primary key, nom text)");
 			document.db.executeSql("CREATE TABLE Language (languageid integer primary key, langname text)");
 			document.db.executeSql("CREATE TABLE Tag (tagid integer primary key, tagname text)");
-			document.db.executeSql("CREATE TABLE TagText (tagtextid integer primary key, languageid integer, tagid integer," +
+			document.db.executeSql("CREATE TABLE TagText (tagtextid integer primary key, languageid integer, tagid integer, tagtext text," +
 				" FOREIGN KEY(languageid) REFERENCES Language(languageid), FOREIGN KEY(tagid) REFERENCES Tag(tagid))");
 			document.db.executeSql("CREATE TABLE LibraryLst (librarylstid integer primary key, libraryid text," +
 				" liblsttitle text)");
@@ -67,8 +67,11 @@ function initDb(callback){
 			insertElements( new myVoiceElem(2, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));
 			insertElements( new myVoiceElem(4, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));
 			insertElements( new myVoiceElem(5, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));*/
-			insertLanguage(new myVoiceLanguage(1, "Français"));
+			/*insertLanguage(new myVoiceLanguage(1, "Français"));
 			insertLanguage(new myVoiceLanguage(2, "Anglais"));
+			insertTag(new myVoiceTag(1, "tagtest1"));
+			insertTag(new myVoiceTag(2, "tagtest2"));
+			insertTagText(new myVoiceTagText(2, "null", 1, 1, "test"));*/
 		}
 	} catch (err){
 		alert("Error:" + JSON.stringify(err));
@@ -77,21 +80,23 @@ function initDb(callback){
 			callback();
 		}
 		languageObjectLst = {};
+		tagTextObjectLst = {};
 		try {
-			selectLanguage("", languageObjectLst, function(objLst){for(var i in objLst)debugelem(objLst[i])});
+			//selectLanguage("", languageObjectLst, function(objLst){for(var i in objLst)debugelem(objLst[i])});
+			//selectTagText("", tagTextObjectLst, function(objLst){alert("test selection tagtext:" + JSON.stringify(objLst)); debugelem(objLst);});
 			//getAllTheDataDEBUG(tableName);
 			//getAllTheDataDEBUG('Language');
-			/*getAllTheDataDEBUG('Tag');
-			getAllTheDataDEBUG('TagText');
-			getAllTheDataDEBUG('LibraryLst');
-			getAllTheDataDEBUG('Library');
-			getAllTheDataDEBUG('User');
-			getAllTheDataDEBUG('ElemAssociation');
-			getAllTheDataDEBUG('GlobElemAssociation');
-			getAllTheDataDEBUG('ElemStat');
-			getAllTheDataDEBUG('GlobElemStat');
-			getAllTheDataDEBUG('Elements');
-			getAllTheDataDEBUG('Sound');*/
+			//getAllTheDataDEBUG('Tag');
+			//getAllTheDataDEBUG('TagText');
+			//getAllTheDataDEBUG('LibraryLst');
+			//getAllTheDataDEBUG('Library');
+			//getAllTheDataDEBUG('User');
+			//getAllTheDataDEBUG('ElemAssociation');
+			//getAllTheDataDEBUG('GlobElemAssociation');
+			//getAllTheDataDEBUG('ElemStat');
+			//getAllTheDataDEBUG('GlobElemStat');
+			//getAllTheDataDEBUG('Elements');
+			//getAllTheDataDEBUG('Sound');
 
 		} catch(e){
 			allert("Error!! " + JSON.strigify(e));
@@ -99,7 +104,9 @@ function initDb(callback){
 //			dropSqliteTable(tableName);
 //			dropSqliteTable('Elements');
 //			dropSqliteTable('Sound');
-			dropSqliteTable('Language');
+			//dropSqliteTable('Language');
+			//dropSqliteTable('Tag');
+			//dropSqliteTable('TagText');
 			//debugelem(languageObjectLst);
 			//alert("test languageObjectLst: " + JSON.stringify(languageObjectLst));
 		}
@@ -107,9 +114,9 @@ function initDb(callback){
 };
 
 function myExecSqliteSQL(sql, okcb, errcb) {
-        document.db.transaction(function(tx) {
-             tx.executeSql(sql, null, okcb, errcb);
-        }, function(){alert("Error transaction init");});
+	document.db.transaction(function(tx) {
+		 tx.executeSql(sql, null, okcb, errcb);
+	}, function(){alert("Error transaction init");});
 };
 
 function createSqliteTable(tableName, champ) {
@@ -175,9 +182,10 @@ function getAllTheDataDEBUG(tabName) {
 
 
 function myObjExecSqliteSQL(sql, values, okcb, errcb) {
-        document.db.transaction(function(tx) {
-             tx.executeSql(sql, values, okcb, errcb);
-        }, function(e){alert("Error transaction init " + JSON.stringify(e));});
+	//alert(sql);
+	document.db.transaction(function(tx) {
+		 tx.executeSql(sql, values, okcb, errcb);
+	}, function(e){alert("Error transaction init " + JSON.stringify(e));});
 };
 
 function insertLanguage(elem){
@@ -191,7 +199,8 @@ function insertTag(elem){
 };
 
 function insertTagText(elem){
-    myObjExecSqliteSQL("INSERT INTO TagText (tagtextid, languageid, tagid ) VALUES ( ?, ?, ?)", [elem.tagtextid , elem.languageid, elem.tagid], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
+	//debugelem(elem);
+    myObjExecSqliteSQL("INSERT INTO TagText (tagtextid, languageid, tagid, tagtext) VALUES ( ?, ?, ?, ?)", [elem.tagtextid , elem.languageid, elem.tagelem.tagid, elem.tagtext], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err));}, onSucces, onError);
     return true;
 };
 
@@ -265,7 +274,7 @@ function selectLanguage(sql, objectLst, cb){ // sql form : WHERE languageid=1 an
 	}
 };
 
-function selectTag(sql, objectLst, cb){ // sql form : WHERE tagid=1 and tagname='Français'
+function selectTag(sql, objectLst, cb, cbarg){ // sql form : WHERE tagid=1 and tagname='Français'
 	//tagObjectLst = {};
     var render = function(tx, rs) {
         for (var i = 0; i < rs.rows.length; i++) {
@@ -275,9 +284,11 @@ function selectTag(sql, objectLst, cb){ // sql form : WHERE tagid=1 and tagname=
 			}
         }
         if (typeof cb !== undefined){
-			cb(objectLst);
+			//alert("time for cb");
+			cb(objectLst, cbarg);
 		}
     };
+
     if(sql !== undefined){
 		selectRecords(render, "SELECT * FROM Tag " + sql + " ORDER by tagid");
 	} else {
@@ -285,17 +296,24 @@ function selectTag(sql, objectLst, cb){ // sql form : WHERE tagid=1 and tagname=
 	}
 };
 
-function selectTagText(sql, objectLst, cb){ // sql form : WHERE tagTextid=1 and tagTextname='Français'
+function selectTagText(sql, objectLst, cb, cbarg){ // sql form : WHERE tagTextid=1 and tagTextname='Français'
 	//tagTextObjectLst = {};
     var render = function(tx, rs) {
         for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[i] = new myVoiceTagText();
 			for (var propName in rs.rows.item(i)) {
-				objectLst[i][propName] = rs.rows.item(i)[propName];
+				if (propName == "tagid"){
+					selectTag("WHERE "+ propName + " = " + rs.rows.item(i)[propName], {}, function(tagLst, objToWrite){
+						objToWrite["tagelem"] = tagLst[0];
+					}, objectLst[i]);
+				} else {
+					objectLst[i][propName] = rs.rows.item(i)[propName];
+				}
 			}
         }
         if (typeof cb !== undefined){
-			cb(objectLst);
+			alert("time for cb");
+			cb(objectLst, arg);
 		}
     };
     if(sql !== undefined){
@@ -306,13 +324,15 @@ function selectTagText(sql, objectLst, cb){ // sql form : WHERE tagTextid=1 and 
 };
 
 function selectLibraryLst(sql, objectLst, cb){ // sql form : WHERE libraryLstid=1 and libraryLstname='Français'
-	//libraryLstObjectLst = {};
     var render = function(tx, rs) {
         for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[i] = new myVoiceLibraryLst();
 			for (var propName in rs.rows.item(i)) {
-				objectLst[i][propName] = rs.rows.item(i)[propName];
-			}
+				if (propName == "libraryid"){
+					objectLst[i][propName] = rs.rows.item(i)[propName];
+				} else {
+					objectLst[i][propName] = rs.rows.item(i)[propName];
+				}
         }
         if (typeof cb !== undefined){
 			cb(objectLst);
@@ -325,15 +345,14 @@ function selectLibraryLst(sql, objectLst, cb){ // sql form : WHERE libraryLstid=
 	}
 };
 
-function selectLibrary(sql, objectLst, cb){ // sql form : WHERE libraryid=1 and libraryname='Français'
-	//libraryObjectLst = {};
+function selectLibrary(sql, objectLst, cb){
     var render = function(tx, rs) {
         for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[i] = new myVoiceLibrary();
 			for (var propName in rs.rows.item(i)) {
 				objectLst[i][propName] = rs.rows.item(i)[propName];
 			}
-        }
+		}
         if (typeof cb !== undefined){
 			cb(objectLst);
 		}
@@ -348,25 +367,27 @@ function selectLibrary(sql, objectLst, cb){ // sql form : WHERE libraryid=1 and 
 function selectUser(sql, objectLst, cb){ // sql form : WHERE userid=1 and username='Français'
 	//userObjectLst = {};
     var render = function(tx, rs) {
-        for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[i] = new myVoiceUser();
+			objectLst[i] = new myVoiceLibrary();
 			for (var propName in rs.rows.item(i)) {
-				objectLst[i][propName] = rs.rows.item(i)[propName];
+				if (propName == "librarylstid"){
+					objectLst[i][propName] = rs.rows.item(i)[propName];
+				} else {
+					objectLst[i][propName] = rs.rows.item(i)[propName];
+				}
 			}
-        }
+		}
         if (typeof cb !== undefined){
 			cb(objectLst);
 		}
     };
-    if(sql !== undefined){
+	if(sql !== undefined){
 		selectRecords(render, "SELECT * FROM User " + sql + " ORDER by userid");
 	} else {
 		selectRecords(render, "SELECT * FROM User ORDER by userid");
 	}
 };
 
-function selectGlobElemAssociation(sql, objectLst, cb){ // sql form : WHERE globElemAssociationid=1 and globElemAssociationname='Français'
-	//globElemAssociationObjectLst = {};
+function selectGlobElemAssociation(sql, objectLst, cb){
     var render = function(tx, rs) {
         for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[i] = new myVoiceGlobElemAssociation();
