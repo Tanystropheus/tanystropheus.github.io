@@ -1,0 +1,34 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "fr.apellicc.maVoix"
+        },
+        "cordova-plugin-imagepicker": {
+            "PACKAGE_NAME": "fr.apellicc.maVoix"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "fr.apellicc.maVoix"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "fr.apellicc.maVoix"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "fr.apellicc.maVoix"
+        },
+        "cordova-plugin-media-capture": {
+            "PACKAGE_NAME": "fr.apellicc.maVoix"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "fr.apellicc.maVoix"
+        }
+    }
+}

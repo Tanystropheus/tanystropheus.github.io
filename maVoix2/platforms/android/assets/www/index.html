@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Capture Photo</title>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+
+    var pictureSource;
+    var destinationType;
+	//var pathDataBank;
+	function ids () {
+		this.n = '';
+  		this.s = '';
+		this.i = '';
+	}
+	var nom = new ids;
+	var entry;
+//	var nom.s;
+//	var nom.i;
+
+    document.addEventListener("deviceready",onDeviceReady,false);
+
+
+    function onDeviceReady() {
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null);
+
+    }
+
+	function onRequestFileSystemSuccess(fileSystem) {
+	 	entry=fileSystem.root;
+		entry.getDirectory("DataBank", {create: true, exclusive: false}, win, lolfail);
+		alert(entry.toURL());
+	}
+	function createName() {
+		nom.n = document.getElementById('name').value;
+		alert("create");
+		alert(nom.n);
+		//var test = cordova.file.documentsDirectory;
+		alert(test);
+		//entry.getDirectory(test + "/DataBank",
+		//										{create: true, exclusive: false}, win, lolfail);
+		alert("finish");
+		//cordova.file.documentsDirectory.getDirectory(cordova.file.documentsDirectory + "DataBank",{create: true, exclusive: false}, success, fail);
+		//alert(cordova.file.documentsDirectory + "DataBank");
+	}
+	function lolfail(error) {
+    alert('Error removing directory: ' + error.code);
+}
+	function captureSuccess(mediaFiles) {
+		var i, len;
+		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+			alert(mediaFiles[i].fullPath);
+			nom.s = mvFile("file://" + mediaFiles[i].fullPath);
+			alert(nom.s)
+		}
+	}
+    function onPhotoDataSuccess(imageData) {
+      var smallImage = document.getElementById('pick');
+      smallImage.style.display = 'block';
+      smallImage.src = "data:image/jpeg;base64," + imageData;
+	  nom.i = mvImage(smallImage.src);
+	  alert("apres mv");
+	  alert(nom.s);
+    }
+
+    function onPhotoURISuccess(imageURI) {
+	  var myImage = document.getElementById('select');
+	  myImage.style.display = 'block';
+      myImage.src = imageURI;
+
+
+	  alert(myImage.src);
+	  nom.i = mvFile(myImage.src);
+	  alert("apres mv");
+	  alert(nom.i);
+	}
+	function captureAudio() {
+        navigator.device.capture.captureAudio(captureSuccess, fail, {limit: 1});
+    }
+
+    function capturePhoto() {
+      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
+        destinationType: destinationType.DATA_URL });
+    }
+
+    function getPhoto(source) {
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 10,
+        destinationType: destinationType.FILE_URI,
+        sourceType: source });
+    }
+
+	function mvFile(file) {
+
+		var fileTransfer = new FileTransfer();
+		alert("avanr t");
+		alert(nom.n);
+
+		var t = file.substring(file.lastIndexOf("."));
+		alert("avanr filePath");
+
+		  var filePath = encodeURI(entry.toURL() + "DataBank/" + nom.n + t);
+		  alert(filePath);
+		  	alert("avant transfert");
+			fileTransfer.download(
+			    file,
+			    filePath,
+			    win,
+				fail,
+			    false,
+			    {
+			        headers: {
+			            "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+			        }
+			    }
+			);
+			alert("apres transfert");
+			return filePath;
+	}
+
+	function fail(error) {
+	    alert("An error has occurred: Code = " + error.code);
+	    alert("upload error source " + error.source);
+	    alert("upload error target " + error.target);
+	}
+
+	function win(file) {
+	    alert("GOOD");
+	}
+
+	function onFail(message) {
+	  alert('Failed because: ' + JSON.stringify(message));
+	}
+    </script>
+  </head>
+  <body>
+
+	  <input id="name" type="text">
+	  <button onclick="createName()">OK</button> <br>
+
+		<button onclick="capturePhoto();">Prendre une PHOTO</button> <br>
+	  	<button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">IMPORTER DEPUIS PHOTO</button><br>
+	  	<button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">IMPORTER DEPUIS L ALBUM</button><br>
+		<button onclick="captureAudio(nom);">Capture Audio</button><br>
+		<img style="display:none;width:60px;height:60px;" id="pick" src="" />
+		<img style="display:none;width:60px;height:60px;" id="select" src="" />
+  </body>
+</html>
