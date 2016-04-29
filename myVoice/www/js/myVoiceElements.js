@@ -94,6 +94,7 @@ function myVoiceElem(elemid, elemUrl, Width, soundUrl, languageId, soundId, text
 	this.elemurl = elemUrl;
 	this.soundid = soundId;
 	this.soundelem = new myVoiceSound(soundUrl, languageId, soundId);
+	this.textid = textId;
 	this.textelem = new myVoiceText(text, languageId, textId);
 	this.width = Width;
 	this.updatedb = function(){
@@ -139,8 +140,6 @@ function myVoiceText(text, languageId, textId) {
 	};
 };
 
-
-
 function debugelem(elem) {
 	var	htmlText = '</br></br>Object {\n';
 	var text = 'Object {\n';
@@ -154,7 +153,4 @@ function debugelem(elem) {
 	console.log(text);
 	alert(text);
 	return htmlText;
-	this.updatedb = function(){
-		alert("db update func not yet created");
-	};
 };
