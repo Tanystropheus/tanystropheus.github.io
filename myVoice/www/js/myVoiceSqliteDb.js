@@ -6,8 +6,10 @@ window.appData = {
 	};
 
 function openDb(callback) {
+	/*
+	 * Fonction as exeuter onDeviceReady pour ouvrir la base de donné et l'ajouter au DOM de l'application
+	 * */
 	var dbName = "myVoice.db";
-	//if (typeof window.sqlitePlugin !== undefined) {
 		document.db = window.sqlitePlugin.openDatabase(
 			{
 				name: dbName, 
@@ -24,13 +26,13 @@ function openDb(callback) {
 			  alert("error: " + msg);
 			}
 		);
-	/*} else {
-		// For debugging in simulator fallback to native SQL Lite
-		db = window.openDatabase(dbName, "1.0", "MyVoice DataBase", 200000);
-	}*/
 };
 
 function initDb(callback){
+	/*
+	 * Fonction as executer aprés l'ouvertuur de la basse de donné pour 
+	 * initialiser la basse et créer les tables
+	 * */
 	try {
 		var tableName = 'SimpsonFamily';
 		try {
@@ -126,11 +128,39 @@ function initDb(callback){
 	}
 };
 
+/* ********************************************************************************************* */
+/* ************************** fonction de requetes la base de donnée *************************** */
+/* ********************************************************************************************* */
+
 function myExecSqliteSQL(sql, okcb, errcb) {
+	/*
+	 * Fonction generique executant les requetes as la base de donnée
+	 * sql est la requete écrite en SQL as executer 
+	 * okcb est la fonction de callback en cas de sucés
+	 * errcb est la fonction de callback en cas d'erreur
+	 * */
 	document.db.transaction(function(tx) {
 		 tx.executeSql(sql, null, okcb, errcb);
 	}, function(){alert("Error transaction init");});
 };
+
+function myObjExecSqliteSQL(sql, values, okcb, errcb) {
+	/*
+	 * Fonction generique executant les requetes as la base de donnée
+	 * sql est la requete écrite en SQL as executer 
+	 * values est la variable contenent les valeurs as remplacer dans la requette (Pour les requetes préparer)
+	 * okcb est la fonction de callback en cas de sucés
+	 * errcb est la fonction de callback en cas d'erreur
+	 * */
+	alert("sql: " + sql + " Values: " + JSON.stringify(values, null, 4));
+	document.db.transaction(function(tx) {
+		 tx.executeSql(sql, values, okcb, errcb);
+	}, function(e){alert("Error transaction init " + JSON.stringify(e, null, 4));});
+};
+
+/* ********************************************************************************************* */
+/* ***************** fonction générique de relation avec la base de donnée ***********************/
+/* ********************************************************************************************* */
 
 function createSqliteTable(tableName, champ) {
 	myExecSqliteSQL('CREATE TABLE IF NOT EXISTS ' + tableName + ' ('+champ+')', function(){alert("table "+ tableName +" created");}, function(){alert("table "+ tableName +" creation fail");});
@@ -157,18 +187,19 @@ function deleteInSqliteTable (db, tableName, condition){
 	return true;
 };
 
-function selectRecords(fn, sql, where, by) {
+function selectRecords(fn, sql) {
 	try{
-		//alert(sql);
 		document.db.transaction(function(tx) {
 			tx.executeSql(sql, [], fn, function(e){alert("Erreur Selection ( " + sql +" ): " + JSON.stringify(e, null, 4));});
 		});
 	}catch(e){
 		alert("error reading: " + JSON.stringify(e, null, 4));
-	} /*finally{
-		alert("reading data  ok!!!! --> ^^");
-	}*/
+	}
 };
+
+/* ********************************************************************************************* */
+/* ***************************** fonction générique de Callback ******************************** */
+/* ********************************************************************************************* */
 
 function onError(e){
 	alert("On Error: " + JSON.stringify(e, null, 4));
@@ -178,14 +209,15 @@ function onSucces(e){
 	alert("Succes: " + JSON.stringify(e, null, 4));
 };
 
+/* ********************************************************************************************* */
+/* ************************************* fonction de Debug ************************************* */
+/* ********************************************************************************************* */
+
 function getAllTheDataDEBUG(tabName) {
 	var render = function(tx, rs) {
 		var text = "Content of "+ tabName +": --> \n" ;
-		//alert("nb rows: " + rs.rows.length);
 		for (var i = 0; i < rs.rows.length; i++) {
 			text = text + JSON.stringify(rs.rows.item(i), null, 4) + "\n";
-			//alert("Row: -->" + JSON.stringify(rs.rows.item(i), null, 4)+ "<--");
-			//alert(text);
 		}
 		text = text + "<--\n";
 		alert(text);
@@ -193,13 +225,9 @@ function getAllTheDataDEBUG(tabName) {
 	selectRecords(render, "SELECT * FROM " + tabName);
 };
 
-
-function myObjExecSqliteSQL(sql, values, okcb, errcb) {
-	alert("sql: " + sql + " Values: " + JSON.stringify(values, null, 4));
-	document.db.transaction(function(tx) {
-		 tx.executeSql(sql, values, okcb, errcb);
-	}, function(e){alert("Error transaction init " + JSON.stringify(e, null, 4));});
-};
+/* ********************************************************************************************* */
+/* ******************************** fonction d'insertion d'objet ******************************* */
+/* ********************************************************************************************* */
 
 function insertLanguage(elem){
 	myObjExecSqliteSQL("INSERT INTO Language (languageid, langname ) VALUES ( ?, ?)", [elem.languageid , elem.langname], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
@@ -212,7 +240,6 @@ function insertTag(elem){
 };
 
 function insertTagText(elem){
-	//debugelem(elem);
 	myObjExecSqliteSQL("INSERT INTO TagText (tagtextid, languageid, tagid, tagtext) VALUES ( ?, ?, ?, ?)", [elem.tagtextid , elem.languageid, elem.tagelem.tagid, elem.tagtext], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
@@ -267,26 +294,36 @@ function insertSound(elem){
 	return true;
 };
 
+/* ********************************************************************************************* */
+/* ******************************** fonction de selection d'objet ******************************* */
+/* ********************************************************************************************* */
+
+/* 
+ * Voici un exemple de leur fonctionement avec la fonction selectLanguage
+ * sql est la variable contenant le filtre écris en SQL
+ * objectLst est la liste d'object ou seront enregistrer chaque object selectioner dans la base de données
+ * cb est une fonction de callback
+ * pour selectioner tout le contenu de la table Language et stoquer dans un objject languageLst:
+ * 		selectLanguage("", languageLst, callback);
+ * pour selectioner le contenu filtrer de la table Language et stoquer dans un objject languageLst:
+ * 		selectLanguage("WHERE champ=value", languageLst, callback);
+ * 	champ et value étant as adapter au circonstances.
+ * */
+
 function selectLanguage(sql, objectLst, cb){ // sql form : WHERE languageid=1 and languagename='Français'
 	var render = function(tx, rs) {
-		//alert("begin traitment of selected elem");
 		for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[rs.rows.item(i)["languageid"]] = new myVoiceLanguage();
 			window.appData.language[rs.rows.item(i)["languageid"]] = new myVoiceLanguage();
-			//alert("first for loop");
 			for (var propName in rs.rows.item(i)) {
 				window.appData.language[rs.rows.item(i)["languageid"]][propName] = rs.rows.item(i)[propName];
 				objectLst[rs.rows.item(i)["languageid"]][propName] = rs.rows.item(i)[propName];
-				//alert("second for loop");
 			}
 		}
 		if (typeof cb !== undefined){
-			//alert("befor cb");
-			//debugelem(window.appData);
 			cb(objectLst);
 		}
 	};
-
 	if(sql !== undefined){
 		selectRecords(render, "SELECT * FROM Language " + sql + " ORDER by languageid");
 	} else {
@@ -317,7 +354,7 @@ function selectTag(sql, objectLst, cb, cbarg){ // sql form : WHERE tagid=1 and t
 	}
 };
 
-function selectTagText(sql, objectLst, cb, cbarg){ // sql form : WHERE tagTextid=1 and tagTextname='Français'
+function selectTagText(sql, objectLst, cb){ // sql form : WHERE tagTextid=1 and tagTextname='Français'
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[rs.rows.item(i)["tagtextid"]] = new myVoiceTagText();
@@ -336,7 +373,6 @@ function selectTagText(sql, objectLst, cb, cbarg){ // sql form : WHERE tagTextid
 			cb(objectLst);
 		}
 	};
-
 	if(sql !== undefined){
 		selectRecords(render, "SELECT * FROM TagText " + sql + " ORDER by tagTextid");
 	} else {
