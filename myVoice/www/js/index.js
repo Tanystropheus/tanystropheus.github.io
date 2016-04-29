@@ -19,46 +19,46 @@
 // dbName = "TMPDataBase";
 
 var app = {
-    // Application Constructor
-    initialize: function() {
-        this.bindEvents();
-    },
+	// Application Constructor
+	initialize: function() {
+		this.bindEvents();
+	},
 
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-    },
+	bindEvents: function() {
+		document.addEventListener('deviceready', this.onDeviceReady, false);
+	},
 
-    onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-        //alert("Device Ready");
-        try{
-            openDb();
-        }catch(e){
-            alert("error ondevice ready: " + e);
-        } finally{
-            //alert("DB: " + JSON.stringify(document.db));
-            try{
-                initDb();
-            }catch(e){
-                alert("error init: " + e);
-            }
-        }
-        //createSqliteTable(db, 'SimpsonFamily', 'id integer primary key, nom text');
-    },
-    receivedEvent: function(id) {
-/*        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+	onDeviceReady: function() {
+		app.receivedEvent('deviceready');
+		//alert("Device Ready");
+		try{
+			openDb();
+		}catch(e){
+			alert("error ondevice ready: " + e);
+		} finally{
+			//alert("DB: " + JSON.stringify(document.db));
+			try{
+				initDb();
+			}catch(e){
+				alert("error init: " + e);
+			}
+		}
+		//createSqliteTable(db, 'SimpsonFamily', 'id integer primary key, nom text');
+	},
+	receivedEvent: function(id) {
+/*		var parentElement = document.getElementById(id);
+		var listeningElement = parentElement.querySelector('.listening');
+		var receivedElement = parentElement.querySelector('.received');
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');*/
+		listeningElement.setAttribute('style', 'display:none;');
+		receivedElement.setAttribute('style', 'display:block;');*/
 
-        console.log('Received Event: ' + id);
-    },
+		console.log('Received Event: ' + id);
+	},
 
-    onError: function(error) {
-        alert('Error: ' + error);
-    }
+	onError: function(error) {
+		alert('Error: ' + error);
+	}
 };
 
 app.initialize();
