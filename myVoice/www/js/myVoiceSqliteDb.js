@@ -1,9 +1,16 @@
 window.appData = {
 	language: {},
-	libLst: {},
-	lib: {},
-	elem: {},
-	sond: {}
+	tag: {},
+	tagText: {},
+	libraryLst: {},
+	library: {},
+	user: {},
+	globElemAssociation: {},
+	elemAssociation: {},
+	text: {},
+	elemStat: {},
+	globElemStat: {},
+	sound: {}
 };
 
 
@@ -66,7 +73,7 @@ function initDb(callback){
 			document.db.executeSql("CREATE TABLE Library (libraryid integer primary key, userid integer," +
 				" libtitle text, lstelemid text, FOREIGN KEY(userid) REFERENCES User(userid))");
 			document.db.executeSql("CREATE TABLE User (userid integer primary key, languageid integer," +
-				" librarylstid integer, login text, password text, backupurl text, FOREIGN KEY(languageid) REFERENCES Language(languageid)" + 
+				" librarylstid text, login text, password text, backupurl text, FOREIGN KEY(languageid) REFERENCES Language(languageid)" + 
 				", FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))");
 			document.db.executeSql("CREATE TABLE GlobElemAssociation (globelemassoid integer primary key," +
 				" listelemid integer, nbuse integer)");
@@ -76,7 +83,7 @@ function initDb(callback){
 			document.db.executeSql("CREATE TABLE Text (textid integer primary key, languageid text," +
 				" text text, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
 			document.db.executeSql("CREATE TABLE Elements (elemid integer primary key, elemurl text," +
-				" soundid integer, width integer, textid text, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid))");
+				" soundid integer, width integer, textid text, state integer, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid))");
 			document.db.executeSql("CREATE TABLE ElemStat (elemstatid integer primary key," +
 				" userid integer, nbuse integer, elemassoid integer, FOREIGN KEY(userid) REFERENCES User(userid),"+
 				" FOREIGN KEY(elemassoid) REFERENCES ElemAssociation(elemassoid))");
@@ -89,19 +96,33 @@ function initDb(callback){
 		} finally {
 			insertLanguage(new myVoiceLanguage(1, "Français"));
 			insertLanguage(new myVoiceLanguage(2, "Anglais"));
+
 			insertTag(new myVoiceTag(1, "tagtest1"));
 			insertTag(new myVoiceTag(2, "tagtest2"));
+
 			insertTagText(new myVoiceTagText(2, "null", 1, 1, "test"));
+
+			insertUser(new myVoiceUser("1,2,3", 0, 1, "login?", "backendPass", "backupUrl"));
+
 			insertLibraryLst(new myVoiceLibraryLst(1, "Classeur Utilisation", "2,1,3"));
 			insertLibraryLst(new myVoiceLibraryLst(2, "Classeur Aprantisage", "5,4,6"));
 			insertLibraryLst(new myVoiceLibraryLst(5, "Classeur Poteries", "5,4,6"));
 
+			insertLibrary(new myVoiceLibrary(1, 0, "onglet1", "1,2,3,4,5"));
+			insertLibrary(new myVoiceLibrary(2, 0, "onglet2", "1,2,3,4,5"));
+			insertLibrary(new myVoiceLibrary(3, 0, "onglet3", "1,2,3,4,5"));
+			insertLibrary(new myVoiceLibrary(4, 0, "onglet4", "1,2,3,4,5"));
+			insertLibrary(new myVoiceLibrary(5, 0, "onglet5", "1,2,3,4,5"));
+			insertLibrary(new myVoiceLibrary(6, 0, "onglet6", "1,2,3,4,5"));
+			
 			insertText(new myVoiceText("test", 1, 1));
+
 			insertSound(new myVoiceSound("soundurl", 1, 1));
-			insertElements( new myVoiceElem(1, "img/logo.png", 10, "soundUrl", 1, 1, "test", 1));
-			insertElements( new myVoiceElem(2, "img/logo.png", 10, "soundUrl", 1, 1, "test", 1));
-			insertElements( new myVoiceElem(4, "img/logo.png", 10, "soundUrl", 1, 1, "test", 1));
-			insertElements( new myVoiceElem(5, "img/logo.png", 10, "soundUrl", 1, 1, "test", 1));
+
+			insertElements( new myVoiceElem(1, "img/logo.png", 10, 0, "soundUrl", 1, 1, "test", 1));
+			insertElements( new myVoiceElem(2, "img/logo.png", 10, 0, "soundUrl", 1, 1, "test", 1));
+			insertElements( new myVoiceElem(4, "img/logo.png", 10, 0, "soundUrl", 1, 1, "test", 1));
+			insertElements( new myVoiceElem(5, "img/logo.png", 10, 0, "soundUrl", 1, 1, "test", 1));
 			//*/
 		}
 	} catch (err){
@@ -115,20 +136,35 @@ function initDb(callback){
 		tagTextlibLst = {};
 		elemObjLst = {};
 		try {
-			selectLanguage("", languageObjectLst, function(objLst){ /* alert("language: " + JSON.stringify(objLst, null, 4));*/ });
-			selectTagText("", tagTextObjectLst, function(objLst){ /* alert("tagtext:" + JSON.stringify(objLst, null, 4));*/ });
-			selectLibraryLst("", tagTextlibLst, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
-			selectElements("", elemObjLst, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ alert("AppData: " + JSON.stringify(window.appData, null, 4)); });
+			selectLanguage("", window.appData.language, function(objLst){ /* alert("language: " + JSON.stringify(objLst, null, 4));*/ });
+			selectTag("", window.appData.tag , function(objLst){ /* alert("tagtext:" + JSON.stringify(objLst, null, 4));*/ });
+			selectTagText("", window.appData.tagText, function(objLst){ /* alert("tagtext:" + JSON.stringify(objLst, null, 4));*/ });
+			selectLibraryLst("", window.appData.libraryLst, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
+			selectUser("", window.appData.user, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
+			selectGlobElemAssociation("", window.appData.globElemAssociation, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
+			selectElemAssociation("", window.appData.elemAssociation, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
+			selectText("", window.appData.text, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
+			selectElements("", window.appData.elem, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
+			selectElemStat("", window.appData.elemStat, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
+			selectGlobElemStat("", window.appData.globElemStat, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
+			selectSound("", window.appData.sound, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ alert("AppData: " + JSON.stringify(window.appData, null, 4));});
 		} catch(e){
 			allert("Error!! " + JSON.stringify(e, null, 4));
 		} finally {
-			dropSqliteTable('Language');
+			/*dropSqliteTable('Language');
 			dropSqliteTable('TagText');
 			dropSqliteTable('Tag');
 			dropSqliteTable('LibraryLst');
 			dropSqliteTable('Sound');
 			dropSqliteTable('Text');
 			dropSqliteTable('Elements');
+			dropSqliteTable('User');
+			dropSqliteTable('LibraryLst');
+			dropSqliteTable('Library');*/
+			var tableLst = [ "Language", "Tag", "TagText", "LibraryLst", "Library", "User", "GlobElemAssociation", "ElemAssociation", "Text", "Elements", "ElemStat", "GlobElemStat", "Sound"];
+			for(var table in tableLst){
+				dropSqliteTable(tableLst[table]);
+			}
 		}
 	}
 };
@@ -305,7 +341,6 @@ function insertSound(elem){
  * */
 
 function selectLanguage(sql, objectLst, cb){ 
-	alert("begin language select: "+ sql);
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[rs.rows.item(i)["languageid"]] = new myVoiceLanguage();
@@ -395,12 +430,13 @@ function selectLibrary(sql, objectLst, cb){
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[rs.rows.item(i)["libraryid"]] = new myVoiceLibrary();
-			window.appData.lib[rs.rows.item(i)["libraryid"]][propName] = new myVoiceLibrary();
+			//window.appData.lib[rs.rows.item(i)["libraryid"]][propName] = new myVoiceLibrary();
 			for (var propName in rs.rows.item(i)) {
-				window.appData.lib[rs.rows.item(i)["libraryid"]][propName] = rs.rows.item(i)[propName];
+				//window.appData.lib[rs.rows.item(i)["libraryid"]][propName] = rs.rows.item(i)[propName];
 				objectLst[rs.rows.item(i)["libraryid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
+		window.appData.lib = objectLst;
 		if (typeof cb !== undefined){
 			cb(objectLst);
 		}
@@ -444,9 +480,9 @@ function selectGlobElemAssociation(sql, objectLst, cb){
 		}
 	};
 	if(sql !== undefined){
-		selectRecords(render, "SELECT * FROM GlobElemAssociation " + sql + " ORDER by globElemAssociationid");
+		selectRecords(render, "SELECT * FROM GlobElemAssociation " + sql + " ORDER by globelemassoid");
 	} else {
-		selectRecords(render, "SELECT * FROM GlobElemAssociation ORDER by globElemAssociationid");
+		selectRecords(render, "SELECT * FROM GlobElemAssociation ORDER by globelemassoid");
 	}
 };
 
@@ -463,9 +499,9 @@ function selectElemAssociation(sql, objectLst, cb){
 		}
 	};
 	if(sql !== undefined){
-		selectRecords(render, "SELECT * FROM ElemAssociation " + sql + " ORDER by elemAssociationid");
+		selectRecords(render, "SELECT * FROM ElemAssociation " + sql + " ORDER by elemassoid");
 	} else {
-		selectRecords(render, "SELECT * FROM ElemAssociation ORDER by elemAssociationid");
+		selectRecords(render, "SELECT * FROM ElemAssociation ORDER by elemassoid");
 	}
 };
 
