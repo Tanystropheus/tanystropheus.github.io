@@ -24,7 +24,7 @@ function myVoiceTagText(tagid, tagname, languageId, tagtextid, tagtext) {
 	};
 };
 
-function myVoiceLibraryLst(libraryid, liblsttitle, librarylstid) {
+function myVoiceLibraryLst(librarylstid, liblsttitle, libraryid) {
 	this.librarylstid = librarylstid;
 	this.libraryid = libraryid;  // str contenant les id des lib de l'utilisateur
 	this.liblsttitle = liblsttitle;

@@ -1,31 +1,53 @@
 window.appData = {
-		libLst: {},
-		lib: {},
-		elem: {},
-		sond: {}
-	};
+	language: {},
+	libLst: {},
+	lib: {},
+	elem: {},
+	sond: {}
+};
+
+
+/* ********************************************************************************************* */
+/* ***************************** fonction générique de Callback ******************************** */
+/* ********************************************************************************************* */
+
+function onError(e){
+	alert("On Error: " + JSON.stringify(e, null, 4));
+};
+
+function onSucces(e){
+	alert("Succes: " + JSON.stringify(e, null, 4));
+};
+
+function insertSucces(){
+	//alert("elem inserted");
+}
+
+/* ********************************************************************************************* */
+/* ************************* fonction D'ouverture de la base de donnée ************************* */
+/* ********************************************************************************************* */
 
 function openDb(callback) {
 	/*
 	 * Fonction as exeuter onDeviceReady pour ouvrir la base de donné et l'ajouter au DOM de l'application
 	 * */
 	var dbName = "myVoice.db";
-		document.db = window.sqlitePlugin.openDatabase(
-			{
-				name: dbName, 
-				//androidDatabaseImplementation: 2,
-				//androidLockWorkaround: 1,
-				location: 2
-			},
-			function (msg) {
-				if(callback){
-					callback();
-				}
-			},
-			function (msg) {
-			  alert("error: " + msg);
+	document.db = window.sqlitePlugin.openDatabase(
+		{
+			name: dbName, 
+			//androidDatabaseImplementation: 2,
+			//androidLockWorkaround: 1,
+			location: 2
+		},
+		function (msg) {
+			if(callback){
+				callback();
 			}
-		);
+		},
+		function (msg) {
+		  alert("error: " + msg);
+		}
+	);
 };
 
 function initDb(callback){
@@ -34,9 +56,7 @@ function initDb(callback){
 	 * initialiser la basse et créer les tables
 	 * */
 	try {
-		var tableName = 'SimpsonFamily';
 		try {
-			//document.db.executeSql("CREATE TABLE SimpsonFamily (id integer primary key, nom text)");
 			document.db.executeSql("CREATE TABLE Language (languageid integer primary key, langname text)");
 			document.db.executeSql("CREATE TABLE Tag (tagid integer primary key, tagname text)");
 			document.db.executeSql("CREATE TABLE TagText (tagtextid integer primary key, languageid integer, tagid integer, tagtext text," +
@@ -67,15 +87,12 @@ function initDb(callback){
  		} catch(err){
 			alert("Error Create Table: " + JSON.stringify(err, null, 4));
 		} finally {
-			/*insertInSqliteTable(tableName, "1, 'Homer'");
-			insertInSqliteTable(tableName, "2, 'Marge'");
-			insertInSqliteTable(tableName, "3, 'Bart'");
-			insertInSqliteTable(tableName, "4, 'Lisa'");*/
-			/*insertLanguage({languageid: 1, langname: "Français"});
+			/*
 			insertElements( new myVoiceElem(1, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));
 			insertElements( new myVoiceElem(2, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));
 			insertElements( new myVoiceElem(4, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));
-			insertElements( new myVoiceElem(5, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));*/
+			insertElements( new myVoiceElem(5, "img/logo.png", 10, 10, "soundUrl", 1, 1, "test", 1));
+			*/
 			insertLanguage(new myVoiceLanguage(1, "Français"));
 			insertLanguage(new myVoiceLanguage(2, "Anglais"));
 			insertTag(new myVoiceTag(1, "tagtest1"));
@@ -83,6 +100,7 @@ function initDb(callback){
 			insertTagText(new myVoiceTagText(2, "null", 1, 1, "test"));
 			insertLibraryLst(new myVoiceLibraryLst(1, "Classeur Utilisation", "2,1,3"));
 			insertLibraryLst(new myVoiceLibraryLst(2, "Classeur Aprantisage", "5,4,6"));
+			insertLibraryLst(new myVoiceLibraryLst(5, "Classeur Poteries", "5,4,6"));
 			//*/
 		}
 	} catch (err){
@@ -95,35 +113,16 @@ function initDb(callback){
 		tagTextObjectLst = {};
 		tagTextlibLst = {};
 		try {
-			selectLanguage("", languageObjectLst, function(objLst){ alert("language: " + JSON.stringify(objLst, null, 4)); });
-			selectTagText("", tagTextObjectLst, function(objLst){ alert("test selection tagtext:" + JSON.stringify(objLst, null, 4)); });
-			selectLibraryLst("", tagTextlibLst, function(objLst){ alert("test selection liblst:" + JSON.stringify(objLst, null, 4)); });
-			//getAllTheDataDEBUG(tableName);
-			//getAllTheDataDEBUG('Language');
-			//getAllTheDataDEBUG('Tag');
-			//getAllTheDataDEBUG('TagText');
-			//getAllTheDataDEBUG('LibraryLst');
-			//getAllTheDataDEBUG('Library');
-			//getAllTheDataDEBUG('User');
-			//getAllTheDataDEBUG('ElemAssociation');
-			//getAllTheDataDEBUG('GlobElemAssociation');
-			//getAllTheDataDEBUG('ElemStat');
-			//getAllTheDataDEBUG('GlobElemStat');
-			//getAllTheDataDEBUG('Elements');
-			//getAllTheDataDEBUG('Sound');
+			selectLanguage("", languageObjectLst, function(objLst){ /* alert("language: " + JSON.stringify(objLst, null, 4));*/ });
+			selectTagText("", tagTextObjectLst, function(objLst){ /* alert("tagtext:" + JSON.stringify(objLst, null, 4));*/ });
+			selectLibraryLst("", tagTextlibLst, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ alert("AppData: " + JSON.stringify(window.appData, null, 4)); });
 		} catch(e){
 			allert("Error!! " + JSON.stringify(e, null, 4));
 		} finally {
-//			dropSqliteTable(tableName);
-//			dropSqliteTable('Elements');
-//			dropSqliteTable('Sound');
 			dropSqliteTable('Language');
 			dropSqliteTable('TagText');
 			dropSqliteTable('Tag');
-			dropSqliteTable('LibraryLst');//*/
-			//debugelem(languageObjectLst);
-			//alert("test languageObjectLst: " + JSON.stringify(languageObjectLst, null, 4));
-			//alert("AppData: " + JSON.stringify(window.appData, null, 4));
+			dropSqliteTable('LibraryLst');
 		}
 	}
 };
@@ -152,7 +151,7 @@ function myObjExecSqliteSQL(sql, values, okcb, errcb) {
 	 * okcb est la fonction de callback en cas de sucés
 	 * errcb est la fonction de callback en cas d'erreur
 	 * */
-	alert("sql: " + sql + " Values: " + JSON.stringify(values, null, 4));
+	//alert("sql: " + sql + " Values: " + JSON.stringify(values, null, 4));
 	document.db.transaction(function(tx) {
 		 tx.executeSql(sql, values, okcb, errcb);
 	}, function(e){alert("Error transaction init " + JSON.stringify(e, null, 4));});
@@ -168,7 +167,7 @@ function createSqliteTable(tableName, champ) {
 };
 
 function dropSqliteTable (tableName) {
-	myExecSqliteSQL('DROP TABLE ' + tableName, function(){alert("drop " + tableName + " table succes");}, function(){alert("Drop table "+ tableName +" fail");});
+	myExecSqliteSQL('DROP TABLE ' + tableName, function(){/*alert("drop " + tableName + " table succes");*/}, function(){alert("Drop table "+ tableName +" fail");});
 	return true;
 };
 
@@ -198,18 +197,6 @@ function selectRecords(fn, sql) {
 };
 
 /* ********************************************************************************************* */
-/* ***************************** fonction générique de Callback ******************************** */
-/* ********************************************************************************************* */
-
-function onError(e){
-	alert("On Error: " + JSON.stringify(e, null, 4));
-};
-
-function onSucces(e){
-	alert("Succes: " + JSON.stringify(e, null, 4));
-};
-
-/* ********************************************************************************************* */
 /* ************************************* fonction de Debug ************************************* */
 /* ********************************************************************************************* */
 
@@ -230,67 +217,67 @@ function getAllTheDataDEBUG(tabName) {
 /* ********************************************************************************************* */
 
 function insertLanguage(elem){
-	myObjExecSqliteSQL("INSERT INTO Language (languageid, langname ) VALUES ( ?, ?)", [elem.languageid , elem.langname], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Language (languageid, langname ) VALUES ( ?, ?)", [elem.languageid , elem.langname], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertTag(elem){
-	myObjExecSqliteSQL("INSERT INTO Tag (tagid, tagname ) VALUES ( ?, ?)", [elem.tagid , elem.tagname], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Tag (tagid, tagname ) VALUES ( ?, ?)", [elem.tagid , elem.tagname], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertTagText(elem){
-	myObjExecSqliteSQL("INSERT INTO TagText (tagtextid, languageid, tagid, tagtext) VALUES ( ?, ?, ?, ?)", [elem.tagtextid , elem.languageid, elem.tagelem.tagid, elem.tagtext], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO TagText (tagtextid, languageid, tagid, tagtext) VALUES ( ?, ?, ?, ?)", [elem.tagtextid , elem.languageid, elem.tagelem.tagid, elem.tagtext], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertLibraryLst(elem){
-	myObjExecSqliteSQL("INSERT INTO LibraryLst (librarylstid, libraryid, liblsttitle ) VALUES ( ?, ?, ?)", [elem.librarylstid , elem.libraryid, elem.liblsttitle], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO LibraryLst (librarylstid, libraryid, liblsttitle ) VALUES ( ?, ?, ?)", [elem.librarylstid , elem.libraryid, elem.liblsttitle], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertLibrary(elem){
-	myObjExecSqliteSQL("INSERT INTO Library (libraryid, userid, libtitle, lstelemid ) VALUES ( ?, ?, ?, ?)", [elem.libraryid , elem.userid, elem.libtitle, elem.lstelemid], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Library (libraryid, userid, libtitle, lstelemid ) VALUES ( ?, ?, ?, ?)", [elem.libraryid , elem.userid, elem.libtitle, elem.lstelemid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertUser(elem){
-	myObjExecSqliteSQL("INSERT INTO User (userid, languageid, librarylstid, login, password, backupurl ) VALUES ( ?, ?, ?, ?, ?, ?)", [elem.userid, elem.languageid, elem.librarylstid, elem.login, elem.password, elem.backupurl], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO User (userid, languageid, librarylstid, login, password, backupurl ) VALUES ( ?, ?, ?, ?, ?, ?)", [elem.userid, elem.languageid, elem.librarylstid, elem.login, elem.password, elem.backupurl], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertGlobElemAssociation(elem){
-	myObjExecSqliteSQL("INSERT INTO GlobElemAssociation (globelemassoid, listelemid, nbuse) VALUES ( ?, ?, ?)", [elem.globelemassoid, elem.listelemid, elem.nbuse], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO GlobElemAssociation (globelemassoid, listelemid, nbuse) VALUES ( ?, ?, ?)", [elem.globelemassoid, elem.listelemid, elem.nbuse], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertElemAssociation(elem){
-	myObjExecSqliteSQL("INSERT INTO ElemAssociation (elemassoid, globelemassoid, userid, nbuse, date) VALUES ( ?, ?, ?, ?, ?)", [elem.elemassoid, elem.globelemassoid, elem.userid, elem.nbuse, elem.date], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO ElemAssociation (elemassoid, globelemassoid, userid, nbuse, date) VALUES ( ?, ?, ?, ?, ?)", [elem.elemassoid, elem.globelemassoid, elem.userid, elem.nbuse, elem.date], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertText(elem){
-	myObjExecSqliteSQL("INSERT INTO Text (textid, languageid, text) VALUES ( ?, ?, ?)", [elem.textid, elem.languageid, elem.text], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Text (textid, languageid, text) VALUES ( ?, ?, ?)", [elem.textid, elem.languageid, elem.text], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertElements(elem){
-	myObjExecSqliteSQL("INSERT INTO Elements (elemid , elemurl , soundid, width) VALUES ( ?, ?, ?, ?)", [elem.elemid , elem.elemurl , elem.soundelem.soundid, elem.width], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Elements (elemid , elemurl , soundid, width) VALUES ( ?, ?, ?, ?)", [elem.elemid , elem.elemurl , elem.soundelem.soundid, elem.width], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertElemStat(elem){
-	myObjExecSqliteSQL("INSERT INTO ElemStat (elemstatid , userid , nbuse, elemassoid) VALUES ( ?, ?, ?, ?)", [elem.elemstatid , elem.userid , elem.nbuse, elem.elemassoid], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO ElemStat (elemstatid , userid , nbuse, elemassoid) VALUES ( ?, ?, ?, ?)", [elem.elemstatid , elem.userid , elem.nbuse, elem.elemassoid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertGlobElemStat(elem){
-	myObjExecSqliteSQL("INSERT INTO GlobElemStat (globelemstatid , nbuse , elemstatid) VALUES ( ?, ?, ?, ?)", [elem.globelemstatid , elem.nbuse , elem.elemstatid], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO GlobElemStat (globelemstatid , nbuse , elemstatid) VALUES ( ?, ?, ?, ?)", [elem.globelemstatid , elem.nbuse , elem.elemstatid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertSound(elem){
-	myObjExecSqliteSQL("INSERT INTO Sound (soundid , soundurl , languageid) VALUES ( ?, ?, ?, ?)", [elem.soundid , elem.soundurl , elem.languageid], function(){alert("elem inserted");} , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Sound (soundid , soundurl , languageid) VALUES ( ?, ?, ?, ?)", [elem.soundid , elem.soundurl , elem.languageid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
@@ -311,6 +298,7 @@ function insertSound(elem){
  * */
 
 function selectLanguage(sql, objectLst, cb){ // sql form : WHERE languageid=1 and languagename='Français'
+	alert("begin language select: "+ sql);
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[rs.rows.item(i)["languageid"]] = new myVoiceLanguage();
@@ -331,7 +319,7 @@ function selectLanguage(sql, objectLst, cb){ // sql form : WHERE languageid=1 an
 	}
 };
 
-function selectTag(sql, objectLst, cb, cbarg){ // sql form : WHERE tagid=1 and tagname='Français'
+function selectTag(sql, objectLst, cb){ // sql form : WHERE tagid=1 and tagname='Français'
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[rs.rows.item(i)["tagid"]] = new myVoiceTag();
@@ -343,7 +331,7 @@ function selectTag(sql, objectLst, cb, cbarg){ // sql form : WHERE tagid=1 and t
 		}
 		if (typeof cb !== undefined){
 			//alert("time for tag cb");
-			cb(objectLst, cbarg);
+			cb(objectLst);
 		}
 	};
 
@@ -359,13 +347,7 @@ function selectTagText(sql, objectLst, cb){ // sql form : WHERE tagTextid=1 and 
 		for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[rs.rows.item(i)["tagtextid"]] = new myVoiceTagText();
 			for (var propName in rs.rows.item(i)) {
-				if (propName == "tagid"){
-					selectTag("WHERE "+ propName + " = " + rs.rows.item(i)[propName], {}, function(tagLst, objToWrite){
-						objToWrite["tagelem"] = tagLst[0];
-					}, objectLst[rs.rows.item(i)["tagtextid"]]);
-				} else {
-					objectLst[rs.rows.item(i)["tagtextid"]][propName] = rs.rows.item(i)[propName];
-				}
+				objectLst[rs.rows.item(i)["tagtextid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
 		if (typeof cb !== undefined){
@@ -383,11 +365,11 @@ function selectTagText(sql, objectLst, cb){ // sql form : WHERE tagTextid=1 and 
 function selectLibraryLst(sql, objectLst, cb){ // sql form : WHERE libraryLstid=1 and libraryLstname='Français'
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["liblstid"]] = new myVoiceLibraryLst();
-			window.appData.libLst[rs.rows.item(i)["liblstid"]] = new myVoiceLibraryLst();
+			objectLst[rs.rows.item(i)["librarylstid"]] = new myVoiceLibraryLst();
+			window.appData.libLst[rs.rows.item(i)["librarylstid"]] = new myVoiceLibraryLst();
 			for (var propName in rs.rows.item(i)) {
-				window.appData.libLst[rs.rows.item(i)["liblstid"]][propName] = rs.rows.item(i)[propName];
-				objectLst[rs.rows.item(i)["liblstid"]][propName] = rs.rows.item(i)[propName];
+				window.appData.libLst[rs.rows.item(i)["librarylstid"]][propName] = rs.rows.item(i)[propName];
+				objectLst[rs.rows.item(i)["librarylstid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
 		if (typeof cb !== undefined){
@@ -404,11 +386,11 @@ function selectLibraryLst(sql, objectLst, cb){ // sql form : WHERE libraryLstid=
 function selectLibrary(sql, objectLst, cb){
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["libid"]] = new myVoiceLibrary();
-			window.appData.lib[rs.rows.item(i)["libid"]][propName] = new myVoiceLibrary();
+			objectLst[rs.rows.item(i)["libraryid"]] = new myVoiceLibrary();
+			window.appData.lib[rs.rows.item(i)["libraryid"]][propName] = new myVoiceLibrary();
 			for (var propName in rs.rows.item(i)) {
-				window.appData.lib[rs.rows.item(i)["libid"]][propName] = rs.rows.item(i)[propName];
-				objectLst[rs.rows.item(i)["libid"]][propName] = rs.rows.item(i)[propName];
+				window.appData.lib[rs.rows.item(i)["libraryid"]][propName] = rs.rows.item(i)[propName];
+				objectLst[rs.rows.item(i)["libraryid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
 		if (typeof cb !== undefined){
