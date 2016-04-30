@@ -8,6 +8,7 @@ window.appData = {
 	globElemAssociation: {},
 	elemAssociation: {},
 	text: {},
+	elements: {},
 	elemStat: {},
 	globElemStat: {},
 	sound: {}
@@ -102,8 +103,6 @@ function initDb(callback){
 
 			insertTagText(new myVoiceTagText(2, "null", 1, 1, "test"));
 
-			insertUser(new myVoiceUser("1,2,3", 0, 1, "login?", "backendPass", "backupUrl"));
-
 			insertLibraryLst(new myVoiceLibraryLst(1, "Classeur Utilisation", "2,1,3"));
 			insertLibraryLst(new myVoiceLibraryLst(2, "Classeur Aprantisage", "5,4,6"));
 			insertLibraryLst(new myVoiceLibraryLst(5, "Classeur Poteries", "5,4,6"));
@@ -114,7 +113,15 @@ function initDb(callback){
 			insertLibrary(new myVoiceLibrary(4, 0, "onglet4", "1,2,3,4,5"));
 			insertLibrary(new myVoiceLibrary(5, 0, "onglet5", "1,2,3,4,5"));
 			insertLibrary(new myVoiceLibrary(6, 0, "onglet6", "1,2,3,4,5"));
-			
+
+			insertUser(new myVoiceUser("1,2,3", 0, 1, "login?", "backendPass", "backupUrl"));
+
+			insertGlobElemAssociation(new myVoiceGlobElemAssociation(0, "1,3,5"));
+			insertGlobElemAssociation(new myVoiceGlobElemAssociation(1, "3,5"));
+
+			var date = new Date();
+			insertElemAssociation(1, 0, 0, 1, date.getDate());
+
 			insertText(new myVoiceText("test", 1, 1));
 
 			insertSound(new myVoiceSound("soundurl", 1, 1));
@@ -131,20 +138,20 @@ function initDb(callback){
 		if (callback){
 			callback();
 		}
-		languageObjectLst = {};
+		/*languageObjectLst = {};
 		tagTextObjectLst = {};
 		tagTextlibLst = {};
-		elemObjLst = {};
+		elemObjLst = {};//*/
 		try {
 			selectLanguage("", window.appData.language, function(objLst){ /* alert("language: " + JSON.stringify(objLst, null, 4));*/ });
 			selectTag("", window.appData.tag , function(objLst){ /* alert("tagtext:" + JSON.stringify(objLst, null, 4));*/ });
 			selectTagText("", window.appData.tagText, function(objLst){ /* alert("tagtext:" + JSON.stringify(objLst, null, 4));*/ });
-			selectLibraryLst("", window.appData.libraryLst, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
+			selectLibraryLst("", window.appData.libraryLst, function(objLst){ alert("liblst:" + JSON.stringify(objLst, null, 4)); });
 			selectUser("", window.appData.user, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectGlobElemAssociation("", window.appData.globElemAssociation, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectElemAssociation("", window.appData.elemAssociation, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectText("", window.appData.text, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
-			selectElements("", window.appData.elem, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
+			selectElements("", window.appData.elements, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectElemStat("", window.appData.elemStat, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectGlobElemStat("", window.appData.globElemStat, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectSound("", window.appData.sound, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ alert("AppData: " + JSON.stringify(window.appData, null, 4));});
@@ -410,11 +417,11 @@ function selectLibraryLst(sql, objectLst, cb){
 			objectLst[rs.rows.item(i)["librarylstid"]] = new myVoiceLibraryLst();
 			window.appData.libLst[rs.rows.item(i)["librarylstid"]] = new myVoiceLibraryLst();
 			for (var propName in rs.rows.item(i)) {
-				//window.appData.libLst[rs.rows.item(i)["librarylstid"]][propName] = rs.rows.item(i)[propName];
+				window.appData.libLst[rs.rows.item(i)["librarylstid"]][propName] = rs.rows.item(i)[propName];
 				objectLst[rs.rows.item(i)["librarylstid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
-		window.appData.libLst = objectLst;
+		//window.appData.libLst = objectLst;
 		if (typeof cb !== undefined){
 			cb(objectLst);
 		}
@@ -470,9 +477,9 @@ function selectUser(sql, objectLst, cb){
 function selectGlobElemAssociation(sql, objectLst, cb){
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["globelemassosid"]] = new myVoiceGlobElemAssociation();
+			objectLst[rs.rows.item(i)["globelemassoid"]] = new myVoiceGlobElemAssociation();
 			for (var propName in rs.rows.item(i)) {
-				objectLst[rs.rows.item(i)["globelemassosid"]][propName] = rs.rows.item(i)[propName];
+				objectLst[rs.rows.item(i)["globelemassoid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
 		if (typeof cb !== undefined){
@@ -489,9 +496,9 @@ function selectGlobElemAssociation(sql, objectLst, cb){
 function selectElemAssociation(sql, objectLst, cb){
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["elemassosid"]] = new myVoiceElemAssociation();
+			objectLst[rs.rows.item(i)["elemassoid"]] = new myVoiceElemAssociation();
 			for (var propName in rs.rows.item(i)) {
-				objectLst[rs.rows.item(i)["elemassosid"]][propName] = rs.rows.item(i)[propName];
+				objectLst[rs.rows.item(i)["elemassoid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
 		if (typeof cb !== undefined){
@@ -533,7 +540,7 @@ function selectElements(sql, objectLst, cb){
 				objectLst[rs.rows.item(i)["elemid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
-		window.appData.elem = objectLst;
+		//window.appData.elem = objectLst;
 		if (typeof cb !== undefined){
 			cb(objectLst);
 		}
