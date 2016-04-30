@@ -89,7 +89,7 @@ function myVoiceElemAssociation(elemassoid, userId, globelemassoid, nbuse, date)
 	};
 };
 
-function myVoiceElem(elemid, elemUrl, Width, soundUrl, languageId, soundId, text, textId) {
+function myVoiceElem(elemid, elemUrl, Width, soundUrl, languageId, soundId, text, textId, state) {
 	this.elemid = elemid;
 	this.elemurl = elemUrl;
 	this.soundid = soundId;
@@ -97,6 +97,7 @@ function myVoiceElem(elemid, elemUrl, Width, soundUrl, languageId, soundId, text
 	this.textid = textId;
 	this.textelem = new myVoiceText(text, languageId, textId);
 	this.width = Width;
+	this.state = state;
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
@@ -113,7 +114,7 @@ function myVoiceElemStat(elemstatid, userId, elemid, nbuse, elemassoid) {
 	};
 };
 
-function myVoiceGlobElemStat(elemstatid, globelemstatid, nbuse) {
+function myVoiceGlobElemStat(globelemstatid, elemstatid, nbuse) {
 	this.elemstatid = elemstatid;
 	this.globelemstatid = globelemstatid;
 	this.nbuse = nbuse;

@@ -114,22 +114,24 @@ function initDb(callback){
 			insertLibrary(new myVoiceLibrary(5, 0, "onglet5", "1,2,3,4,5"));
 			insertLibrary(new myVoiceLibrary(6, 0, "onglet6", "1,2,3,4,5"));
 
-			insertUser(new myVoiceUser("1,2,3", 0, 1, "login?", "backendPass", "backupUrl"));
+			insertUser(new myVoiceUser("1,2,3", 0, 1, "login", "backendPass", "backupUrl"));
 
-			insertGlobElemAssociation(new myVoiceGlobElemAssociation(0, "1,3,5"));
-			insertGlobElemAssociation(new myVoiceGlobElemAssociation(1, "3,5"));
+			insertGlobElemAssociation(new myVoiceGlobElemAssociation(0, "1,3,5", 0));
+			insertGlobElemAssociation(new myVoiceGlobElemAssociation(1, "3,5", 0));
 
-			var date = new Date();
-			insertElemAssociation(1, 0, 0, 1, date.getDate());
+			insertElemAssociation(new myVoiceElemAssociation(1, 0, 0, 1, Date.now()));
 
 			insertText(new myVoiceText("test", 1, 1));
 
 			insertSound(new myVoiceSound("soundurl", 1, 1));
 
-			insertElements( new myVoiceElem(1, "img/logo.png", 10, 0, "soundUrl", 1, 1, "test", 1));
-			insertElements( new myVoiceElem(2, "img/logo.png", 10, 0, "soundUrl", 1, 1, "test", 1));
-			insertElements( new myVoiceElem(4, "img/logo.png", 10, 0, "soundUrl", 1, 1, "test", 1));
-			insertElements( new myVoiceElem(5, "img/logo.png", 10, 0, "soundUrl", 1, 1, "test", 1));
+			insertElements( new myVoiceElem(1, "img/logo.png", 10, "soundUrl", 0, 1, "text", 1, 0));
+			insertElements( new myVoiceElem(2, "img/logo.png", 10, "soundUrl", 1, 1, "test", 1, 0));
+			insertElements( new myVoiceElem(4, "img/logo.png", 10, "soundUrl", 1, 1, "test", 1, 0));
+			insertElements( new myVoiceElem(5, "img/logo.png", 10, "soundUrl", 1, 1, "test", 1, 0));
+
+			insertElemStat(new myVoiceElemStat(0, 0, "1,2,3", 0, 1));
+			insertGlobElemStat(new myVoiceGlobElemStat(0, 0, 0));
 			//*/
 		}
 	} catch (err){
@@ -146,7 +148,8 @@ function initDb(callback){
 			selectLanguage("", window.appData.language, function(objLst){ /* alert("language: " + JSON.stringify(objLst, null, 4));*/ });
 			selectTag("", window.appData.tag , function(objLst){ /* alert("tagtext:" + JSON.stringify(objLst, null, 4));*/ });
 			selectTagText("", window.appData.tagText, function(objLst){ /* alert("tagtext:" + JSON.stringify(objLst, null, 4));*/ });
-			selectLibraryLst("", window.appData.libraryLst, function(objLst){ alert("liblst:" + JSON.stringify(objLst, null, 4)); });
+			selectLibraryLst("", window.appData.libraryLst, function(objLst){ /*alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
+			selectLibrary("", window.appData.library, function(objLst){ /*alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectUser("", window.appData.user, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectGlobElemAssociation("", window.appData.globElemAssociation, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectElemAssociation("", window.appData.elemAssociation, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
@@ -154,7 +157,7 @@ function initDb(callback){
 			selectElements("", window.appData.elements, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectElemStat("", window.appData.elemStat, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectGlobElemStat("", window.appData.globElemStat, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
-			selectSound("", window.appData.sound, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ alert("AppData: " + JSON.stringify(window.appData, null, 4));});
+			selectSound("", window.appData.sound, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 		} catch(e){
 			allert("Error!! " + JSON.stringify(e, null, 4));
 		} finally {
@@ -168,10 +171,12 @@ function initDb(callback){
 			dropSqliteTable('User');
 			dropSqliteTable('LibraryLst');
 			dropSqliteTable('Library');*/
+			/*
 			var tableLst = [ "Language", "Tag", "TagText", "LibraryLst", "Library", "User", "GlobElemAssociation", "ElemAssociation", "Text", "Elements", "ElemStat", "GlobElemStat", "Sound"];
 			for(var table in tableLst){
 				dropSqliteTable(tableLst[table]);
 			}
+			* */
 		}
 	}
 };
@@ -202,8 +207,8 @@ function myObjExecSqliteSQL(sql, values, okcb, errcb) {
 	 * */
 	//alert("sql: " + sql + " Values: " + JSON.stringify(values, null, 4));
 	document.db.transaction(function(tx) {
-		 tx.executeSql(sql, values, okcb, errcb);
-	}, function(e){alert("Error transaction init " + JSON.stringify(e, null, 4));});
+		 tx.executeSql(sql, values/*, okcb, errcb*/);
+	}, function(e){/*alert("Error transaction init " + JSON.stringify(e, null, 4));*/});
 };
 
 /* ********************************************************************************************* */
@@ -312,7 +317,7 @@ function insertText(elem){
 
 function insertElements(elem){
 	//alert(JSON.stringify(elem, null, 4));
-	myObjExecSqliteSQL("INSERT INTO Elements (elemid , elemurl , soundid, width, textid) VALUES ( ?, ?, ?, ?, ?)", [elem.elemid , elem.elemurl , elem.soundid, elem.width, elem.textid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Elements (elemid , elemurl , soundid, width, textid, state) VALUES ( ?, ?, ?, ?, ?, ?)", [elem.elemid , elem.elemurl , elem.soundid, elem.width, elem.textid, elem.state], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
@@ -322,7 +327,7 @@ function insertElemStat(elem){
 };
 
 function insertGlobElemStat(elem){
-	myObjExecSqliteSQL("INSERT INTO GlobElemStat (globelemstatid , nbuse , elemstatid) VALUES ( ?, ?, ?, ?)", [elem.globelemstatid , elem.nbuse , elem.elemstatid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO GlobElemStat (globelemstatid , nbuse , elemstatid) VALUES ( ?, ?, ?)", [elem.globelemstatid , elem.nbuse , elem.elemstatid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
@@ -415,9 +420,9 @@ function selectLibraryLst(sql, objectLst, cb){
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[rs.rows.item(i)["librarylstid"]] = new myVoiceLibraryLst();
-			window.appData.libLst[rs.rows.item(i)["librarylstid"]] = new myVoiceLibraryLst();
+			//window.appData.libLst[rs.rows.item(i)["librarylstid"]] = new myVoiceLibraryLst();
 			for (var propName in rs.rows.item(i)) {
-				window.appData.libLst[rs.rows.item(i)["librarylstid"]][propName] = rs.rows.item(i)[propName];
+				//window.appData.libLst[rs.rows.item(i)["librarylstid"]][propName] = rs.rows.item(i)[propName];
 				objectLst[rs.rows.item(i)["librarylstid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
@@ -436,6 +441,7 @@ function selectLibraryLst(sql, objectLst, cb){
 function selectLibrary(sql, objectLst, cb){
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
+			//alert(JSON.stringify(rs.rows, null, 4));
 			objectLst[rs.rows.item(i)["libraryid"]] = new myVoiceLibrary();
 			//window.appData.lib[rs.rows.item(i)["libraryid"]][propName] = new myVoiceLibrary();
 			for (var propName in rs.rows.item(i)) {
@@ -443,7 +449,7 @@ function selectLibrary(sql, objectLst, cb){
 				objectLst[rs.rows.item(i)["libraryid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
-		window.appData.lib = objectLst;
+		//window.appData.lib = objectLst;
 		if (typeof cb !== undefined){
 			cb(objectLst);
 		}
@@ -457,11 +463,13 @@ function selectLibrary(sql, objectLst, cb){
 
 function selectUser(sql, objectLst, cb){
 	var render = function(tx, rs) {
-		objectLst[rs.rows.item(i)["userid"]] = new myVoiceLibrary();
-		window.appData.user[rs.rows.item(i)["userid"]] = new myVoiceLibrary();
-		for (var propName in rs.rows.item(i)) {
-			window.appData.user[rs.rows.item(i)["userid"]][propName] = rs.rows.item(i)[propName];
-			objectLst[rs.rows.item(i)["userid"]][propName] = rs.rows.item(i)[propName];
+		for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[rs.rows.item(i)["userid"]] = new myVoiceLibrary();
+			//window.appData.user[rs.rows.item(i)["userid"]] = new myVoiceLibrary();
+			for (var propName in rs.rows.item(i)) {
+				//window.appData.user[rs.rows.item(i)["userid"]][propName] = rs.rows.item(i)[propName];
+				objectLst[rs.rows.item(i)["userid"]][propName] = rs.rows.item(i)[propName];
+			}
 		}
 		if (typeof cb !== undefined){
 			cb(objectLst);
