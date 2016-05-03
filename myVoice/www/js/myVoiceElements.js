@@ -103,6 +103,17 @@ function myVoiceElem(elemid, elemUrl, Width, soundUrl, languageId, soundId, text
 	};
 };
 
+function myVoiceContext(contextid, time, places, activiti, interlocutor) {
+	this.contextid = contextid;
+	this.time = time;
+	this.places = places;
+	this.activiti = activiti;
+	this.interlocutor = interlocutor;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
+};
+
 function myVoiceElemStat(elemstatid, userId, elemid, nbuse, elemassoid) {
 	this.elemstatid = elemstatid;
 	this.userid = userId;
@@ -118,6 +129,16 @@ function myVoiceGlobElemStat(globelemstatid, elemstatid, nbuse) {
 	this.elemstatid = elemstatid;
 	this.globelemstatid = globelemstatid;
 	this.nbuse = nbuse;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
+};
+
+function myVoiceLerningStat(lerningstatid, contextid, elemstatid, nbtrue) {
+	this.lerningstatid = lerningstatid;
+	this.contextid = contextid;
+	this.elemstatid = elemstatid;
+	this.nbtrue = nbtrue;
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};

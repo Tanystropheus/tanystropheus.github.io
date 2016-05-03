@@ -85,11 +85,15 @@ function initDb(callback){
 				" text text, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
 			document.db.executeSql("CREATE TABLE Elements (elemid integer primary key, elemurl text," +
 				" soundid integer, width integer, textid text, state integer, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid))");
+			document.db.executeSql("CREATE TABLE Context (Contextid integer primary key," +
+				" time date, places text, activiti text, interlocutor text)");
 			document.db.executeSql("CREATE TABLE ElemStat (elemstatid integer primary key," +
 				" userid integer, nbuse integer, elemassoid integer, FOREIGN KEY(userid) REFERENCES User(userid),"+
 				" FOREIGN KEY(elemassoid) REFERENCES ElemAssociation(elemassoid))");
 			document.db.executeSql("CREATE TABLE GlobElemStat (globelemstatid integer primary key, nbuse integer," +
 				" elemstatid, FOREIGN KEY(elemstatid) REFERENCES ElemStat(elemstatid))");
+			document.db.executeSql("CREATE TABLE LerningStat (lerningstatid integer primary key," +
+				" contextid integer, elemstatid integer, nbtrue, FOREIGN KEY(contextid) REFERENCES Context(contextid), FOREIGN KEY(elemstatid) REFERENCES ElemStat(elemstatid))");
 			document.db.executeSql("CREATE TABLE Sound (soundid integer primary key, soundurl text," +
 				" languageid, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
  		} catch(err){
@@ -171,12 +175,12 @@ function initDb(callback){
 			dropSqliteTable('User');
 			dropSqliteTable('LibraryLst');
 			dropSqliteTable('Library');*/
-			/*
-			var tableLst = [ "Language", "Tag", "TagText", "LibraryLst", "Library", "User", "GlobElemAssociation", "ElemAssociation", "Text", "Elements", "ElemStat", "GlobElemStat", "Sound"];
+			///*
+			var tableLst = [ "Language", "Tag", "TagText", "LibraryLst", "Library", "User", "GlobElemAssociation", "ElemAssociation", "Text", "Elements", "ElemStat", "GlobElemStat", "Sound", "LerningStat", "Context"];
 			for(var table in tableLst){
 				dropSqliteTable(tableLst[table]);
 			}
-			* */
+			//* */
 		}
 	}
 };
@@ -323,6 +327,16 @@ function insertElements(elem){
 
 function insertElemStat(elem){
 	myObjExecSqliteSQL("INSERT INTO ElemStat (elemstatid , userid , nbuse, elemassoid) VALUES ( ?, ?, ?, ?)", [elem.elemstatid , elem.userid , elem.nbuse, elem.elemassoid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	return true;
+};
+
+function insertContext(elem){
+	myObjExecSqliteSQL("INSERT INTO Context (contextid, time, places, activiti, interlocutor) VALUES ( ?, ?, ?, ?, ?)", [elem.contextid, elem.time, elem.places, elem.activiti, elem.interlocutor], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	return true;
+};
+
+function insertLerningStat(elem){
+	myObjExecSqliteSQL("INSERT INTO LerningStat (lerningstatid , contextid , elemstatid, nbtrue) VALUES ( ?, ?, ?, ?)", [elem.lerningstatid , elem.contextid , elem.elemstatid, elem.nbtrue], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
@@ -616,5 +630,47 @@ function selectSound(sql, objectLst, cb){
 		selectRecords(render, "SELECT * FROM Sound " + sql + " ORDER by soundid");
 	} else {
 		selectRecords(render, "SELECT * FROM Sound ORDER by soundid");
+	}
+};
+
+function selectContext(sql, objectLst, cb){
+	var render = function(tx, rs) {
+		for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[rs.rows.item(i)["contextid"]] = new myVoiceContext();
+			window.appData.sound[rs.rows.item(i)["contextid"]][propName] = new myVoiceContext();
+			for (var propName in rs.rows.item(i)) {
+				window.appData.sound[rs.rows.item(i)["contextid"]][propName] = rs.rows.item(i)[propName];
+				objectLst[rs.rows.item(i)["contextid"]][propName] = rs.rows.item(i)[propName];
+			}
+		}
+		if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+	};
+	if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM Context " + sql + " ORDER by contextid");
+	} else {
+		selectRecords(render, "SELECT * FROM Context ORDER by contextid");
+	}
+};
+
+function selectLerningStat(sql, objectLst, cb){
+	var render = function(tx, rs) {
+		for (var i = 0; i < rs.rows.length; i++) {
+			objectLst[rs.rows.item(i)["lerningstatid"]] = new myVoiceLerningStat;
+			window.appData.sound[rs.rows.item(i)["lerningstatid"]][propName] = new myVoiceLerningStat;
+			for (var propName in rs.rows.item(i)) {
+				window.appData.sound[rs.rows.item(i)["lerningstatid"]][propName] = rs.rows.item(i)[propName];
+				objectLst[rs.rows.item(i)["lerningstatid"]][propName] = rs.rows.item(i)[propName];
+			}
+		}
+		if (typeof cb !== undefined){
+			cb(objectLst);
+		}
+	};
+	if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM LerningStat " + sql + " ORDER by lerningstatid");
+	} else {
+		selectRecords(render, "SELECT * FROM LerningStat ORDER by lerningstatid");
 	}
 };
