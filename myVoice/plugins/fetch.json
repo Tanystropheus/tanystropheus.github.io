@@ -7,10 +7,10 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-sqlite-storage": {
+    "cordova-sqlcipher-adapter": {
         "source": {
             "type": "registry",
-            "id": "cordova-sqlite-storage"
+            "id": "cordova-sqlcipher-adapter"
         },
         "is_top_level": true,
         "variables": {}

@@ -39,13 +39,15 @@ function openDb(callback) {
 	/*
 	 * Fonction as exeuter onDeviceReady pour ouvrir la base de donné et l'ajouter au DOM de l'application
 	 * */
-	var dbName = "myVoice.db";
+	var dbName = "myVoice_crypted.db";
 	document.db = window.sqlitePlugin.openDatabase(
 		{
-			name: dbName, 
+			name: dbName,
+			key: 'your-password-here',
+			iosDatabaseLocation: 'Library/LocalDatabase'
 			//androidDatabaseImplementation: 2,
 			//androidLockWorkaround: 1,
-			location: 2
+			//location: 2
 		},
 		function (msg) {
 			if(callback){
@@ -161,7 +163,7 @@ function initDb(callback){
 			selectElements("", window.appData.elements, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectElemStat("", window.appData.elemStat, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectGlobElemStat("", window.appData.globElemStat, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
-			selectSound("", window.appData.sound, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
+			selectSound("", window.appData.sound, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ alert("liblst:" + JSON.stringify(appData, null, 4)); });
 		} catch(e){
 			allert("Error!! " + JSON.stringify(e, null, 4));
 		} finally {
