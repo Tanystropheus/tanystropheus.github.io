@@ -1,40 +1,31 @@
 
 /*Div Blocks*/
-#elementArea1, #elementArea2, #elementArea3 {
-  height: 550px;
-}
-#elementArea1, #actions {
+#act, #actions {
   background-color: #ccccb3;
 }
-#elementArea2, #objects {
+#obj, #objects {
   background-color: #c2c2a3;
 }
-#elementArea3, #items {
+#att, #items {
   background-color: #b8b894;
 }
+#actT, #actionsT {
+  background-color: #f2f2f2;
+}
+#objT, #objectsT {
+  background-color: #e6e6e6;
+}
+#itT, #itemsT {
+  background-color: #d9d9d9;
+}
+
 .topCornersOnly {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
-#speakArea {
+
+.speakArea {
   text-align: right;
-  height: 100px;
-}
-#elementAreaT1, #elementAreaT2, #elementAreaT3 {
-  height: 550px;
-}
-#elementAreaT1, #actionsT {
-  background-color: #f2f2f2;
-}
-#elementAreaT2, #objectsT {
-  background-color: #e6e6e6;
-}
-#elementAreaT3, #itemsT {
-  background-color: #d9d9d9;
-}
-#speakAreaT {
-  text-align: right;
-  height: 100px;
 }
 
 /*Image*/
@@ -50,4 +41,47 @@ img {
 }
 #iconNoCheck {
   background-color: red;
+}
+
+.header {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 60px; line-height: 60px;
+  text-transform: uppercase;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60px; line-height: 60px;
+  text-transform: uppercase;
+}
+
+.ui-content {
+  position: absolute;
+  top: 60px; right: 0; bottom: 60px; left: 0;
+}
+
+.tabs {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling:touch;  
+}
+
+.onglet {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 20px;
+}
+
+.elementArea {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+}
+
+.ui-grid-d, #act, #obj, #att, #actT, #objT, #itT {
+  position: absolute;
+  top: 30px; right: 0; bottom: 0; left: 0;
 }
