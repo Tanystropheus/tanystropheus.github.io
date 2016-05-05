@@ -68,9 +68,8 @@ function initDb(callback){
 	try {
 		try {
 			document.db.executeSql("CREATE TABLE Language (languageid integer primary key, langname text)");
-			document.db.executeSql("CREATE TABLE Tag (tagid integer primary key, tagname text)");
-			document.db.executeSql("CREATE TABLE TagText (tagtextid integer primary key, languageid integer, tagid integer, tagtext text," +
-				" FOREIGN KEY(languageid) REFERENCES Language(languageid), FOREIGN KEY(tagid) REFERENCES Tag(tagid))");
+			document.db.executeSql("CREATE TABLE Tag (tagid integer, languageid integer, tagid integer, tagtext text," +
+				" FOREIGN KEY(languageid) REFERENCES Language(languageid), FOREIGN KEY(tagid) REFERENCES Tag(tagid), CONSTRAINT PK_elements PRIMARY KEY (tagid, languageid))");
 			document.db.executeSql("CREATE TABLE LibraryLst (librarylstid integer primary key, libraryid text," +
 				" liblsttitle text)");
 			document.db.executeSql("CREATE TABLE Library (libraryid integer primary key, userid integer," +
@@ -85,9 +84,9 @@ function initDb(callback){
 				" FOREIGN KEY(globelemassoid) REFERENCES GlobElemAssociation(globelemassoid))");
 			document.db.executeSql("CREATE TABLE Text (textid integer primary key, languageid text," +
 				" text text, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
-			document.db.executeSql("CREATE TABLE Elements (elemid integer primary key, elemurl text," +
-				" soundid integer, width integer, textid text, state integer, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid))");
-			document.db.executeSql("CREATE TABLE Context (Contextid integer primary key," +
+			document.db.executeSql("CREATE TABLE Elements (elemid integer, user integer, elemurl text," +
+				" soundid integer, width integer, textid text, state integer, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid),CONSTRAINT PK_elements PRIMARY KEY (elemid, user)");
+			document.db.executeSql("CREATE TABLE Context (contextid integer primary key," +
 				" time date, places text, activiti text, interlocutor text)");
 			document.db.executeSql("CREATE TABLE ElemStat (elemstatid integer primary key," +
 				" userid integer, nbuse integer, elemassoid integer, FOREIGN KEY(userid) REFERENCES User(userid),"+
@@ -104,10 +103,8 @@ function initDb(callback){
 			insertLanguage(new myVoiceLanguage(1, "Français"));
 			insertLanguage(new myVoiceLanguage(2, "Anglais"));
 
-			insertTag(new myVoiceTag(1, "tagtest1"));
-			insertTag(new myVoiceTag(2, "tagtest2"));
-
-			insertTagText(new myVoiceTagText(2, "null", 1, 1, "test"));
+			insertTag(new myVoiceTag(1, 1, "pomme"));
+			insertTag(new myVoiceTag(2, 2, "appel"));
 
 			insertLibraryLst(new myVoiceLibraryLst(1, "Classeur Utilisation", "2,1,3"));
 			insertLibraryLst(new myVoiceLibraryLst(2, "Classeur Aprantisage", "5,4,6"));
@@ -131,10 +128,10 @@ function initDb(callback){
 
 			insertSound(new myVoiceSound("soundurl", 1, 1));
 
-			insertElements( new myVoiceElem(1, "img/logo.png", 10, "soundUrl", 0, 1, "text", 1, 0));
-			insertElements( new myVoiceElem(2, "img/logo.png", 10, "soundUrl", 1, 1, "test", 1, 0));
-			insertElements( new myVoiceElem(4, "img/logo.png", 10, "soundUrl", 1, 1, "test", 1, 0));
-			insertElements( new myVoiceElem(5, "img/logo.png", 10, "soundUrl", 1, 1, "test", 1, 0));
+			insertElements( new myVoiceElem(1, "img/logo.png", 1, 10, "soundUrl", 0, 1, "text", 1, 0));
+			insertElements( new myVoiceElem(2, "img/logo.png", 1, 10, "soundUrl", 1, 1, "test", 1, 0));
+			insertElements( new myVoiceElem(4, "img/logo.png", 1, 10, "soundUrl", 1, 1, "test", 1, 0));
+			insertElements( new myVoiceElem(5, "img/logo.png", 1, 10, "soundUrl", 1, 1, "test", 1, 0));
 
 			insertElemStat(new myVoiceElemStat(0, 0, "1,2,3", 0, 1));
 			insertGlobElemStat(new myVoiceGlobElemStat(0, 0, 0));
@@ -282,12 +279,7 @@ function insertLanguage(elem){
 };
 
 function insertTag(elem){
-	myObjExecSqliteSQL("INSERT INTO Tag (tagid, tagname ) VALUES ( ?, ?)", [elem.tagid , elem.tagname], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
-	return true;
-};
-
-function insertTagText(elem){
-	myObjExecSqliteSQL("INSERT INTO TagText (tagtextid, languageid, tagid, tagtext) VALUES ( ?, ?, ?, ?)", [elem.tagtextid , elem.languageid, elem.tagelem.tagid, elem.tagtext], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Tag (tagid, languageid, tagtext) VALUES ( ?, ?, ?)", [elem.tagid , elem.languageid, elem.tagtext], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
@@ -323,7 +315,7 @@ function insertText(elem){
 
 function insertElements(elem){
 	//alert(JSON.stringify(elem, null, 4));
-	myObjExecSqliteSQL("INSERT INTO Elements (elemid , elemurl , soundid, width, textid, state) VALUES ( ?, ?, ?, ?, ?, ?)", [elem.elemid , elem.elemurl , elem.soundid, elem.width, elem.textid, elem.state], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Elements (elemid , elemurl , user, soundid, width, textid, state) VALUES ( ?, ?, ?, ?, ?, ?, ?)", [elem.elemid , elem.elemurl , elem.user ,elem.soundid, elem.width, elem.textid, elem.state], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
 };
 
@@ -676,3 +668,13 @@ function selectLerningStat(sql, objectLst, cb){
 		selectRecords(render, "SELECT * FROM LerningStat ORDER by lerningstatid");
 	}
 };
+
+/* ********************************************************************************************* */
+/* ******************************** fonction d'update d'objet ******************************* */
+/* ********************************************************************************************* */
+
+function updateSound(elem){
+	myObjExecSqliteSQL("UPDATE Sound SET soundurl="+ elem.soundurl +" , languageid="+ elem.languageid +" WHERE soundid="+ elem.soundid, [], updateSucces() , function(err){alert("elem update fail " + JSON.stringify(err, null, 4));});
+	return true;
+};
+

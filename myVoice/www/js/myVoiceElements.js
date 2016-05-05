@@ -6,19 +6,10 @@ function myVoiceLanguage(languageid, langname) {
 	};
 };
 
-function myVoiceTag(tagid, tagname) {
+function myVoiceTag(tagid, languageId, tagtext) {
 	this.tagid = tagid;
-	this.tagname = tagname;
-	this.updatedb = function(){
-		alert("db update func not yet created");
-	};
-};
-
-function myVoiceTagText(tagid, tagname, languageId, tagtextid, tagtext) {
-	this.tagtextid = tagtextid;
 	this.languageid = languageId;
 	this.tagtext = tagtext;
-	this.tagelem = new myVoiceTag(tagid, tagname);
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
@@ -89,9 +80,10 @@ function myVoiceElemAssociation(elemassoid, userId, globelemassoid, nbuse, date)
 	};
 };
 
-function myVoiceElem(elemid, elemUrl, Width, soundUrl, languageId, soundId, text, textId, state) {
+function myVoiceElem(elemid, elemUrl, Width, user, soundUrl, languageId, soundId, text, textId, state) {
 	this.elemid = elemid;
 	this.elemurl = elemUrl;
+	this.user = user;
 	this.soundid = soundId;
 	this.soundelem = new myVoiceSound(soundUrl, languageId, soundId);
 	this.textid = textId;
