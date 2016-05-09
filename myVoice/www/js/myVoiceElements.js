@@ -19,7 +19,7 @@ function myVoiceLibraryLst(librarylstid, liblsttitle, libraryid) {
 	this.librarylstid = librarylstid;
 	this.libraryid = libraryid;  // str contenant les id des lib de l'utilisateur
 	this.liblsttitle = liblsttitle;
-	this.librarylst = {};
+	//this.librarylst = {};
 	this.parseIdLst = function(){
 		var idlst = str.split(",");
 		for(var i in idlst){
@@ -80,15 +80,16 @@ function myVoiceElemAssociation(elemassoid, userId, globelemassoid, nbuse, date)
 	};
 };
 
-function myVoiceElem(elemid, elemUrl, Width, user, soundUrl, languageId, soundId, text, textId, state) {
+function myVoiceElem(elemid, elemUrl, Width, user, soundUrl, languageId, soundId, text, textId, taglst, state) {
 	this.elemid = elemid;
 	this.elemurl = elemUrl;
 	this.user = user;
 	this.soundid = soundId;
-	this.soundelem = new myVoiceSound(soundUrl, languageId, soundId);
+	//this.soundelem = new myVoiceSound(soundUrl, languageId, soundId);
 	this.textid = textId;
-	this.textelem = new myVoiceText(text, languageId, textId);
+	//this.textelem = new myVoiceText(text, languageId, textId);
 	this.width = Width;
+	this.taglst = taglst;
 	this.state = state;
 	this.updatedb = function(){
 		alert("db update func not yet created");
