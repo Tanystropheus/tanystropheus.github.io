@@ -221,6 +221,8 @@
             <!-- Bande de parole -->
             <div data-role="footer" class="footer">
                 <div class="speakArea">
+                    <div class="column">
+                    </div>
                     <a href="#" class="ui-btn ui-icon-audio ui-btn-icon-right ui-btn-inline ui-corner-all">Ecouter</a>
                     <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-right ui-btn-inline ui-corner-all">Supprimer</a>
                 </div>
@@ -290,7 +292,7 @@
                                 <div class="portlet">
                                     <div class="portlet-content"><img class="imgClass" src="img/testCarre95.png" alt="Test"/></div>
                                 </div>
-                                <div class="portle">
+                                <div class="portlet">
                                     <div class="portlet-content"><img class="imgClass" src="img/testCarre95.png" alt="Test"/></div>
                                 </div>
                                 <div class="portlet">
@@ -456,31 +458,8 @@
                         });
                     }
                 });
-            });
 
-            // Click
-            $(document).on("tap", ".imgClass", function(){
-                if ($(this).parent().parent().parent().attr("class") == "elementArea") {
-                    $(this).prependTo(".speakArea");
-                }
-        //        else if ($(this).parent().attr("class") == "speakArea") {
-        //            var desc = $(".elementArea").children().children().children();
-        //            $(this).prependTo(desc);
-        //        }
-            });
-
-            // drag & drop
-            // sortable
-//            $(document).bind('pageinit', function() {
-//                $( ".elementArea" ).sortable();
-//                $( ".imgClass" ).draggable();
-//                $( ".elementArea" ).disableSelection();
-//                $( ".elementArea" ).bind( "sortstop", function(event, ui) {
-//                    $('.elementArea').listview('refresh');
-//                });
-//            });
-
-            $(document).bind('pageinit', function() {
+                // sortable and drag & drop elements
                 $( ".column" ).sortable({
                     connectWith: ".column",
                     handle: ".portlet-content",
@@ -492,8 +471,19 @@
                     .find( ".portlet-header" )
                     .addClass( "ui-widget-header ui-corner-all" )
                     .find( ".portlet-footer" )
-                    .addClass( "ui-widget-header ui-corner-all" )
+                    .addClass( "ui-widget-header ui-corner-all" );
             });
+
+            // Click
+             $(document).on("tap", ".portlet", function(){
+                if ($(this).parent().parent().attr("class") == "elementArea") {
+                    $(this).prependTo(".speakArea");
+                }
+                else if ($(this).parent().attr("class") == "speakArea") {
+                    var desc = $(".elementArea").children().children();
+                    $(this).prependTo(desc);
+                }
+            }); 
 
         </script>
     </body>
