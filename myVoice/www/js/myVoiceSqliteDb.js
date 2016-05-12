@@ -1,7 +1,6 @@
 window.appData = {
 	language: {},
 	tag: {},
-	tagText: {},
 	libraryLst: {},
 	library: {},
 	user: {},
@@ -42,7 +41,7 @@ function openDb(callback) {
 	/*
 	 * Fonction as exeuter onDeviceReady pour ouvrir la base de donné et l'ajouter au DOM de l'application
 	 * */
-	var dbName = "myVoice_crypted.db";
+	var dbName = "myVoice.db";
 	document.db = window.sqlitePlugin.openDatabase(
 		{
 			name: dbName,
@@ -144,9 +143,6 @@ function initDb(callback){
 	} catch (err){
 		alert("Error:" + JSON.stringify(err, null, 4));
 	} finally {
-		if (callback){
-			callback();
-		}
 		try {
 			selectLanguage("", window.appData.language, function(objLst){ /* alert("language: " + JSON.stringify(objLst, null, 4));*/ });
 			selectTag("", window.appData.tag , function(objLst){ /* alert("tagtext:" + JSON.stringify(objLst, null, 4));*/ });
@@ -159,28 +155,21 @@ function initDb(callback){
 			selectElements("", window.appData.elements, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectElemStat("", window.appData.elemStat, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
 			selectGlobElemStat("", window.appData.globElemStat, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ });
-			selectSound("", window.appData.sound, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4));*/ alert("appData:" + JSON.stringify(appData, null, 4)); });
+			selectSound("", window.appData.sound, function(objLst){ /* alert("liblst:" + JSON.stringify(objLst, null, 4)); alert("appData:" + JSON.stringify(appData, null, 4));*/ });
 			//getAllTheDataDEBUG("Elements");
 		} catch(e){
 			allert("Error!! " + JSON.stringify(e, null, 4));
 		} finally {
-			/*
-			dropSqliteTable('Language');
-			dropSqliteTable('TagText');
-			dropSqliteTable('Tag');
-			dropSqliteTable('LibraryLst');
-			dropSqliteTable('Sound');
-			dropSqliteTable('Text');
-			dropSqliteTable('Elements');
-			dropSqliteTable('User');
-			dropSqliteTable('LibraryLst');
-			dropSqliteTable('Library');*/
-			// /*
+			setTimeout(function () {
+				if (callback){
+					callback();
+				}
+			}, 10000);
+
 			var tableLst = [ "Language", "Tag", "LibraryLst", "Library", "User", "GlobElemAssociation", "ElemAssociation", "Text", "Elements", "ElemStat", "GlobElemStat", "Sound", "LerningStat", "Context"];
 			for(var table in tableLst){
 				dropSqliteTable(tableLst[table]);
 			}
-			//* */
 		}
 	}
 };
@@ -275,75 +264,86 @@ function getAllTheDataDEBUG(tabName) {
 /* ********************************************************************************************* */
 
 function insertLanguage(elem){
-	myObjExecSqliteSQL("INSERT INTO Language (languageid, langname ) VALUES ( ?, ?)", [elem.languageid , elem.langname], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Language (languageid, langname ) VALUES ( ?, ?)", [elem.languageid , elem.langname], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertTag(elem){
-	myObjExecSqliteSQL("INSERT INTO Tag (tagid, languageid, tagtext) VALUES ( ?, ?, ?)", [elem.tagid , elem.languageid, elem.tagtext], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Tag (tagid, languageid, tagtext) VALUES ( ?, ?, ?)", [elem.tagid , elem.languageid, elem.tagtext], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertLibraryLst(elem){
-	myObjExecSqliteSQL("INSERT INTO LibraryLst (librarylstid, libraryid, liblsttitle ) VALUES ( ?, ?, ?)", [elem.librarylstid , elem.libraryid, elem.liblsttitle], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO LibraryLst (librarylstid, libraryid, liblsttitle ) VALUES ( ?, ?, ?)",
+	[elem.librarylstid , elem.libraryid, elem.liblsttitle], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertLibrary(elem){
-	myObjExecSqliteSQL("INSERT INTO Library (libraryid, userid, libtitle, lstelemid ) VALUES ( ?, ?, ?, ?)", [elem.libraryid , elem.userid, elem.libtitle, elem.lstelemid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Library (libraryid, userid, libtitle, lstelemid ) VALUES ( ?, ?, ?, ?)",
+	[elem.libraryid , elem.userid, elem.libtitle, elem.lstelemid], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertUser(elem){
-	myObjExecSqliteSQL("INSERT INTO User (userid, languageid, librarylstid, login, password, backupurl ) VALUES ( ?, ?, ?, ?, ?, ?)", [elem.userid, elem.languageid, elem.librarylstid, elem.login, elem.password, elem.backupurl], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO User (userid, languageid, librarylstid, login, password, backupurl ) VALUES ( ?, ?, ?, ?, ?, ?)", [elem.userid, elem.languageid, elem.librarylstid, elem.login, elem.password, elem.backupurl], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertGlobElemAssociation(elem){
-	myObjExecSqliteSQL("INSERT INTO GlobElemAssociation (globelemassoid, listelemid, nbuse) VALUES ( ?, ?, ?)", [elem.globelemassoid, elem.listelemid, elem.nbuse], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO GlobElemAssociation (globelemassoid, listelemid, nbuse) VALUES ( ?, ?, ?)",
+	[elem.globelemassoid, elem.listelemid, elem.nbuse], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertElemAssociation(elem){
-	myObjExecSqliteSQL("INSERT INTO ElemAssociation (elemassoid, globelemassoid, userid, nbuse, date) VALUES ( ?, ?, ?, ?, ?)", [elem.elemassoid, elem.globelemassoid, elem.userid, elem.nbuse, elem.date], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO ElemAssociation (elemassoid, globelemassoid, userid, nbuse, date) VALUES ( ?, ?, ?, ?, ?)",
+	[elem.elemassoid, elem.globelemassoid, elem.userid, elem.nbuse, elem.date], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertText(elem){
-	myObjExecSqliteSQL("INSERT INTO Text (textid, languageid, text) VALUES ( ?, ?, ?)", [elem.textid, elem.languageid, elem.text], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Text (textid, languageid, text) VALUES ( ?, ?, ?)", [elem.textid, elem.languageid, elem.text], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertElements(elem){
 	//alert("elem: " + JSON.stringify(elem, null, 4));
-	myObjExecSqliteSQL("INSERT INTO Elements (elemid , elemurl , user, soundid, width, textid, taglst, state) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)", [elem.elemid , elem.elemurl , elem.user ,elem.soundid, elem.width, elem.textid, elem.taglst,elem.state], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Elements (elemid , elemurl , user, soundid, width, textid, taglst, state) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)",
+	[elem.elemid , elem.elemurl , elem.user ,elem.soundid, elem.width, elem.textid, elem.taglst,elem.state], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertElemStat(elem){
-	myObjExecSqliteSQL("INSERT INTO ElemStat (elemstatid , userid , nbuse, elemassoid) VALUES ( ?, ?, ?, ?)", [elem.elemstatid , elem.userid , elem.nbuse, elem.elemassoid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO ElemStat (elemstatid , userid , nbuse, elemassoid) VALUES ( ?, ?, ?, ?)",
+	[elem.elemstatid , elem.userid , elem.nbuse, elem.elemassoid], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertContext(elem){
-	myObjExecSqliteSQL("INSERT INTO Context (contextid, time, places, activiti, interlocutor) VALUES ( ?, ?, ?, ?, ?)", [elem.contextid, elem.time, elem.places, elem.activiti, elem.interlocutor], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Context (contextid, time, places, activiti, interlocutor) VALUES ( ?, ?, ?, ?, ?)",
+	[elem.contextid, elem.time, elem.places, elem.activiti, elem.interlocutor], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertLerningStat(elem){
-	myObjExecSqliteSQL("INSERT INTO LerningStat (lerningstatid , contextid , elemstatid, nbtrue) VALUES ( ?, ?, ?, ?)", [elem.lerningstatid , elem.contextid , elem.elemstatid, elem.nbtrue], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO LerningStat (lerningstatid , contextid , elemstatid, nbtrue) VALUES ( ?, ?, ?, ?)",
+	[elem.lerningstatid , elem.contextid , elem.elemstatid, elem.nbtrue], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertGlobElemStat(elem){
-	myObjExecSqliteSQL("INSERT INTO GlobElemStat (globelemstatid , nbuse , elemstatid) VALUES ( ?, ?, ?)", [elem.globelemstatid , elem.nbuse , elem.elemstatid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO GlobElemStat (globelemstatid , nbuse , elemstatid) VALUES ( ?, ?, ?)",
+	[elem.globelemstatid , elem.nbuse , elem.elemstatid], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
 function insertSound(elem){
-	myObjExecSqliteSQL("INSERT INTO Sound (soundid , soundurl , languageid) VALUES ( ?, ?, ?)", [elem.soundid , elem.soundurl , elem.languageid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO Sound (soundid , soundurl , languageid) VALUES ( ?, ?, ?)",
+	[elem.soundid , elem.soundurl , elem.languageid], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
+
 
 /* ********************************************************************************************* */
 /* ******************************** fonction de selection d'objet ******************************* */
@@ -536,7 +536,7 @@ function selectText(sql, objectLst, cb){
 		for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[rs.rows.item(i)["textid"]] = new myVoiceText();
 			for (var propName in rs.rows.item(i)) {
-				window.appData.language[rs.rows.item(i)["textid"]][propName] = rs.rows.item(i)[propName];
+				//window.appData.language[rs.rows.item(i)["textid"]][propName] = rs.rows.item(i)[propName];
 				objectLst[rs.rows.item(i)["textid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
@@ -679,7 +679,61 @@ function selectLerningStat(sql, objectLst, cb){
 /* ********************************************************************************************* */
 
 function updateSound(elem){
-	myObjExecSqliteSQL("UPDATE Sound SET soundurl='"+ elem.soundurl +"' , languageid='"+ elem.languageid +"' WHERE soundid="+ elem.soundid, [], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " err2: "+JSON.stringify(err2, null, 4));});
+	myObjExecSqliteSQL("UPDATE Sound SET soundurl='"+ elem.soundurl +"' , languageid='"+ elem.languageid +"' WHERE soundid="+ elem.soundid,
+	[], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " "+JSON.stringify(err2, null, 4));});
 	return true;
 };
 
+function updateElements(elem){
+	myObjExecSqliteSQL("UPDATE Elements SET elemurl='"+ elem.elemurl + "' , user='" + elem.user + "' , soundid='" + elem.soundid +  + "' , width='" + elem.width + "' , textid='" + elem.textid + "' , taglst='" + elem.taglst + "' , state='" + elem.state + "' WHERE elemid="+ elem.elemid, 
+	[], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " "+JSON.stringify(err2, null, 4));});
+	return true;
+};
+
+function updateLibraryLst(elem){
+	myObjExecSqliteSQL("UPDATE LibraryLst SET libraryid='"+ elem.libraryid + "' , liblsttitle='" + elem.liblsttitle + "' WHERE librarylstid="+ elem.librarylstid, 
+	[], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " "+JSON.stringify(err2, null, 4));});
+	return true;
+};
+
+function updateLibrary(elem){
+	myObjExecSqliteSQL("UPDATE Library SET userid='"+ elem.userid + "' , libtitle='"+ elem.libtitle+ "' , lstelemid='" + elem.lstelemid +"' WHERE libraryid="+ elem.libraryid,
+	[], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " "+JSON.stringify(err2, null, 4));});
+	return true;
+};
+
+function updateGlobElemAssociation(elem){
+	myObjExecSqliteSQL("UPDATE GlobElemAssociation SET listelemid='"+ elem.listelemid + "' , nbuse='" + elem.nbuse + "' WHERE globelemassoid="+ elem.globelemassoid, 
+	[], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " "+JSON.stringify(err2, null, 4));});
+	return true;
+};
+
+function updateElemAssociation(elem){
+	myObjExecSqliteSQL("UPDATE ElemAssociation SET globelemassoid='"+ elem.globelemassoid + "' , userid='" + elem.userid + "' , nbuse='" + elem.nbuse +  + "' , date='" + elem.date + "' WHERE elemassoid="+ elem.elemassoid, 
+	[], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " "+JSON.stringify(err2, null, 4));});
+	return true;
+};
+
+function updateElemStat(elem){
+	myObjExecSqliteSQL("UPDATE ElemStat SET userid='"+ elem.userid + "' , nbuse='" + elem.nbuse + "' , elemassoid='" + elem.elemassoid + "' WHERE elemstatid="+ elem.elemstatid, 
+	[], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " "+JSON.stringify(err2, null, 4));});
+	return true;
+};
+
+function updateContext(elem){
+	myObjExecSqliteSQL("UPDATE Context SET time='"+ elem.time + "' , places='" + elem.places + "' , activiti='" + elem.activiti +  + "' , interlocutor='" + elem.interlocutor + "' WHERE contextid="+ elem.contextid, 
+	[], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " "+JSON.stringify(err2, null, 4));});
+	return true;
+};
+
+function updateLerningStat(elem){
+	myObjExecSqliteSQL("UPDATE LerningStat SET contextid='"+ elem.contextid + "' , elemstatid='" + elem.elemstatid + "' , nbtrue='" + elem.nbtrue + "' WHERE lerningstatid="+ elem.lerningstatid, 
+	[], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " "+JSON.stringify(err2, null, 4));});
+	return true;
+};
+
+function updateUser(elem){
+	myObjExecSqliteSQL("UPDATE User SET languageid='"+ elem.languageid + "' , librarylstid='" + elem.librarylstid + "' , login='" + elem.login + "' , backupurl='" + elem.backupurl + "' , password='" + elem.password + "' WHERE userid="+ elem.userid, 
+	[], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " "+JSON.stringify(err2, null, 4));});
+	return true;
+};

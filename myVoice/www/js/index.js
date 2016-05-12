@@ -38,7 +38,7 @@ var app = {
 		} finally{
 			//alert("DB: " + JSON.stringify(document.db));
 			try{
-				initDb();
+				initDb(function(objLst){ alert("appData:" + JSON.stringify(appData, null, 4)); });
 			}catch(e){
 				alert("error init: " + e);
 			}
