@@ -113,3 +113,40 @@ img {
   margin: 0 1em 1em 0;
   height: 100px;
 }
+
+label, input { 
+  display:block; 
+}
+input.text { 
+  margin-bottom:12px; 
+  width:95%; 
+  padding: .4em; 
+}
+fieldset { 
+  padding:0; 
+  border:0; 
+  margin-top:25px; 
+}
+.ui-dialog {
+  position: absolute;
+  height: auto;
+  width: 350px;
+  top: 52px;
+  left: 782px;
+  display: block;
+  z-index: 101;
+}
+.ui-dialog .ui-state-error {
+  padding: .3em; 
+}
+.validateTips { 
+  border: 1px 
+  solid transparent; 
+  padding: 0.3em; 
+}
+#dialog-form {
+  width: auto;
+  min-height: 0px;
+  max-height: none;
+  height: 207px;
+}
