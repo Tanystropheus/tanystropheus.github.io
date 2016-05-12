@@ -7,16 +7,20 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" src="cordova.js" ></script>
+        <script type="text/javascript" src="js/myVoiceSqliteDb.js"></script>
+        <script type="text/javascript" src="js/myVoiceElements.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
         <title>Ma Voix</title>
     </head>
 
     <!-- Page Utilisation -->
     <body>
-        <div data-role="page" id="pageone">
+        <div data-role="page" id="usepage">
             <div data-role="header" class="header">
                 <h1>Mode Utilisation</h1>
                  <!-- Bouton de paramétrage -->
-                <a href="#pagetwo" data-transition="slide" class="ui-btn ui-btn-right ui-icon-gear ui-btn-icon-right ui-btn-inline ui-corner-all">Paramètres</a>
+                <a href="#settingpage" data-transition="slide" class="ui-btn ui-btn-right ui-icon-gear ui-btn-icon-right ui-btn-inline ui-corner-all">Paramètres</a>
             </div>
 
             <div data-role="main" class="ui-content">
@@ -211,7 +215,7 @@
         </div>
 
         <!-- Page paramètres -->
-        <div data-role="page" id="pagetwo">
+        <div data-role="page" id="settingpage">
             <div data-role="header">
                 <h1>Paramétrage</h1>
             </div>
@@ -249,11 +253,11 @@
         </div>
 
         <!-- Page Apprentissage -->
-        <div data-role="page" id="pagethree">
+        <div data-role="page" id="learningpage">
             <div data-role="header">
                 <h1>Mode Apprentissage</h1>
                  <!-- Bouton de paramétrage -->
-                <a href="#pagetwo" data-transition="slide" class="ui-btn ui-btn-right ui-icon-gear ui-btn-icon-right ui-btn-inline ui-corner-all">Paramètres</a>
+                <a href="#settingpage" data-transition="slide" class="ui-btn ui-btn-right ui-icon-gear ui-btn-icon-right ui-btn-inline ui-corner-all">Paramètres</a>
              </div>
 
             <div data-role="main" class="ui-content">
@@ -409,7 +413,7 @@
         </div>
 
         <!-- include the jQuery library-->
-        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="js/jquery-1.11.1.min.js"></script>
         <!-- include the jQuery Mobile library -->
         <script>
             $(document).bind('mobileinit',function(){
@@ -418,9 +422,9 @@
                 $.mobile.pushStateEnabled = false;
             });
         </script> 
-        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script src="js/jquery.mobile-1.4.5.min.js"></script>
 
-        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        <script src="js/jquery-ui-1.11.4.min.js"></script>
         <script src="js/jquery.ui.touch-punch.min.js"></script>
         <script src="js/myscript.js"></script>
 
@@ -430,7 +434,7 @@
             $(document).ready(function(){
                 $("#button_param").click(function() {
                     if ($('#select-based-flipswitch').val() == "leave") {
-                        $.mobile.changePage('#pageone', { transition: "slide"} );
+                        $.mobile.changePage('#usepage', { transition: "slide"} );
                     }
                     else if ($('#select-based-flipswitch').val() == "arrive") {
                         // Check form
@@ -439,7 +443,7 @@
                             if ($("#fname").val().length > 0 
                                 && $("#factivity").val().length > 0
                                 && $("#flocation").val().length > 0) {
-                                    $.mobile.changePage('#pagethree', { transition: "slide"} );
+                                    $.mobile.changePage('#learningpage', { transition: "slide"} );
                             }
                             else {
                                 console.log("ERREUR");
