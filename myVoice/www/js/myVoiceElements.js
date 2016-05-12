@@ -49,13 +49,14 @@ function myVoiceLibrary(libraryId, userId, libTitle, lstelemid) {
 
 };
 
-function myVoiceUser(librarylstid, userId, languageid, login, password, backupurl) {
+function myVoiceUser(librarylstid, userId, languageid, login, password, backupurl, setings) {
 	this.languageid = languageid;
 	this.userid = userId;
 	this.librarylstid = librarylstid;
 	this.login = login;
 	this.password = password;
 	this.backupurl = backupurl;
+	this.interfacesetings = setings;
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
@@ -80,7 +81,7 @@ function myVoiceElemAssociation(elemassoid, userId, globelemassoid, nbuse, date)
 	};
 };
 
-function myVoiceElem(elemid, elemUrl, Width, user, soundUrl, languageId, soundId, text, textId, taglst, state) {
+function myVoiceElem(elemid, elemUrl, Width, user, soundId, textId, taglst, state) {
 	this.elemid = elemid;
 	this.elemurl = elemUrl;
 	this.user = user;
@@ -169,3 +170,38 @@ function debugelem(elem) {
 	alert(text);
 	return htmlText;
 };
+
+function myVoiceInterfaceSetings(){
+	this.backgroundColor = "";
+	this.writingpolice = "";
+	this.writingsize = 15;
+	this.writinglogo = "URL";
+	this.writingcolor = "";
+	this.tabPos = 1;
+	this.speakAreaPos = 1;
+	this.speakAreaColor = "";
+	this.nbColumn = 3;
+	this.random = 1;
+	this.manual = 0;
+	this.DD = 0;
+	this.click = 1;
+	this.sound = 0;
+	this.tabnav = {
+		slide : 0,
+		click : 1,
+	};
+	this.butonColor = "";
+	this.language = 0;
+}
+
+function myVoiceElemSetings(){
+	this.width = 10;
+	this.writing = {
+		police: "",
+		policecolor: "",
+		size: 15,
+		color: "",
+		place: 0
+	};
+	this.sound = 0;
+}

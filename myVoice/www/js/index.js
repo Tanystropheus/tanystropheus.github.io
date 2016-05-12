@@ -22,6 +22,21 @@ var app = {
 	// Application Constructor
 	initialize: function() {
 		this.bindEvents();
+		window.appData = {
+			interfaces_setings: {},
+			language: {},
+			tag: {},
+			libraryLst: {},
+			library: {},
+			user: {},
+			globElemAssociation: {},
+			elemAssociation: {},
+			text: {},
+			elements: {},
+			elemStat: {},
+			globElemStat: {},
+			sound: {}
+		};
 	},
 
 	bindEvents: function() {
@@ -31,6 +46,31 @@ var app = {
 	onDeviceReady: function() {
 		app.receivedEvent('deviceready');
 		//alert("Device Ready");
+		if (!window.localStorage.getItem("Interfaces_Setings")){
+			window.appData.interfaces_setings = {
+				backgroundColor: "",
+				writingpolice: "",
+				writingsize: 15,
+				writinglogo: "URL",
+				writingcolor: "",
+				tabPos: 1,
+				speakAreaPos: 1,
+				speakAreaColor: "",
+				nbColumn: 3,
+				random: 1,
+				manual: 0,
+				DD: 0,
+				click: 1,
+				sound: 0,
+				tabnav: {
+					slide: 0,
+					click: 1
+				},
+				butonColor: "",
+				language: 0
+			};
+			window.localStorage.setItem("Interfaces_Setings", JSON.stringify(window.appData.interfaces_setings));
+		}
 		try{
 			openDb();
 		}catch(e){
@@ -57,7 +97,7 @@ var app = {
 	},
 
 	onError: function(error) {
-		alert('Error: ' + error);
+		//alert('Error: ' + error);
 	}
 };
 

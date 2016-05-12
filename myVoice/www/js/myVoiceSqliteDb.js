@@ -1,17 +1,4 @@
-window.appData = {
-	language: {},
-	tag: {},
-	libraryLst: {},
-	library: {},
-	user: {},
-	globElemAssociation: {},
-	elemAssociation: {},
-	text: {},
-	elements: {},
-	elemStat: {},
-	globElemStat: {},
-	sound: {}
-};
+
 
 
 /* ********************************************************************************************* */
@@ -75,10 +62,10 @@ function initDb(callback){
 			document.db.executeSql("CREATE TABLE LibraryLst (librarylstid integer primary key, libraryid text," +
 				" liblsttitle text)");
 			document.db.executeSql("CREATE TABLE Library (libraryid integer primary key, userid integer," +
-				" libtitle text, lstelemid text, FOREIGN KEY(userid) REFERENCES User(userid))");
+				" libtitle text, lstelemid text, interfacesetings text, FOREIGN KEY(userid) REFERENCES User(userid))");
 			document.db.executeSql("CREATE TABLE User (userid integer primary key, languageid integer," +
-				" librarylstid text, login text, password text, backupurl text, FOREIGN KEY(languageid) REFERENCES Language(languageid)" + 
-				", FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))");
+				" librarylstid text, login text, password text, backupurl text, interfacesetings text, FOREIGN KEY(languageid) REFERENCES Language(languageid)," +
+				" FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))");
 			document.db.executeSql("CREATE TABLE GlobElemAssociation (globelemassoid integer primary key," +
 				" listelemid integer, nbuse integer)");
 			document.db.executeSql("CREATE TABLE ElemAssociation (elemassoid integer primary key," +
@@ -87,7 +74,10 @@ function initDb(callback){
 			document.db.executeSql("CREATE TABLE Text (textid integer primary key, languageid text," +
 				" text text, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
 			document.db.executeSql("CREATE TABLE Elements (elemid integer, user integer, elemurl text," +
-				" soundid integer, width integer, textid integer, state integer, taglst text, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid), CONSTRAINT PK_elements PRIMARY KEY (elemid, user))", [], null, function(e){alert("table create fail: " + JSON.stringify(e, null, 4));});
+				" soundid integer, width integer, textid integer, state integer, taglst text, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid), CONSTRAINT PK_elements PRIMARY KEY (elemid, user))",
+				[], null, function(e){alert("table create fail: " + JSON.stringify(e, null, 4));});
+			document.db.executeSql("CREATE TABLE ElemSetings (elemsetingsid integer primary key, width integer, writing text," +
+				" sound integer, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
 			document.db.executeSql("CREATE TABLE Context (contextid integer primary key," +
 				" time date, places text, activiti text, interlocutor text)");
 			document.db.executeSql("CREATE TABLE ElemStat (elemstatid integer primary key," +
@@ -98,7 +88,7 @@ function initDb(callback){
 			document.db.executeSql("CREATE TABLE LerningStat (lerningstatid integer primary key," +
 				" contextid integer, elemstatid integer, nbtrue, FOREIGN KEY(contextid) REFERENCES Context(contextid), FOREIGN KEY(elemstatid) REFERENCES ElemStat(elemstatid))");
 			document.db.executeSql("CREATE TABLE Sound (soundid integer primary key, soundurl text," +
-				" languageid, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
+				" languageid integer, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
  		} catch(err){
 			alert("Error Create Table: " + JSON.stringify(err, null, 4));
 		} finally {
@@ -119,7 +109,8 @@ function initDb(callback){
 			insertLibrary(new myVoiceLibrary(5, 0, "onglet5", "1_1,2_1,1_2,1_3,1_4,1_5,userid_elemid"));
 			insertLibrary(new myVoiceLibrary(6, 0, "onglet6", "1_1,2_1,1_2,1_3,1_4,1_5,userid_elemid"));
 
-			insertUser(new myVoiceUser("1,2,3", 0, 1, "login", "backendPass", "backupUrl"));
+			//test = new myVoiceUser("1,2,3", 0, 1, "login", "backendPass", "backupUrl", window.localStorage.getItem("Interfaces_Setings"));
+			insertUser(new myVoiceUser("1,2,3", 0, 1, "login", "backendPass", "backupUrl", window.localStorage.getItem("Interfaces_Setings")));
 
 			insertGlobElemAssociation(new myVoiceGlobElemAssociation(0, "1,3,5", 0));
 			insertGlobElemAssociation(new myVoiceGlobElemAssociation(1, "3,5", 0));
@@ -129,11 +120,10 @@ function initDb(callback){
 			insertText(new myVoiceText("test", 1, 1));
 
 			insertSound(new myVoiceSound("soundurl", 1, 1));
-
-			insertElements( new myVoiceElem(1, "img/logo.png", 10, 1, "soundUrl", 1, 1, "test", 1, "1_1,languageid_tagid", 0));
-			insertElements( new myVoiceElem(2, "img/logo.png", 10, 1, "soundUrl", 2, 1, "test", 1, "2_1,languageid_tagid", 0));
-			insertElements( new myVoiceElem(4, "img/logo.png", 10, 1, "soundUrl", 2, 1, "test", 1, "1_1,languageid_tagid", 0));
-			insertElements( new myVoiceElem(5, "img/logo.png", 10, 1, "soundUrl", 2, 1, "test", 1, "1_1,languageid_tagid", 0));
+			insertElements( new myVoiceElem(1, "img/logo.png", 10, 1, 1, 1, "1_1,languageid_tagid", 0));
+			insertElements( new myVoiceElem(2, "img/logo.png", 10, 1, 1, 1, "2_1,languageid_tagid", 0));
+			insertElements( new myVoiceElem(4, "img/logo.png", 10, 1, 1, 1, "1_1,languageid_tagid", 0));
+			insertElements( new myVoiceElem(5, "img/logo.png", 10, 1, 1, 1, "1_1,languageid_tagid", 0));
 
 			insertElemStat(new myVoiceElemStat(0, 0, "1,2,3, elemid_userid", 0, 1));
 			insertGlobElemStat(new myVoiceGlobElemStat(0, 0, 0));
@@ -141,7 +131,7 @@ function initDb(callback){
 			//*/
 		}
 	} catch (err){
-		alert("Error:" + JSON.stringify(err, null, 4));
+		alert("Error Init:" + JSON.stringify(err, null, 4));
 	} finally {
 		try {
 			selectLanguage("", window.appData.language, function(objLst){ /* alert("language: " + JSON.stringify(objLst, null, 4));*/ });
@@ -286,7 +276,7 @@ function insertLibrary(elem){
 };
 
 function insertUser(elem){
-	myObjExecSqliteSQL("INSERT INTO User (userid, languageid, librarylstid, login, password, backupurl ) VALUES ( ?, ?, ?, ?, ?, ?)", [elem.userid, elem.languageid, elem.librarylstid, elem.login, elem.password, elem.backupurl], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
+	myObjExecSqliteSQL("INSERT INTO User (userid, languageid, librarylstid, login, password, backupurl, interfacesetings) VALUES ( ?, ?, ?, ?, ?, ?, ?)", [elem.userid, elem.languageid, elem.librarylstid, elem.login, elem.password, elem.backupurl, elem.interfacesetings], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
 	return true;
 };
 
