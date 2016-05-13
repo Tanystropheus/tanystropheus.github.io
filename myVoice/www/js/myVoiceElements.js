@@ -192,9 +192,11 @@ function myVoiceInterfaceSetings(){
 	};
 	this.butonColor = "";
 	this.language = 0;
+	this.lastchange = Date.now();
 }
 
-function myVoiceElemSetings(){
+function myVoiceElemSetings(id){
+	this.elemsetingsid = id; // ID should be the same as the Element Primary key: user_elemid
 	this.width = 10;
 	this.writing = {
 		police: "",
@@ -204,4 +206,5 @@ function myVoiceElemSetings(){
 		place: 0
 	};
 	this.sound = 0;
+	this.lastchange = Date.now();
 }

@@ -77,7 +77,7 @@ function initDb(callback){
 				" soundid integer, width integer, textid integer, state integer, taglst text, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid), CONSTRAINT PK_elements PRIMARY KEY (elemid, user))",
 				[], null, function(e){alert("table create fail: " + JSON.stringify(e, null, 4));});
 			document.db.executeSql("CREATE TABLE ElemSetings (elemsetingsid integer primary key, width integer, writing text," +
-				" sound integer, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
+				" sound integer, lastchange date, FOREIGN KEY(languageid) REFERENCES Language(languageid))");
 			document.db.executeSql("CREATE TABLE Context (contextid integer primary key," +
 				" time date, places text, activiti text, interlocutor text)");
 			document.db.executeSql("CREATE TABLE ElemStat (elemstatid integer primary key," +
@@ -304,6 +304,13 @@ function insertElements(elem){
 	return true;
 };
 
+function insertElemSetings(elem){
+	//alert("elem: " + JSON.stringify(elem, null, 4));
+	myObjExecSqliteSQL("INSERT INTO ElemSetings (elemsetingsid , width , writing ,  sound, lastchange) VALUES ( ?, ?, ?, ?, ?)",
+	[elem.elemsetingsid , elem.width , elem.writing ,  elem.sound, elem.lastchange], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
+	return true;
+};
+
 function insertElemStat(elem){
 	myObjExecSqliteSQL("INSERT INTO ElemStat (elemstatid , userid , nbuse, elemassoid) VALUES ( ?, ?, ?, ?)",
 	[elem.elemstatid , elem.userid , elem.nbuse, elem.elemassoid], insertSucces() , function(err, err2){alert("elem insertion fail " + JSON.stringify(err, null, 4) + " " + JSON.stringify(err2, null, 4));}, onSucces, onError);
@@ -362,7 +369,11 @@ function selectLanguage(sql, objectLst, cb){
 			}
 		}
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
@@ -429,7 +440,11 @@ function selectLibraryLst(sql, objectLst, cb){
 		}
 		//window.appData.libLst = objectLst;
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
@@ -452,7 +467,11 @@ function selectLibrary(sql, objectLst, cb){
 		}
 		//window.appData.lib = objectLst;
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
@@ -473,7 +492,11 @@ function selectUser(sql, objectLst, cb){
 			}
 		}
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
@@ -492,7 +515,11 @@ function selectGlobElemAssociation(sql, objectLst, cb){
 			}
 		}
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
@@ -511,7 +538,11 @@ function selectElemAssociation(sql, objectLst, cb){
 			}
 		}
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
@@ -531,7 +562,11 @@ function selectText(sql, objectLst, cb){
 			}
 		}
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
@@ -553,13 +588,44 @@ function selectElements(sql, objectLst, cb){
 			}
 		}
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
 		selectRecords(render, "SELECT * FROM Elements " + sql /*+ " ORDER by elemid"*/);
 	} else {
 		selectRecords(render, "SELECT * FROM Elements "/*ORDER by elemid"*/);
+	}
+};
+
+function selectElemSetings(sql, objectLst, cb){
+	var render = function(tx, rs) {
+		tmpObjectLst = {};
+		for (var i = 0; i < rs.rows.length; i++) {
+			var objname = rs.rows.item(i)["elemsetingsid"];
+			if(objectLst[objname] === undefined || (objectLst[objname]['lastchange'] < rs.rows.item(i)['lastchange'])){
+				objectLst[objname] = new myVoiceElem();
+				for (var propName in rs.rows.item(i)) {
+					objectLst[objname][propName] = rs.rows.item(i)[propName];
+				}
+			}
+		}
+		if (typeof cb !== undefined){
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
+		}
+	};
+	if(sql !== undefined){
+		selectRecords(render, "SELECT * FROM ElemSetings " + sql /*+ " ORDER by elemid"*/);
+	} else {
+		selectRecords(render, "SELECT * FROM ElemSetings "/*ORDER by elemid"*/);
 	}
 };
 
@@ -572,7 +638,11 @@ function selectElemStat(sql, objectLst, cb){
 			}
 		}
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
@@ -591,7 +661,11 @@ function selectGlobElemStat(sql, objectLst, cb){
 			}
 		}
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
@@ -612,7 +686,11 @@ function selectSound(sql, objectLst, cb){
 			}
 		}
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
@@ -633,7 +711,11 @@ function selectContext(sql, objectLst, cb){
 			}
 		}
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
@@ -654,7 +736,11 @@ function selectLerningStat(sql, objectLst, cb){
 			}
 		}
 		if (typeof cb !== undefined){
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){
