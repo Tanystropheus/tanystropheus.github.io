@@ -170,7 +170,7 @@ function initDb(callback){
             }, 100);
 		}
 	}
-};
+}
 
 /* ********************************************************************************************* */
 /* ************************** fonction de requetes la base de donnée *************************** */
@@ -186,7 +186,7 @@ function myExecSqliteSQL(sql, okcb, errcb) {
 	document.db.transaction(function(tx) {
 			tx.executeSql(sql, null, okcb, errcb);
 			}, function(){alert("Error transaction init");});
-};
+}
 
 function myObjExecSqliteSQL(sql, values, okcb, errcb) {
 	/*
@@ -200,7 +200,7 @@ function myObjExecSqliteSQL(sql, values, okcb, errcb) {
 	document.db.transaction(function(tx) {
 			tx.executeSql(sql, values/*, okcb, errcb*/);
 			}, function(e){/*alert("Error transaction init " + JSON.stringify(e, null, 4));*/});
-};
+}
 
 /* ********************************************************************************************* */
 /* ***************** fonction générique de relation avec la base de donnée ***********************/
@@ -209,22 +209,22 @@ function myObjExecSqliteSQL(sql, values, okcb, errcb) {
 function createSqliteTable(tableName, champ) {
 	myExecSqliteSQL('CREATE TABLE IF NOT EXISTS ' + tableName + ' ('+champ+')', function(){alert("table "+ tableName +" created");}, function(){alert("table "+ tableName +" creation fail");});
 			return true;
-			};
+			}
 
 			function dropSqliteTable (tableName) {
 			myExecSqliteSQL('DROP TABLE ' + tableName, function(){/*alert("drop " + tableName + " table succes");*/}, function(){alert("Drop table "+ tableName +" fail");});
 			return true;
-			};
+			}
 
 			function insertInSqliteTable (tableName, values){
 			myExecSqliteSQL("INSERT INTO "+ tableName + " VALUES ("+ values +")", function(){/*alert("inserted");*/} , function(){alert("insertion fail");});
 			return true;
-			};
+			}
 
 			function updateInSqliteTable (tableName, setString, condition){
 			myExecSqliteSQL("UPDATE "+ tableName + "SET " + setString +" WHERE "+ condition, function(){alert("elem update succes");}, function(){alert("elem update fail");});
 			return true;
-			};
+			}
 
 			function deleteInSqliteTable (db, tableName, condition){
 			myExecSqliteSQL(db, "DELETE FROM "+ tableName + " WHERE "+ condition, function(){alert("elem deleted");}, function(){alert("elem deletion fail");});

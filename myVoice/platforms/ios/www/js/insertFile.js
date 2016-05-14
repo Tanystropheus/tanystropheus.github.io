@@ -1,12 +1,8 @@
 /* ********************************************************************************************* */
 /* ************************************* VARIABLE GLOBAL *************************************** */
 /* ********************************************************************************************* */
-alert("test-1");
 
 var pictureSource;
-// alert(navigator);
-// alert("tamere");
-// alert(pictureSource);
 var destinationType;
 var entry;
 var tmp;
@@ -21,7 +17,6 @@ var elem = new myVoiceElem(" ", " ", " ", " ", 1 , " ", " ", " ", "t");
 
 function selectMax(sql, tmp, cb){
 	var render = function(tx, rs) {
-		alert("dans Select Max");
 		if (rs.insertId !== undefined) {
 			tmp = rs.insertId;
 		}
@@ -37,7 +32,9 @@ function selectMax(sql, tmp, cb){
 }
 
 function insertBdd(){
-	alert("Fonction insert");
+	insertElements(elem);
+	insertText(elem.textelem);
+	insertSound(elem.soundelem);
 }
 
 /* ********************************************************************************************* */
@@ -48,7 +45,6 @@ function insertBdd(){
 /* ************************************* SELECT PHOTO ****************************************** */
 
 function selectPhoto(imageURI) {
-	alert("dans capture image");
   var myImage = document.getElementById('select');
   myImage.style.display = 'block';
   myImage.src = imageURI;
@@ -60,7 +56,6 @@ function selectPhoto(imageURI) {
 }
 
 function getPhoto(source) {
-	alert("avant capture image");
   navigator.camera.getPicture(selectPhoto, fail, { quality: 10,
 	destinationType: destinationType.FILE_URI,
 	sourceType: source });

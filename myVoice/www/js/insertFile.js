@@ -23,7 +23,6 @@ function selectMax(sql, tmp, cb){
 		else {
 			tmp = 0;
 		}
-		alert(tmp);
 		if (typeof cb !== undefined){
 			cb(tmp);
 		}
@@ -35,6 +34,7 @@ function insertBdd(){
 	insertElements(elem);
 	insertText(elem.textelem);
 	insertSound(elem.soundelem);
+	elem = (" ", " ", " ", " ", 1 , " ", " ", " ", "t");
 }
 
 /* ********************************************************************************************* */
@@ -50,8 +50,8 @@ function selectPhoto(imageURI) {
   myImage.src = imageURI;
   selectMax("SELECT MAX(elemid) FROM Elements", tmp, function (tmp) {
 	  elem.elemid = tmp + 1;
-	  elem.elemurl = mvImage(smallImage.src);
-	  elem.width = smallImage.width;
+	  elem.elemurl = mvFile(imageURI);
+	  elem.width = myImage.width;
   });
 }
 
@@ -64,20 +64,17 @@ function getPhoto(source) {
 /* ************************************* PICK PHOTO ****************************************** */
 
 function pickPhoto(imageData) {
-	alert("dans capture image");
   var smallImage = document.getElementById('pick');
   smallImage.style.display = 'block';
   smallImage.src = "data:image/jpeg;base64," + imageData;
   selectMax("SELECT MAX(elemid) FROM Elements", tmp, function (tmp) {
 	  elem.elemid = tmp + 1;
-	  elem.elemurl = mvImage(smallImage.src);
+	  elem.elemurl = mvFile(smallImage.src);
 	  elem.width = smallImage.width;
   });
 }
 
 function capturePhoto() {
-	alert("avant capture image prendre");
-
   navigator.camera.getPicture(pickPhoto, fail, { quality: 50,
 	destinationType: destinationType.DATA_URL });
 }
@@ -87,7 +84,6 @@ function capturePhoto() {
 /* ********************************************************************************************* */
 
 function captureSuccess(mediaFiles) {
-	alert("dans capture audio");
 	selectMax("SELECT MAX(soundid) FROM Sound", tmp, function (tmp) {
 		elem.soundid = tmp + 1;
 		elem.soundelem.soundid = elem.soundid;
@@ -96,7 +92,6 @@ function captureSuccess(mediaFiles) {
 }
 
 function captureAudio() {
-	alert("avant capture son");
 	navigator.device.capture.captureAudio(captureSuccess, fail);
 }
 
@@ -105,20 +100,10 @@ function captureAudio() {
 /* ********************************************************************************************* */
 
 function createName() {
-	alert("dans create text");
 	selectMax("SELECT MAX(textid) FROM Text", tmp, function (tmp) {
-		alert(JSON.stringify(elem));
-		alert(tmp + 1);
 		elem.textid = tmp + 1;
-		alert(elem.textid);
-		alert("avanf textelem");
 		elem.textelem.textid = elem.textid;
-		alert("valeur text id ..");
-		alert(elem.textelem.textid);
 		elem.textelem.text = document.getElementById('name').value;
-		alert("apres documet name");
-		alert(elem.textelem.text);
-
 	});
 }
 
@@ -127,7 +112,6 @@ function createName() {
 /* ********************************************************************************************* */
 
 function onRequestFileSystemSuccess(fileSystem) {
-	alert("test1");
 	entry = fileSystem.root;
 	entry.getDirectory("DataBank", {create: true, exclusive: false}, win, fail);
 }
@@ -135,7 +119,7 @@ function onRequestFileSystemSuccess(fileSystem) {
 function mvFile(file) {
 	var fileTransfer = new FileTransfer();
 	var t = file.substring(file.lastIndexOf("."));
-	var filePath = encodeURI(entry.toURL() + "DataBank/" + elem.elemid + t);
+	var filePath = encodeURI(entry.toURL() + "DataBank/" + elem.textelem.text + "-" + elem.elemid + t);
 	fileTransfer.download(file,filePath, win, fail, false, {
 		headers: {
 			"Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
