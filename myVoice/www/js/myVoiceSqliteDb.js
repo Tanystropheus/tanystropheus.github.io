@@ -24,27 +24,59 @@ function updateSucces(){
 /* ************************* fonction D'ouverture de la base de donnée ************************* */
 /* ********************************************************************************************* */
 
-function openDb(callback) {
-	/*
-	 * Fonction as exeuter onDeviceReady pour ouvrir la base de donné et l'ajouter au DOM de l'application
-	 * */
-	var dbName = "myVoice.db";
-	document.db = window.sqlitePlugin.openDatabase(
-		{
-			name: dbName,
-			key: 'your-password-here',
-			iosDatabaseLocation: 'Library/LocalDatabase'
-			//androidDatabaseImplementation: 2,
-			//androidLockWorkaround: 1,
-			//location: 2
-		},
-		function (msg) {
-			if(callback){
-				callback();
+//~ function openDb(callback) {
+	//~ /*
+	 //~ * Fonction as exeuter onDeviceReady pour ouvrir la base de donné et l'ajouter au DOM de l'application
+	 //~ * */
+	//~ var dbName = "myVoice.db";
+	//~ document.db = window.sqlitePlugin.openDatabase(
+		//~ {
+			//~ name: dbName,
+			//~ key: 'your-password-here',
+			//~ iosDatabaseLocation: 'Library/LocalDatabase'
+			//~ //androidDatabaseImplementation: 2,
+			//~ //androidLockWorkaround: 1,
+			//~ //location: 2
+		//~ },
+		//~ function (msg) {
+			//~ if(callback){
+				//~ callback();
+			//~ }
+		//~ },
+		//~ function (msg) {
+		  //~ alert("error: " + msg);
+		//~ }
+	//~ );
+//~ };
+function openDb(okcb, failcb) {
+	var dbName = "myVoice";
+	var promese = new Promise(function(resolve, reject){
+		document.db = window.sqlitePlugin.openDatabase(
+			{
+				name: dbName,
+				key: 'your-password-here',
+				iosDatabaseLocation: 'Library/LocalDatabase'
+				//androidDatabaseImplementation: 2,
+				//androidLockWorkaround: 1,
+				//location: 2
+			}, 
+			function(value){
+				if(resolve) return resolve(value);
+			},
+			function(err){
+				if(reject) return reject(err);
 			}
+		);
+	});
+	return promese.then(
+		function(msg){
+			if(okcb) okcb(msg);
+			alert("DB open!");
 		},
-		function (msg) {
-		  alert("error: " + msg);
+		function(err){
+			reject();
+			if(failcb) failcb(err);
+			alert("Error in opening DB: " + JSON.stringify(err, null, 4) + ", trying to open in browser");
 		}
 	);
 };
@@ -54,6 +86,7 @@ function initDb(callback){
 	 * Fonction as executer aprés l'ouvertuur de la basse de donné pour 
 	 * initialiser la basse et créer les tables
 	 * */
+	alert("begin of initDB");
 	try {
 		try {
 			document.db.executeSql("CREATE TABLE Language (languageid integer primary key, langname text)");
@@ -154,9 +187,10 @@ function initDb(callback){
 				if (callback){
 					callback();
 				}
-			}, 10000);
+			}, 5000);
 
 			var tableLst = [ "Language", "Tag", "LibraryLst", "Library", "User", "GlobElemAssociation", "ElemAssociation", "Text", "Elements", "ElemStat", "GlobElemStat", "Sound", "LerningStat", "Context"];
+			alert("DROP Des tables!");
 			for(var table in tableLst){
 				dropSqliteTable(tableLst[table]);
 			}
@@ -417,8 +451,11 @@ function selectTagText(sql, objectLst, cb){
 			}
 		}
 		if (typeof cb !== undefined){
-			//alert("time for tagtext cb");
-			cb(objectLst);
+			setTimeout(function () {
+				if (callback){
+					cb(objectLst);
+				}
+			}, 5000);
 		}
 	};
 	if(sql !== undefined){

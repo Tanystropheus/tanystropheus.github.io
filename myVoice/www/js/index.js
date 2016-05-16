@@ -70,18 +70,15 @@ var app = {
 				language: 0
 			};
 			window.localStorage.setItem("Interfaces_Setings", JSON.stringify(window.appData.interfaces_setings));
+		} else {
+			window.appData.interfaces_setings = JSON.parse(window.localStorage.getItem("Interfaces_Setings"));
 		}
 		try{
-			openDb();
+			openDb().then(function(){
+					return initDb(function(objLst){ alert("appData:" + JSON.stringify(appData, null, 4)); });
+				});
 		}catch(e){
 			alert("error ondevice ready: " + e);
-		} finally{
-			//alert("DB: " + JSON.stringify(document.db));
-			try{
-				initDb(function(objLst){ alert("appData:" + JSON.stringify(appData, null, 4)); });
-			}catch(e){
-				alert("error init: " + e);
-			}
 		}
 		//createSqliteTable(db, 'SimpsonFamily', 'id integer primary key, nom text');
 	},
