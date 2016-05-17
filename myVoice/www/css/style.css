@@ -18,21 +18,20 @@
 #itT, #itemsT {
   background-color: #d9d9d9;
 }
+#act, #obj, #att, #actT, #objT, #itT {
+  position: absolute;
+  top: 30px; right: 0; bottom: 0; left: 0;
+}
 
 .topCornersOnly {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
-.speakArea {
-  text-align: right;
-}
-
 /*Image*/
 img {
-  width: 95px;
-  height: 95px;
-  padding:1px;
+  width: 129px;
+  height: 129px;
 }
 
 /*Color icons valid*/
@@ -43,25 +42,23 @@ img {
   background-color: red;
 }
 
+/*Pages*/
 .header {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 60px; line-height: 60px;
   text-transform: uppercase;
 }
-
 .footer {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 60px; line-height: 60px;
+  height: 170px;
   text-transform: uppercase;
 }
-
 .ui-content {
   position: absolute;
-  top: 60px; right: 0; bottom: 60px; left: 0;
+  top: 60px; right: 0; bottom: 170px; left: 0;
 }
-
 .tabs {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -69,52 +66,53 @@ img {
   overflow-y: hidden;
   -webkit-overflow-scrolling:touch;  
 }
-
 .onglet {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 20px;
 }
-
 .elementArea {
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
 }
-
-.ui-grid-d, #act, #obj, #att, #actT, #objT, #itT {
+.speakArea {
   position: absolute;
-  top: 30px; right: 0; bottom: 0; left: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
+  text-align: right;
 }
 
-.column {
-  width: 170px;
+/*Sortable elements*/
+#sortable-el, #sortable-elT {
+  min-height: 170px;
+  width: 100%;
+}
+#sortable-sp, #sortable-spT {
+  height: 170px;
+  width: 80%;
+}
+#sortable-el, #sortable-sp, #sortable-elT, #sortable-spT {
+  list-style-type: none;
+  margin: 0; 
   float: left;
-  padding-bottom: 100px;
 }
-.portlet {
-  margin: 0 1em 1em 0;
-  padding: 0.3em;
+#sortable-el ul, #sortable-sp ul, #sortable-elT ul, #sortable-spT ul {
+  list-style-type: none;
+  height: 150px;
+  width: 150px;
 }
-.portlet-header {
-  padding: 0.2em 0.3em;
-  margin-bottom: 0.5em;
-  position: relative;
+#sortable-el li, #sortable-sp li, #sortable-elT li, #sortable-spT li {
+  list-style-type: none; 
+  float: left;
+  margin: 5px;
+  text-align: center;
 }
-.portlet-footer {
-  padding: 0.2em 0.3em;
-  margin-bottom: 0.5em;
-  position: relative;
-}
-.portlet-content {
-  padding: 0.4em;
-}
-.portlet-placeholder {
-  border: 1px dotted black;
-  margin: 0 1em 1em 0;
-  height: 100px;
+.ui-state-highlight { 
+  height: 129px;
+  width: 129px;
 }
 
-label, input { 
+/*Form*/
+input { 
   display:block; 
 }
 input.text { 
@@ -122,31 +120,6 @@ input.text {
   width:95%; 
   padding: .4em; 
 }
-fieldset { 
-  padding:0; 
-  border:0; 
-  margin-top:25px; 
-}
-.ui-dialog {
-  position: absolute;
-  height: auto;
-  width: 350px;
-  top: 52px;
-  left: 782px;
-  display: block;
-  z-index: 101;
-}
-.ui-dialog .ui-state-error {
-  padding: .3em; 
-}
-.validateTips { 
-  border: 1px 
-  solid transparent; 
-  padding: 0.3em; 
-}
-#dialog-form {
-  width: auto;
-  min-height: 0px;
-  max-height: none;
-  height: 207px;
+#error {
+  text-align: center;
 }
