@@ -21,11 +21,11 @@ language: {},
 
 function onError(e){
 	alert("On Error: " + JSON.stringify(e, null, 4));
-};
+}
 
 function onSucces(e){
 	alert("Succes: " + JSON.stringify(e, null, 4));
-};
+}
 
 function insertSucces(){
 	//alert("elem inserted");
@@ -56,7 +56,7 @@ function (msg) {
 alert("error: " + msg);
 }
 );
-	};
+	}
 
 function initDb(callback){
 	/*
@@ -229,7 +229,7 @@ function createSqliteTable(tableName, champ) {
 			function deleteInSqliteTable (db, tableName, condition){
 			myExecSqliteSQL(db, "DELETE FROM "+ tableName + " WHERE "+ condition, function(){alert("elem deleted");}, function(){alert("elem deletion fail");});
 			return true;
-			};
+			}
 
 function selectRecords(fn, sql) {
 	try{
@@ -239,7 +239,7 @@ function selectRecords(fn, sql) {
 	}catch(e){
 		alert("error reading: " + JSON.stringify(e, null, 4));
 	}
-};
+}
 
 /* ********************************************************************************************* */
 /* ************************************* fonction de Debug ************************************* */
@@ -255,7 +255,7 @@ function getAllTheDataDEBUG(tabName) {
 		alert(text);
 	};
 	selectRecords(render, "SELECT * FROM " + tabName);
-};
+}
 
 /* ********************************************************************************************* */
 /* ******************************** fonction d'insertion d'objet ******************************* */
@@ -264,78 +264,78 @@ function getAllTheDataDEBUG(tabName) {
 function insertLanguage(elem){
 	myObjExecSqliteSQL("INSERT INTO Language (languageid, langname ) VALUES ( ?, ?)", [elem.languageid , elem.langname], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertTag(elem){
 	myObjExecSqliteSQL("INSERT INTO Tag (tagid, tagname ) VALUES ( ?, ?)", [elem.tagid , elem.tagname], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertTagText(elem){
 	myObjExecSqliteSQL("INSERT INTO TagText (tagtextid, languageid, tagid, tagtext) VALUES ( ?, ?, ?, ?)", [elem.tagtextid , elem.languageid, elem.tagelem.tagid, elem.tagtext], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertLibraryLst(elem){
 	myObjExecSqliteSQL("INSERT INTO LibraryLst (librarylstid, libraryid, liblsttitle ) VALUES ( ?, ?, ?)", [elem.librarylstid , elem.libraryid, elem.liblsttitle], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertLibrary(elem){
 	myObjExecSqliteSQL("INSERT INTO Library (libraryid, userid, libtitle, lstelemid ) VALUES ( ?, ?, ?, ?)", [elem.libraryid , elem.userid, elem.libtitle, elem.lstelemid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertUser(elem){
 	myObjExecSqliteSQL("INSERT INTO User (userid, languageid, librarylstid, login, password, backupurl ) VALUES ( ?, ?, ?, ?, ?, ?)", [elem.userid, elem.languageid, elem.librarylstid, elem.login, elem.password, elem.backupurl], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertGlobElemAssociation(elem){
 	myObjExecSqliteSQL("INSERT INTO GlobElemAssociation (globelemassoid, listelemid, nbuse) VALUES ( ?, ?, ?)", [elem.globelemassoid, elem.listelemid, elem.nbuse], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertElemAssociation(elem){
 	myObjExecSqliteSQL("INSERT INTO ElemAssociation (elemassoid, globelemassoid, userid, nbuse, date) VALUES ( ?, ?, ?, ?, ?)", [elem.elemassoid, elem.globelemassoid, elem.userid, elem.nbuse, elem.date], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertText(elem){
 	myObjExecSqliteSQL("INSERT INTO Text (textid, languageid, text) VALUES ( ?, ?, ?)", [elem.textid, elem.languageid, elem.text], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertElements(elem){
 	//alert(JSON.stringify(elem, null, 4));
 	myObjExecSqliteSQL("INSERT INTO Elements (elemid , elemurl , soundid, width, textid, state) VALUES ( ?, ?, ?, ?, ?, ?)", [elem.elemid , elem.elemurl , elem.soundid, elem.width, elem.textid, elem.state], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertElemStat(elem){
 	myObjExecSqliteSQL("INSERT INTO ElemStat (elemstatid , userid , nbuse, elemassoid) VALUES ( ?, ?, ?, ?)", [elem.elemstatid , elem.userid , elem.nbuse, elem.elemassoid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertContext(elem){
 	myObjExecSqliteSQL("INSERT INTO Context (contextid, time, places, activiti, interlocutor) VALUES ( ?, ?, ?, ?, ?)", [elem.contextid, elem.time, elem.places, elem.activiti, elem.interlocutor], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertLerningStat(elem){
 	myObjExecSqliteSQL("INSERT INTO LerningStat (lerningstatid , contextid , elemstatid, nbtrue) VALUES ( ?, ?, ?, ?)", [elem.lerningstatid , elem.contextid , elem.elemstatid, elem.nbtrue], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertGlobElemStat(elem){
 	myObjExecSqliteSQL("INSERT INTO GlobElemStat (globelemstatid , nbuse , elemstatid) VALUES ( ?, ?, ?)", [elem.globelemstatid , elem.nbuse , elem.elemstatid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 function insertSound(elem){
 	myObjExecSqliteSQL("INSERT INTO Sound (soundid , soundurl , languageid) VALUES ( ?, ?, ?)", [elem.soundid , elem.soundurl , elem.languageid], insertSucces() , function(err){alert("elem insertion fail " + JSON.stringify(err, null, 4));}, onSucces, onError);
 	return true;
-};
+}
 
 /* ********************************************************************************************* */
 /* ******************************** fonction de selection d'objet ******************************* */
@@ -372,7 +372,7 @@ function insertSound(elem){
  	} else {
  		selectRecords(render, "SELECT * FROM Sound ORDER by soundid");
  	}
- };
+ }
 
 function selectLanguage(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -393,7 +393,7 @@ function selectLanguage(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM Language ORDER by languageid");
 	}
-};
+}
 
 function selectTag(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -416,7 +416,7 @@ function selectTag(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM Tag ORDER by tagid");
 	}
-};
+}
 
 function selectTagText(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -436,7 +436,7 @@ function selectTagText(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM TagText ORDER by tagTextid");
 	}
-};
+}
 
 function selectLibraryLst(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -458,7 +458,7 @@ function selectLibraryLst(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM LibraryLst ORDER by libraryLstid");
 	}
-};
+}
 
 function selectLibrary(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -481,7 +481,7 @@ function selectLibrary(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM Library  ORDER by libraryid");
 	}
-};
+}
 
 function selectUser(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -502,7 +502,7 @@ function selectUser(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM User ORDER by userid");
 	}
-};
+}
 
 function selectGlobElemAssociation(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -521,7 +521,7 @@ function selectGlobElemAssociation(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM GlobElemAssociation ORDER by globelemassoid");
 	}
-};
+}
 
 function selectElemAssociation(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -540,7 +540,7 @@ function selectElemAssociation(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM ElemAssociation ORDER by elemassoid");
 	}
-};
+}
 
 function selectText(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -560,7 +560,7 @@ function selectText(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM Text ORDER by textid");
 	}
-};
+}
 
 function selectElements(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -580,7 +580,7 @@ function selectElements(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM Elements ORDER by elemid");
 	}
-};
+}
 
 function selectElemStat(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -599,7 +599,7 @@ function selectElemStat(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM ElemStat ORDER by elemStatid");
 	}
-};
+}
 
 function selectGlobElemStat(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -618,7 +618,7 @@ function selectGlobElemStat(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM GlobElemStat ORDER by globElemStatid");
 	}
-};
+}
 
 function selectContext(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -639,7 +639,7 @@ function selectContext(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM Context ORDER by contextid");
 	}
-};
+}
 
 function selectLerningStat(sql, objectLst, cb){
 	var render = function(tx, rs) {
@@ -660,4 +660,4 @@ function selectLerningStat(sql, objectLst, cb){
 	} else {
 		selectRecords(render, "SELECT * FROM LerningStat ORDER by lerningstatid");
 	}
-};
+}

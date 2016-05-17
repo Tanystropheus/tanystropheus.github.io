@@ -1,30 +1,15 @@
 
-var app = {
-    initialize: function() {
-        this.bindEvents();
-    },
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-    },
 
-    onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+document.addEventListener("deviceready",onDeviceReady,false);
+
+
+    function onDeviceReady() {
+        //app.receivedEvent('deviceready');
 		alert("test0");
 		openDb();
         initDb();
 		alert("test0.1");
+		pictureSource = navigator.camera.PictureSourceType;
+		destinationType = navigator.camera.DestinationType;
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null);
-    },
-    receivedEvent: function(id) {
-        // var parentElement = document.getElementById(id);
-        // var listeningElement = parentElement.querySelector('.listening');
-        // var receivedElement = parentElement.querySelector('.received');
-		//
-        // listeningElement.setAttribute('style', 'display:none;');
-        // receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
     }
-};
-
-app.initialize();

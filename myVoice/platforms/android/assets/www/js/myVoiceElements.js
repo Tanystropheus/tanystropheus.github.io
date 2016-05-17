@@ -4,7 +4,7 @@ function myVoiceLanguage(languageid, langname) {
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceTag(tagid, tagname) {
 	this.tagid = tagid;
@@ -12,7 +12,7 @@ function myVoiceTag(tagid, tagname) {
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceTagText(tagid, tagname, languageId, tagtextid, tagtext) {
 	this.tagtextid = tagtextid;
@@ -22,7 +22,7 @@ function myVoiceTagText(tagid, tagname, languageId, tagtextid, tagtext) {
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceLibraryLst(librarylstid, liblsttitle, libraryid) {
 	this.librarylstid = librarylstid;
@@ -33,12 +33,12 @@ function myVoiceLibraryLst(librarylstid, liblsttitle, libraryid) {
 		var idlst = str.split(",");
 		for(var i in idlst){
 			// select lib bi id in strore in libarylst
-		} 
-	}
+		}
+	};
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceLibrary(libraryId, userId, libTitle, lstelemid) {
 	this.libraryid = libraryId;
@@ -50,13 +50,13 @@ function myVoiceLibrary(libraryId, userId, libTitle, lstelemid) {
 		var idlst = str.split(",");
 		for(var i in idlst){
 			// select elem bi id in strore in elemlst
-		} 
-	}
+		}
+	};
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
 
-};
+}
 
 function myVoiceUser(librarylstid, userId, languageid, login, password, backupurl) {
 	this.languageid = languageid;
@@ -68,7 +68,7 @@ function myVoiceUser(librarylstid, userId, languageid, login, password, backupur
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceGlobElemAssociation(globelemassoid, listelemid) {
 	this.globelemassoid = globelemassoid;
@@ -76,7 +76,7 @@ function myVoiceGlobElemAssociation(globelemassoid, listelemid) {
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceElemAssociation(elemassoid, userId, globelemassoid, nbuse, date) {
 	this.elemassoid = elemassoid;
@@ -87,7 +87,7 @@ function myVoiceElemAssociation(elemassoid, userId, globelemassoid, nbuse, date)
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceElem(elemid, elemUrl, Width, soundUrl, languageId, soundId, text, textId, state) {
 	this.elemid = elemid;
@@ -101,7 +101,7 @@ function myVoiceElem(elemid, elemUrl, Width, soundUrl, languageId, soundId, text
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceContext(contextid, time, places, activiti, interlocutor) {
 	this.contextid = contextid;
@@ -112,7 +112,7 @@ function myVoiceContext(contextid, time, places, activiti, interlocutor) {
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceElemStat(elemstatid, userId, elemid, nbuse, elemassoid) {
 	this.elemstatid = elemstatid;
@@ -123,7 +123,7 @@ function myVoiceElemStat(elemstatid, userId, elemid, nbuse, elemassoid) {
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceGlobElemStat(globelemstatid, elemstatid, nbuse) {
 	this.elemstatid = elemstatid;
@@ -132,7 +132,7 @@ function myVoiceGlobElemStat(globelemstatid, elemstatid, nbuse) {
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceLerningStat(lerningstatid, contextid, elemstatid, nbtrue) {
 	this.lerningstatid = lerningstatid;
@@ -142,7 +142,7 @@ function myVoiceLerningStat(lerningstatid, contextid, elemstatid, nbtrue) {
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceSound(soundUrl, languageId, soundId) {
 	this.soundid = soundId;
@@ -151,7 +151,7 @@ function myVoiceSound(soundUrl, languageId, soundId) {
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function myVoiceText(text, languageId, textId) {
 	this.soundid = textId;
@@ -160,7 +160,7 @@ function myVoiceText(text, languageId, textId) {
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
-};
+}
 
 function debugelem(elem) {
 	var	htmlText = '</br></br>Object {\n';

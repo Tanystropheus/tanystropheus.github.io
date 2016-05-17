@@ -38,6 +38,24 @@ function insertBdd(){
 }
 
 /* ********************************************************************************************* */
+/* ************************************* FONCTIONS DEL  **************************************** */
+/* ********************************************************************************************* */
+
+function del()
+{
+	window.resolveLocalFileSystemURL(elem.elemurl, function(file) {
+		file.remove(win, fail);
+	});
+	window.resolveLocalFileSystemURL(elem.soundelem.soundurl, function(file) {
+		file.remove(win, fail);
+	});
+	deleteInSqliteTable(db, "Text", "textid =" + elem.textid);
+	deleteInSqliteTable(db, "Sound", "soundid =" + elem.soundid);
+	deleteInSqliteTable(db, "Elements", "elemid =" + elem.elemid);
+}
+
+
+/* ********************************************************************************************* */
 /* ************************************* FONCTIONS IMAGES ************************************** */
 /* ********************************************************************************************* */
 
