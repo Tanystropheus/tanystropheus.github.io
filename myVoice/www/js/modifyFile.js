@@ -1,48 +1,31 @@
 /* ********************************************************************************************* */
-/* ************************************* FONCTIONS INSERT ************************************** */
+/* ************************************* FONCTIONS MODIFY ************************************** */
 /* ********************************************************************************************* */
-
-
-/* ********************************************************************************************* */
-/* ************************************* VARIABLE GLOBAL *************************************** */
-/* ********************************************************************************************* */
-
 var pictureSource;
 var destinationType;
-var entry;
-var tmp;
+var tmp = {};
 
-/* ************************************* VARIABLE PRESET *************************************** */
 
-var elem = new myVoiceElem(" ", " ", " ", " ", 1 , " ", " ", " ", "t");
 
 /* ********************************************************************************************* */
 /* ************************************* FONCTIONS SQL ***************************************** */
 /* ********************************************************************************************* */
 
-function selectMax(sql, tmp, cb){
-	var render = function(tx, rs) {
-		if (rs.insertId !== undefined) {
-			tmp = rs.insertId;
-		}
-		else {
-			tmp = 0;
-		}
-		if (typeof cb !== undefined){
-			cb(tmp);
-		}
-	};
-	selectRecords(render, sql);
+function pre_modify(id) {
+	var sql = "where elemid =" + id;
+	selectElement(sql , tmp);
 }
 
-function insertBdd(){
-	insertElements(elem);
-	insertText(elem.textelem);
-	insertSound(elem.soundelem);
-	elem = (" ", " ", " ", " ", 1 , " ", " ", " ", "t");
+function updateBdd(){
+	var tname = Elements;
+	var set = "width =" + tmp.width;
+	var cond = "elemid =" + tmp.elemid;
+	updateInSqliteTable(tname, set, cond);
+	tname = Text;
+	set = "text =" + tmp.textelem.text;
+	cond = "textid =" + tmp.textid;
+	updateInSqliteTable(tname, set, cond);
 }
-
-
 /* ********************************************************************************************* */
 /* ************************************* FONCTIONS IMAGES ************************************** */
 /* ********************************************************************************************* */
@@ -54,11 +37,8 @@ function selectPhoto(imageURI) {
   var myImage = document.getElementById('select');
   myImage.style.display = 'block';
   myImage.src = imageURI;
-  selectMax("SELECT MAX(elemid) FROM Elements", tmp, function (tmp) {
-	  elem.elemid = tmp + 1;
-	  elem.elemurl = mvFile(imageURI);
-	  elem.width = myImage.width;
-  });
+  mvFile(imageURI);
+  tmp.width = myImage.width;
 }
 
 function getPhoto(source) {
@@ -73,11 +53,9 @@ function pickPhoto(imageData) {
   var smallImage = document.getElementById('pick');
   smallImage.style.display = 'block';
   smallImage.src = "data:image/jpeg;base64," + imageData;
-  selectMax("SELECT MAX(elemid) FROM Elements", tmp, function (tmp) {
-	  elem.elemid = tmp + 1;
-	  elem.elemurl = mvFile(smallImage.src);
-	  elem.width = smallImage.width;
-  });
+  mvFile(smallImage.src);
+  tmp.width = smallImage.width;
+
 }
 
 function capturePhoto() {
@@ -90,11 +68,7 @@ function capturePhoto() {
 /* ********************************************************************************************* */
 
 function captureSuccess(mediaFiles) {
-	selectMax("SELECT MAX(soundid) FROM Sound", tmp, function (tmp) {
-		elem.soundid = tmp + 1;
-		elem.soundelem.soundid = elem.soundid;
-		elem.soundelem.soundurl = mvFile("file://" + mediaFiles[0].fullPath);
-	});
+	tmp.soundelem.soundurl = mvFile("file://" + mediaFiles[0].fullPath);
 }
 
 function captureAudio() {
@@ -105,12 +79,8 @@ function captureAudio() {
 /* ************************************* FONCTIONS TEXT **************************************** */
 /* ********************************************************************************************* */
 
-function createName() {
-	selectMax("SELECT MAX(textid) FROM Text", tmp, function (tmp) {
-		elem.textid = tmp + 1;
-		elem.textelem.textid = elem.textid;
-		elem.textelem.text = document.getElementById('name').value;
-	});
+function modifyName() {
+	tmp.textelem.text = document.getElementById('name').value;
 }
 
 /* ********************************************************************************************* */
