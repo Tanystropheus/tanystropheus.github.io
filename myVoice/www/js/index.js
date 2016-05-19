@@ -73,13 +73,12 @@ var app = {
 		} else {
 			window.appData.interfaces_setings = JSON.parse(window.localStorage.getItem("Interfaces_Setings"));
 		}
-		try{
-			openDb().then(function(){
-					return initDb(function(objLst){ alert("appData:" + JSON.stringify(appData, null, 4)); });
-				});
-		}catch(e){
-			alert("error ondevice ready: " + e);
-		}
+		return openDb().then(function(){
+				return initDb(function(objLst){ alert("appData:" + JSON.stringify(appData, null, 4)); });
+			}, function(err){
+				alert("openDb Fail: " + JSON.stringify(err, null, 4));
+			}
+		);
 		//createSqliteTable(db, 'SimpsonFamily', 'id integer primary key, nom text');
 	},
 	receivedEvent: function(id) {
