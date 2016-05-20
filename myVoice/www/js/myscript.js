@@ -32,19 +32,19 @@ function movePict(e) {
 		$(document).off("tap", ".element");
 		if ($(this).parent().attr("id") == "sortable-el") {
 			console.log("plop 1");
-			$(this).prependTo("#sortable-sp");
+			$(this).appendTo("#sortable-sp");
 		}
 		else if ($(this).parent().attr("id") == "sortable-sp") {
 			console.log("plop 2");
-			$(this).prependTo("#sortable-el");
+			$(this).appendTo("#sortable-el");
 		}
 		else if ($(this).parent().attr("id") == "sortable-elT") {
 			console.log("plop 3");
-			$(this).prependTo("#sortable-spT");
+			$(this).appendTo("#sortable-spT");
 		}
 		else if ($(this).parent().attr("id") == "sortable-spT") {
 			console.log("plop 4");
-			$(this).prependTo("#sortable-elT");
+			$(this).appendTo("#sortable-elT");
 		}
 		e.handled = true;
 		setTimeout(function () {

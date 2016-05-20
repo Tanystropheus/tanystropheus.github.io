@@ -74,7 +74,7 @@ function initialInsert(){
 	}
 	return Promise.all(insertSql).then(
 		function(val){
-			alert("Insert initial data ok: " + JSON.stringify(val, null, 4));
+			//alert("Insert initial data ok: " + JSON.stringify(val, null, 4));
 		},
 		function(err){
 			alert("Insert initial data Fail!!: " + JSON.stringify(err, null, 4));
