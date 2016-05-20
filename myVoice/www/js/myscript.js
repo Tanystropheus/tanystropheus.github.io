@@ -26,22 +26,32 @@ $(document).ready(function() {
     }).disableSelection();
 });
 
+function movePict(e) {
+	if(e.handled !== true) // This will prevent event triggering more then once
+	{
+		$(document).off("tap", ".element");
+		if ($(this).parent().attr("id") == "sortable-el") {
+			console.log("plop 1");
+			$(this).prependTo("#sortable-sp");
+		}
+		else if ($(this).parent().attr("id") == "sortable-sp") {
+			console.log("plop 2");
+			$(this).prependTo("#sortable-el");
+		}
+		else if ($(this).parent().attr("id") == "sortable-elT") {
+			console.log("plop 3");
+			$(this).prependTo("#sortable-spT");
+		}
+		else if ($(this).parent().attr("id") == "sortable-spT") {
+			console.log("plop 4");
+			$(this).prependTo("#sortable-elT");
+		}
+		e.handled = true;
+		setTimeout(function () {
+			$(document).on("tap", ".element", movePict);
+		}, 1000);
+	}
+}
+
 // Click
-$(document).on("tap", ".element", function() {
-    if ($(this).parent().attr("id") == "sortable-el") {
-        console.log("plop 1");
-        $(this).prependTo("#sortable-sp");
-    }
-    else if ($(this).parent().attr("id") == "sortable-sp") {
-        console.log("plop 2");
-        $(this).prependTo("#sortable-el");
-    }
-    else if ($(this).parent().attr("id") == "sortable-elT") {
-        console.log("plop 3");
-        $(this).prependTo("#sortable-spT");
-    }
-    else if ($(this).parent().attr("id") == "sortable-spT") {
-        console.log("plop 4");
-        $(this).prependTo("#sortable-elT");
-    }
-});
+$(document).on("tap", ".element", movePict);
