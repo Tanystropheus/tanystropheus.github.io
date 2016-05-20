@@ -38,7 +38,9 @@ function selectMax(sql, tmp, cb){
 function insertBdd(){
 	insertElements(elem);
 	insertText(elem.textelem);
-	insertSound(elem.soundelem);
+	if (elem.soundid !== undefined) {
+		insertSound(elem.soundelem);
+	}
 	elem = (" ", " ", " ", " ", 1 , " ", " ", " ", "t");
 }
 
@@ -54,13 +56,17 @@ function selectPhoto(imageURI) {
   var myImage = document.getElementById('select');
   myImage.style.display = 'block';
   myImage.src = imageURI;
-  selectMax("SELECT MAX(elemid) FROM Elements", tmp, function (tmp) {
-	  elem.elemid = tmp + 1;
-	  elem.elemurl = mvFile(imageURI);
-	  elem.width = myImage.width;
-  });
+  if (myImage !== undefined) {
+  	selectMax("SELECT MAX(elemid) FROM Elements", tmp, function (tmp) {
+	  	elem.elemid = tmp + 1;
+	  	elem.elemurl = mvFile(imageURI);
+	  	elem.width = myImage.width;
+	  	alert(JSON.stringify(elem)); });
+	}
+	else {
+		alert("merci de choisir une photo");
+	}
 }
-
 function getPhoto(source) {
   navigator.camera.getPicture(selectPhoto, fail, { quality: 10,
 	destinationType: destinationType.FILE_URI,
@@ -73,11 +79,16 @@ function pickPhoto(imageData) {
   var smallImage = document.getElementById('pick');
   smallImage.style.display = 'block';
   smallImage.src = "data:image/jpeg;base64," + imageData;
-  selectMax("SELECT MAX(elemid) FROM Elements", tmp, function (tmp) {
-	  elem.elemid = tmp + 1;
-	  elem.elemurl = mvFile(smallImage.src);
-	  elem.width = smallImage.width;
-  });
+  if (smallImage.src !== undefined) {
+	  selectMax("SELECT MAX(elemid) FROM Elements", tmp, function (tmp) {
+		  elem.elemid = tmp + 1;
+		  elem.elemurl = mvFile(smallImage.src);
+		  elem.width = smallImage.width;
+		  alert(JSON.stringify(elem)); });
+	}
+	else {
+		alert("merci de prendre une photo");
+	}
 }
 
 function capturePhoto() {
@@ -90,11 +101,16 @@ function capturePhoto() {
 /* ********************************************************************************************* */
 
 function captureSuccess(mediaFiles) {
-	selectMax("SELECT MAX(soundid) FROM Sound", tmp, function (tmp) {
-		elem.soundid = tmp + 1;
-		elem.soundelem.soundid = elem.soundid;
-		elem.soundelem.soundurl = mvFile("file://" + mediaFiles[0].fullPath);
-	});
+	if (mediaFiles[0].fullPath !== undefined) {
+		selectMax("SELECT MAX(soundid) FROM Sound", tmp, function (tmp) {
+			elem.soundid = tmp + 1;
+			elem.soundelem.soundid = elem.soundid;
+			elem.soundelem.soundurl = mvFile("file://" + mediaFiles[0].fullPath);
+			alert(JSON.stringify(elem)); });
+	}
+	else {
+		alert("si vous souhaitez ajouter une bande son merci de l'enregistrer");
+	}
 }
 
 function captureAudio() {

@@ -5,21 +5,19 @@
 	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 	<script type="text/javascript" charset="utf-8" src="js/myVoiceSqliteDb.js"></script>
 	<script type="text/javascript" charset="utf-8" src="js/myVoiceElements.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/index.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/deleteFile.js"></script>
 	<script type="text/javascript" charset="utf-8" src="js/modifyFile.js"></script>
 
   </head>
-  <body>
+  <body onload = "pre_modify(id)">
 
 	  <input id="name" type="text">
 	  <button onclick="modifyName()">OK</button> <br>
 
-		<button onclick="prendrePhoto();">Prendre une PHOTO</button> <br>
+		<button onclick="prendrePhoto();">Prendre une nouvelle PHOTO</button> <br>
 	  	<button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">IMPORTER DEPUIS PHOTO</button><br>
 	  	<button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">IMPORTER DEPUIS L ALBUM</button><br>
 		<button onclick="captureAudio();">Capture Audio</button><br>
-		<button onclick="updateBdd();">Ajouter BDD</button><br>
+		<button onclick="updateBdd();">update BDD</button><br>
 		<img style="display:none;width:60px;height:60px;" id="pick" src="" />
 		<img style="display:none;width:60px;height:60px;" id="select" src="" />
   </body>
