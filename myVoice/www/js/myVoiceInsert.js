@@ -12,14 +12,46 @@
  * 			insertLanguage(new myVoiceLanguage(1, "Français"), function(value){resolve(value)}, function(err){reject(err)});
  * 		}, function(){alert("promis create fail");});
  * 		promise.then(function(){alert("Fonction on succes");}, function(){alert("Fonction on error");});
+ * 
+ * Voici un exemple d'utilisation de chaqu'une de ses fonctions:
+ * 
+ * insertLanguage(new myVoiceLanguage(1, "Français"));
+ * insertLanguage(new myVoiceLanguage(2, "Anglais"));
+ * insertTag(new myVoiceTag(1, 1, "pomme"));
+ * insertTag(new myVoiceTag(1, 2, "appel"));
+ * insertLibraryLst(new myVoiceLibraryLst(1, "Classeur Utilisation", "2,1,3"));
+ * insertLibraryLst(new myVoiceLibraryLst(2, "Classeur Aprantisage", "5,4,6"));
+ * insertLibraryLst(new myVoiceLibraryLst(5, "Classeur Poteries", "5,4,6"));
+ * insertLibrary(new myVoiceLibrary(1, 0, "onglet1", "1_1,2_1,1_2,1_3,1_4,1_5,userid_elemid"));
+ * insertLibrary(new myVoiceLibrary(2, 0, "onglet2", "1_1,2_1,1_2,1_3,1_4,1_5,userid_elemid"));
+ * insertLibrary(new myVoiceLibrary(3, 0, "onglet3", "1_1,2_1,1_2,1_3,1_4,1_5,userid_elemid"));
+ * insertLibrary(new myVoiceLibrary(4, 0, "onglet4", "1_1,2_1,1_2,1_3,1_4,1_5,userid_elemid"));
+ * insertLibrary(new myVoiceLibrary(5, 0, "onglet5", "1_1,2_1,1_2,1_3,1_4,1_5,userid_elemid"));
+ * insertLibrary(new myVoiceLibrary(6, 0, "onglet6", "1_1,2_1,1_2,1_3,1_4,1_5,userid_elemid"));
+ * insertUser(new myVoiceUser("1,2,3", 0, 1, "login", "backendPass", "backupUrl", window.localStorage.getItem("Interfaces_Setings")));
+ * insertGlobElemAssociation(new myVoiceGlobElemAssociation(0, "1,3,5", 0));
+ * insertGlobElemAssociation(new myVoiceGlobElemAssociation(1, "3,5", 0));
+ * insertElemAssociation(new myVoiceElemAssociation(1, 0, 0, 1, Date.now()));
+ * insertText(new myVoiceText("test", 1, 1));
+ * insertSound(new myVoiceSound("soundurl", 1, 1));
+ * insertElements( new myVoiceElem(1, "img/logo.png", 10, 1, 1, 1, "1_1,languageid_tagid", 0));
+ * insertElements( new myVoiceElem(2, "img/logo.png", 10, 1, 1, 1, "2_1,languageid_tagid", 0));
+ * insertElements( new myVoiceElem(4, "img/logo.png", 10, 1, 1, 1, "1_1,languageid_tagid", 0));
+ * insertElements( new myVoiceElem(5, "img/logo.png", 10, 1, 1, 1, "1_1,languageid_tagid", 0));
+ * insertElemStat(new myVoiceElemStat(0, 0, "1,2,3, elemid_userid", 0, 1));
+ * insertGlobElemStat(new myVoiceGlobElemStat(0, 0, 0));
+ * updateSound(new myVoiceSound("soundurlUPDATED", 1, 1));
+ * 
  * */
 function insertLanguage(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO Language (languageid, langname ) VALUES ( ?, ?)", [elem.languageid, elem.langname], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO Language (languageid, langname ) VALUES ( ?, ?)",
+	[elem.languageid, elem.langname], okfunc, failfunc);
 	return true;
 };
 
 function insertTag(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO Tag (tagid, languageid, tagtext) VALUES ( ?, ?, ?)", [elem.tagid, elem.languageid, elem.tagtext], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO Tag (tagid, languageid, tagtext) VALUES ( ?, ?, ?)",
+	[elem.tagid, elem.languageid, elem.tagtext], okfunc, failfunc);
 	return true;
 };
 
@@ -36,7 +68,8 @@ function insertLibrary(elem, okfunc, failfunc){
 };
 
 function insertUser(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO User (userid, languageid, librarylstid, login, password, backupurl, interfacesetings) VALUES ( ?, ?, ?, ?, ?, ?, ?)", [elem.userid, elem.languageid, elem.librarylstid, elem.login, elem.password, elem.backupurl, elem.interfacesetings], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO User (userid, languageid, librarylstid, login, password, backupurl, interfacesetings) VALUES ( ?, ?, ?, ?, ?, ?, ?)",
+	[elem.userid, elem.languageid, elem.librarylstid, elem.login, elem.password, elem.backupurl, elem.interfacesetings], okfunc, failfunc);
 	return true;
 };
 
@@ -53,7 +86,8 @@ function insertElemAssociation(elem, okfunc, failfunc){
 };
 
 function insertText(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO Text (textid, languageid, text) VALUES ( ?, ?, ?)", [elem.textid, elem.languageid, elem.text], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO Text (textid, languageid, text) VALUES ( ?, ?, ?)",
+	[elem.textid, elem.languageid, elem.text], okfunc, failfunc);
 	return true;
 };
 

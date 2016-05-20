@@ -37,7 +37,14 @@ function selectLanguage(sql, objectLst, cb){
 	};
 	if(sql == undefined) sql = "";
 	return new Promise(function(resolve, reject){
-		return selectRecords(function(tx, rs) {if (render(tx, rs)) {return resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM Language " + sql + " ORDER by languageid");
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT * FROM Language " + sql + " ORDER by languageid");
 	}, function(){alert("Select fail");});
 };
 

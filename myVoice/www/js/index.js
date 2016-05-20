@@ -75,8 +75,8 @@ var app = {
 		}
 		return openDb().then(function(){
 				return initDb(function(objLst){ alert("appData:" + JSON.stringify(appData, null, 4)); });
-			}, function(err){
-				alert("openDb Fail: " + JSON.stringify(err, null, 4));
+			}, function(err, err2){
+				alert("openDb Fail: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
 			}
 		);
 		//createSqliteTable(db, 'SimpsonFamily', 'id integer primary key, nom text');
