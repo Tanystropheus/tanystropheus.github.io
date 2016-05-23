@@ -1,6 +1,7 @@
  // Switch mode
 $(document).ready(function() {
     $("#button_param").click(function() {
+    	var ready = true;
         if ($('#select-based-flipswitch').val() == "leave") {
             $.mobile.changePage('#usepage', { transition: "slide"} );
         }
@@ -10,8 +11,10 @@ $(document).ready(function() {
             $("#button_form").click(function() {
                 if ($("#fname").val().length > 0 
                     && $("#factivity").val().length > 0
-                    && $("#flocation").val().length > 0) {
+                    && $("#flocation").val().length > 0 
+                    && ready == true) {
                         $.mobile.changePage('#learningpage', { transition: "slide"} );
+                        ready = false;
                 }
             });
         }
