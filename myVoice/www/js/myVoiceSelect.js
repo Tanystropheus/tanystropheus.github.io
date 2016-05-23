@@ -124,11 +124,8 @@ function selectLibraryLst(sql, objectLst, cb){
 function selectLibrary(sql, objectLst, cb){
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
-			//alert(JSON.stringify(rs.rows, null, 4));
 			objectLst[rs.rows.item(i)["libraryid"]] = new myVoiceLibrary();
-			//window.appData.lib[rs.rows.item(i)["libraryid"]][propName] = new myVoiceLibrary();
 			for (var propName in rs.rows.item(i)) {
-				//window.appData.lib[rs.rows.item(i)["libraryid"]][propName] = rs.rows.item(i)[propName];
 				objectLst[rs.rows.item(i)["libraryid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
@@ -152,9 +149,7 @@ function selectUser(sql, objectLst, cb){
 	var render = function(tx, rs) {
 		for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[rs.rows.item(i)["userid"]] = new myVoiceLibrary();
-			//window.appData.user[rs.rows.item(i)["userid"]] = new myVoiceLibrary();
 			for (var propName in rs.rows.item(i)) {
-				//window.appData.user[rs.rows.item(i)["userid"]][propName] = rs.rows.item(i)[propName];
 				objectLst[rs.rows.item(i)["userid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
@@ -224,7 +219,6 @@ function selectText(sql, objectLst, cb){
 		for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[rs.rows.item(i)["textid"]] = new myVoiceText();
 			for (var propName in rs.rows.item(i)) {
-				//window.appData.language[rs.rows.item(i)["textid"]][propName] = rs.rows.item(i)[propName];
 				objectLst[rs.rows.item(i)["textid"]][propName] = rs.rows.item(i)[propName];
 			}
 		}
@@ -245,10 +239,8 @@ function selectText(sql, objectLst, cb){
 
 function selectElements(sql, objectLst, cb){
 	var render = function(tx, rs) {
-		//alert("debut render len: " + rs.rows.length);
 		for (var i = 0; i < rs.rows.length; i++) {
 			var objname = "" + rs.rows.item(i)["user"]+ "_" + rs.rows.item(i)["elemid"];
-			//alert("objname: " + objname);
 			objectLst[objname] = new myVoiceElem();
 			for (var propName in rs.rows.item(i)) {
 				objectLst[objname][propName] = rs.rows.item(i)[propName];

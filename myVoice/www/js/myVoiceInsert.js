@@ -44,57 +44,57 @@
  * 
  * */
 function insertLanguage(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO Language (languageid, langname ) VALUES ( ?, ?)",
-	[elem.languageid, elem.langname], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO Language (langname ) VALUES (?)",
+	[elem.langname], okfunc, failfunc);
 	return true;
 };
 
 function insertTag(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO Tag (tagid, languageid, tagtext) VALUES ( ?, ?, ?)",
-	[elem.tagid, elem.languageid, elem.tagtext], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO Tag (languageid, tagtext) VALUES (?, ?)",
+	[elem.languageid, elem.tagtext], okfunc, failfunc);
 	return true;
 };
 
 function insertLibraryLst(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO LibraryLst (librarylstid, libraryid, liblsttitle ) VALUES ( ?, ?, ?)", 
-	[elem.librarylstid, elem.libraryid, elem.liblsttitle], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO LibraryLst (libraryid, liblsttitle ) VALUES (?, ?)", 
+	[elem.libraryid, elem.liblsttitle], okfunc, failfunc);
 	return true;
 };
 
 function insertLibrary(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO Library (libraryid, userid, libtitle, lstelemid ) VALUES ( ?, ?, ?, ?)", 
-	[elem.libraryid, elem.userid, elem.libtitle, elem.lstelemid], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO Library (userid, libtitle, lstelemid ) VALUES (?, ?, ?)", 
+	[elem.userid, elem.libtitle, elem.lstelemid], okfunc, failfunc);
 	return true;
 };
 
 function insertUser(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO User (userid, languageid, librarylstid, login, password, backupurl, interfacesetings) VALUES ( ?, ?, ?, ?, ?, ?, ?)",
-	[elem.userid, elem.languageid, elem.librarylstid, elem.login, elem.password, elem.backupurl, elem.interfacesetings], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO User (languageid, librarylstid, login, password, backupurl, interfacesetings) VALUES (?, ?, ?, ?, ?, ?)",
+	[elem.languageid, elem.librarylstid, elem.login, elem.password, elem.backupurl, elem.interfacesetings], okfunc, failfunc);
 	return true;
 };
 
 function insertGlobElemAssociation(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO GlobElemAssociation (globelemassoid, listelemid, nbuse) VALUES ( ?, ?, ?)", 
-	[elem.globelemassoid, elem.listelemid, elem.nbuse], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO GlobElemAssociation (listelemid, nbuse) VALUES (?, ?)", 
+	[elem.listelemid, elem.nbuse], okfunc, failfunc);
 	return true;
 };
 
 function insertElemAssociation(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO ElemAssociation (elemassoid, globelemassoid, userid, nbuse, date) VALUES ( ?, ?, ?, ?, ?)", 
-	[elem.elemassoid, elem.globelemassoid, elem.userid, elem.nbuse, elem.date], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO ElemAssociation (globelemassoid, userid, nbuse, date) VALUES ( ?, ?, ?, ?)", 
+	[elem.globelemassoid, elem.userid, elem.nbuse, elem.date], okfunc, failfunc);
 	return true;
 };
 
 function insertText(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO Text (textid, languageid, text) VALUES ( ?, ?, ?)",
-	[elem.textid, elem.languageid, elem.text], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO Text (languageid, text) VALUES ( ?, ?)",
+	[elem.languageid, elem.text], okfunc, failfunc);
 	return true;
 };
 
 function insertElements(elem, okfunc, failfunc){
 	//alert("elem: " + JSON.stringify(elem, null, 4));
-	myObjExecSqliteSQL("INSERT INTO Elements (elemid, elemurl, user, soundid, width, textid, taglst, state) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)", 
-	[elem.elemid, elem.elemurl, elem.user , elem.soundid, elem.width, elem.textid, elem.taglst, elem.state], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO Elements (elemurl, user, soundid, width, textid, taglst, state) VALUES (?, ?, ?, ?, ?, ?, ?)", 
+	[elem.elemurl, elem.user , elem.soundid, elem.width, elem.textid, elem.taglst, elem.state], okfunc, failfunc);
 	return true;
 };
 
@@ -105,32 +105,20 @@ function insertElemSetings(elem, okfunc, failfunc){
 	return true;
 };
 
-function insertElemStat(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO ElemStat (elemstatid, userid, nbuse, elemassoid) VALUES ( ?, ?, ?, ?)", 
-	[elem.elemstatid, elem.userid, elem.nbuse, elem.elemassoid], okfunc, failfunc);
-	return true;
-};
-
 function insertContext(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO Context (contextid, time, places, activiti, interlocutor) VALUES ( ?, ?, ?, ?, ?)", 
-	[elem.contextid, elem.time, elem.places, elem.activiti, elem.interlocutor], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO Context (time, places, activiti, interlocutor) VALUES (?, ?, ?, ?)", 
+	[elem.time, elem.places, elem.activiti, elem.interlocutor], okfunc, failfunc);
 	return true;
 };
 
 function insertLerningStat(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO LerningStat (lerningstatid, contextid, elemstatid, nbtrue) VALUES ( ?, ?, ?, ?)", 
-	[elem.lerningstatid, elem.contextid, elem.elemstatid, elem.nbtrue], okfunc, failfunc);
-	return true;
-};
-
-function insertGlobElemStat(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO GlobElemStat (globelemstatid, nbuse, elemstatid) VALUES ( ?, ?, ?)", 
-	[elem.globelemstatid, elem.nbuse, elem.elemstatid], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO LerningStat (contextid, elemstatid, nbtrue) VALUES ( ?, ?, ?)", 
+	[elem.contextid, elem.elemstatid, elem.nbtrue], okfunc, failfunc);
 	return true;
 };
 
 function insertSound(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO Sound (soundid, soundurl, languageid) VALUES ( ?, ?, ?)", 
-	[elem.soundid, elem.soundurl, elem.languageid], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO Sound (soundurl, languageid) VALUES ( ?, ?)", 
+	[elem.soundurl, elem.languageid], okfunc, failfunc);
 	return true;
 };
