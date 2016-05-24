@@ -69,12 +69,15 @@ function initialInsert(){
 			document.db.executeSql( insertSql[sqlReq], null, function(res){
 				//alert(insertSql[sqlReq] + " finish");
 				resolve(res);
+			}, function(err){
+				//alert(insertSql[sqlReq] + " finish");
+				reject(err);
 			});
 		}));
 	}
 	return Promise.all(insertSql).then(
 		function(val){
-			alert("Insert initial data ok: " + JSON.stringify(val, null, 4));
+			alert("Insert initial data ok");
 		},
 		function(err){
 			alert("Insert initial data Fail!!: " + JSON.stringify(err, null, 4));
@@ -86,16 +89,11 @@ function initialSelect(){
 	//alert(JSON.stringify(selectLanguage("", window.appData.language, function(objLst){ /* alert("language: " + JSON.stringify(objLst, null, 4)); resolve(objLst); */ })));
 	var selectPromises = [
 		selectLanguage( undefined , window.appData.language, function(objLst){ resolve(objLst);}),
-		selectTag("", window.appData.tag , function(objLst){ resolve(objLst);}),
 		selectLibraryLst("", window.appData.libraryLst, function(objLst){ resolve(objLst);}),
 		selectLibrary("", window.appData.library, function(objLst){ resolve(objLst);}),
-		selectUser("", window.appData.user, function(objLst){ resolve(objLst);}),
-		selectGlobElemAssociation("", window.appData.globElemAssociation, function(objLst){ resolve(objLst);}),
 		selectElemAssociation("", window.appData.elemAssociation, function(objLst){ resolve(objLst);}),
 		selectText("", window.appData.text, function(objLst){ resolve(objLst);}),
 		selectElements("", window.appData.elements, function(objLst){ resolve(objLst);}),
-		selectElemStat("", window.appData.elemStat, function(objLst){ resolve(objLst);}),
-		selectGlobElemStat("", window.appData.globElemStat, function(objLst){ resolve(objLst);}),
 		selectSound("", window.appData.sound, function(objLst){ resolve(objLst);})
 	];
 
@@ -115,35 +113,30 @@ function initDb(callback){
 	 * */
 	createTableSql = [
 	//~ "DROP TABLE IF EXISTS Context",
-	"CREATE TABLE Context (contextid integer primary key AUTO_INCREMENT,  time date, places text, activiti text, interlocutor text)",
 	//~ "DROP TABLE IF EXISTS ElemAssociation",
-	"CREATE TABLE ElemAssociation (elemassoid integer primary key AUTO_INCREMENT, globelemassoid integer, nbuse integer, date date, FOREIGN KEY(globelemassoid) REFERENCES GlobElemAssociation(globelemassoid))",
 	//~ "DROP TABLE IF EXISTS ElemSetings",
-	"CREATE TABLE ElemSetings (elemsetingsid integer primary key AUTO_INCREMENT, width integer, writing text, sound integer, lastchange date)",
-	//~ "DROP TABLE IF EXISTS ElemStat",
-	"CREATE TABLE ElemStat (elemstatid integer primary key AUTO_INCREMENT, nbuse integer, elemassoid integer, FOREIGN KEY(elemassoid) REFERENCES ElemAssociation(elemassoid))",
 	//~ "DROP TABLE IF EXISTS Elements",
-	"CREATE TABLE Elements (elemid integer, elemurl text, soundid integer, width integer, textid integer, state integer, taglst text, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid))",
-	//~ "DROP TABLE IF EXISTS GlobElemAssociation",
-	"CREATE TABLE GlobElemAssociation (globelemassoid integer primary key AUTO_INCREMENT, listelemid integer, nbuse integer)",
-	//~ "DROP TABLE IF EXISTS GlobElemStat",
-	"CREATE TABLE GlobElemStat (globelemstatid integer primary key AUTO_INCREMENT, nbuse integer,  elemstatid, FOREIGN KEY(elemstatid) REFERENCES ElemStat(elemstatid))",
 	//~ "DROP TABLE IF EXISTS Language",
-	"CREATE TABLE Language (languageid integer primary key AUTO_INCREMENT, langname text)",
 	//~ "DROP TABLE IF EXISTS LerningStat",
-	"CREATE TABLE LerningStat (lerningstatid integer primary key AUTO_INCREMENT,  contextid integer, elemstatid integer, nbtrue, FOREIGN KEY(contextid) REFERENCES Context(contextid), FOREIGN KEY(elemstatid) REFERENCES ElemStat(elemstatid))",
 	//~ "DROP TABLE IF EXISTS Library",
-	"CREATE TABLE Library (libraryid integer primary key AUTO_INCREMENT, libtitle text, lstelemid text)",
 	//~ "DROP TABLE IF EXISTS LibraryLst",
-	"CREATE TABLE LibraryLst (librarylstid integer primary key AUTO_INCREMENT, libraryid text, liblsttitle text)",
 	//~ "DROP TABLE IF EXISTS Sound",
-	"CREATE TABLE Sound (soundid integer primary key AUTO_INCREMENT, soundurl text,  languageid, FOREIGN KEY(languageid) REFERENCES Language(languageid))",
-	//~ "DROP TABLE IF EXISTS Tag",
-	"CREATE TABLE Tag (tagid integer, languageid integer, tagtext text, FOREIGN KEY(languageid) REFERENCES Language(languageid), CONSTRAINT PK_tag PRIMARY KEY (tagid, languageid))",
 	//~ "DROP TABLE IF EXISTS Text",
-	"CREATE TABLE Text (textid integer primary key AUTO_INCREMENT, languageid text, text text, FOREIGN KEY(languageid) REFERENCES Language(languageid))",
 	//~ "DROP TABLE IF EXISTS User",
-	"CREATE TABLE User (userid integer primary key AUTO_INCREMENT, languageid integer, librarylstid text, login text, password text, backupurl text, interfacesetings text, FOREIGN KEY(languageid) REFERENCES Language(languageid), FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))"
+	"CREATE TABLE Context (contextid integer primary key,  time date, places text, activiti text, interlocutor text)",
+	"CREATE TABLE ElemAssociation (elemassoid integer primary key, elemlst text, date date, learning integer)",
+	"CREATE TABLE Setings (setingsid integer primary key, width integer, writing text, sound integer, lastchange date)",
+	"CREATE TABLE Elements (elemid integer, elemurl text, soundid integer, textid integer, state integer, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid))",
+	"CREATE TABLE Language (languageid integer primary key, langname text)",
+	"CREATE TABLE LerningStat (lerningstatid integer primary key, contextid integer, elemassoid integer, good integer, FOREIGN KEY(contextid) REFERENCES Context(contextid), FOREIGN KEY(elemassoid) REFERENCES ElemAssociation(elemassoid))",
+	"CREATE TABLE Library (libraryid integer primary key, libtitle text)",
+	"CREATE TABLE LibraryLst (librarylstid integer primary key, liblsttitle text, userlog text)",
+	"CREATE TABLE Sound (soundid integer primary key, soundurl text,  languageid, FOREIGN KEY(languageid) REFERENCES Language(languageid))",
+	"CREATE TABLE ElemSetings (elemsetingsid integer primary key, setingsid integer, elemid integer,  FOREIGN KEY(setingsid) REFERENCES Setings(setingsid),  FOREIGN KEY(elemid) REFERENCES Elements(elemid))",
+	"CREATE TABLE LibElem (libelemid integer primary key, libraryid integer, elemid integer,  FOREIGN KEY(libraryid) REFERENCES Library(libraryid),  FOREIGN KEY(elemid) REFERENCES Elements(elemid))",
+	"CREATE TABLE LibLink (liblinkid integer primary key, libraryid integer, librarylstid integer,  FOREIGN KEY(libraryid) REFERENCES Library(libraryid), FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))",
+	"CREATE TABLE Text (textid integer primary key, languageid text, text text, FOREIGN KEY(languageid) REFERENCES Language(languageid))"
+	//~ "CREATE TABLE User (userid integer primary key, languageid integer, librarylstid text, interfacesetings text, FOREIGN KEY(languageid) REFERENCES Language(languageid), FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))"
 	];
 
 	var createTablePromises = [];
@@ -261,6 +254,7 @@ function deleteInSqliteTable (db, tableName, condition){
 
 function selectRecords(fn, sql) {
 
+	//alert("Begin Selection ( " + sql +" )");
 	var selectRecPromise = new Promise(function(){
 		document.db.transaction(function(tx) {
 			return tx.executeSql(sql, [], fn, function(e){alert("Erreur Selection ( " + sql +" ): " + JSON.stringify(e, null, 4));});

@@ -1,47 +1,36 @@
-function myVoiceLanguage(langname) {
-	this.languageid = null;
-	this.langname = langname;
-};
-
-function myVoiceLibraryLst(liblsttitle, libraryid) {
-	this.librarylstid = null;
-	this.liblsttitle = liblsttitle;
-};
-
-function myVoiceLibrary(libTitle, lstelemid) {
-	this.libraryid = null;
-	this.libtitle = libTitle;
-};
-
-function myVoiceUser(librarylstid, languageid, login, password, backupurl, setings) {
-	this.languageid = languageid;
-	this.userid = null;
-	this.librarylstid = librarylstid;
-	this.interfacesetings = setings;
-};
-
-function myVoiceElemAssociation(date, learning) {
-	this.elemassoid = null;
-	this.nbuse = nbuse;
-	this.date = date;
-	this.learning = learning;
-};
-
-function myVoiceElem(elemUrl, Width, soundId, textId, taglst, state) {
-	this.elemid = null;
-	this.elemurl = elemUrl;
-	this.soundid = soundId;
-	this.textid = textId;
-	this.taglst = taglst;
-	this.state = state;
-};
-
 function myVoiceContext(time, places, activiti, interlocutor) {
 	this.contextid = null;
 	this.time = time;
 	this.places = places;
 	this.activiti = activiti;
 	this.interlocutor = interlocutor;
+};
+
+function myVoiceElemAssociation(elemlst, date, learning) {
+	this.elemassoid = null;
+	this.elemlst = elemlst;
+	this.date = date;
+	this.learning = learning;
+};
+
+function myVoiceSetings(width, writing, sound, lastchange) {
+	this.setingsid = null;
+	this.writing = writing;
+	this.sound = sound;
+	this.lastchange = lastchange;
+};
+
+function myVoiceElem(elemurl, soundid, textid, state) {
+	this.elemid = null;
+	this.elemurl = elemUrl;
+	this.soundid = soundId;
+	this.textid = textId;
+	this.state = state;
+};
+
+function myVoiceLanguage(langname) {
+	this.languageid = null;
+	this.langname = langname;
 };
 
 function myVoiceLerningStat(contextid, elemassoid, good) {
@@ -51,16 +40,52 @@ function myVoiceLerningStat(contextid, elemassoid, good) {
 	this.good = good;
 };
 
+function myVoiceLibrary(libTitle, lstelemid) {
+	this.libraryid = null;
+	this.libtitle = libTitle;
+};
+
+function myVoiceLibraryLst(liblsttitle, userlog) {
+	this.librarylstid = null;
+	this.liblsttitle = liblsttitle;
+	this.userlog = userlog;
+};
+
 function myVoiceSound(soundUrl, languageId) {
 	this.soundid = null;
 	this.languageid = languageId;
 	this.soundurl = soundUrl;
 };
 
+function myVoiceElemSetings(setingsid, elemid) {
+	this.elemsetingsid = null;
+	this.setingsid = setingsid;
+	this.elemid = elemid;
+};
+
+function myVoiceLibElem(libraryid, elemid) {
+	this.libelemid = null;
+	this.libraryid = libraryid;
+	this.elemid = elemid;
+};
+
+function myVoiceLibLink(libraryid, librarylstid) {
+	this.liblinkid = null;
+	this.libraryid = libraryid;
+	this.librarylstid = librarylstid;
+};
+
 function myVoiceText(text, languageId) {
-	this.soundid = null;
+	this.textid = null;
 	this.languageid = languageId;
-	this.soundurl = text;
+	this.text = text;
+};
+
+function myVoiceUser(librarylstid, languageid, login, password, backupurl, setings) {
+	this.languageid = languageid;
+	this.userid = null;
+	this.librarylstid = librarylstid;
+	this.interfacesetings = setings;
 };
 
 function debugelem(elem) {
