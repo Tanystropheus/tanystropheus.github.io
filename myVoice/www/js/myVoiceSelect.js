@@ -16,24 +16,126 @@
  * 		selectLanguage("WHERE champ=value", languageLst, callback).then(function(){alert("Fonction on succes");}, function(){alert("Fonction on error");});
  * */
 
-function selectLanguage(sql, objectLst, cb){
-	var render = function(tx, rs) {
+function selectParser(objectLst, id, rs, cb){
+	switch (id) {
+		case "contextid":
+			myObject = myVoiceContext;
+		case "elemassoid":
+			myObject = myVoiceElemAssociation;
+		case "setingsid":
+			myObject = myVoiceSetings;
+		case "elemid":
+			myObject = myVoiceElem;
+		case "languageid":
+			myObject = myVoiceLanguage;
+		case "lerningstatid":
+			myObject = myVoiceLerningStat;
+		case "libraryid":
+			myObject = myVoiceLibrary;
+		case "librarylstid":
+			myObject = myVoiceLibraryLst;
+		case "soundid":
+			myObject = myVoiceSound;
+		case "elemsetingsid":
+			myObject = myVoiceElemSetings;
+		case "libelemid":
+			myObject = myVoiceLibElem;
+		case "liblinkid":
+			myObject = myVoiceLibLink;
+		case "textid":
+			myObject = myVoiceText;
+	}
+	try{
 		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["languageid"]] = new myVoiceLanguage();
-			window.appData.language[rs.rows.item(i)["languageid"]] = new myVoiceLanguage();
+			objectLst[rs.rows.item(i)[id]] = new myVoiceLanguage();
+			window.appData.language[rs.rows.item(i)[id]] = new myVoiceLanguage();
 			for (var propName in rs.rows.item(i)) {
-				window.appData.language[rs.rows.item(i)["languageid"]][propName] = rs.rows.item(i)[propName];
-				objectLst[rs.rows.item(i)["languageid"]][propName] = rs.rows.item(i)[propName];
+				window.appData.language[rs.rows.item(i)[id]][propName] = rs.rows.item(i)[propName];
+				objectLst[rs.rows.item(i)[id]][propName] = rs.rows.item(i)[propName];
 			}
 		}
+	} catch (e) {
+		alert(JSON.stringify(e, null, 4));
+		return false;
+	} finally {
 		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
+			cb(objectLst);
 		}
 		return true;
+	}
+}
+
+function selectContext(sql, objectLst, cb){
+	var render = function(tx, rs) {
+		return selectParser(objectLst, "contextid", rs, cb);
+	};
+	if(sql == undefined) sql = "";
+	return new Promise(function(resolve, reject){
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT * FROM Context " + sql + " ORDER by contextid");
+	}, function(){alert("Select fail");});
+};
+
+function selectElemAssociation(sql, objectLst, cb){
+	var render = function(tx, rs) {
+		return selectParser(objectLst, "elemassoidid", rs, cb);
+	};
+	if(sql == undefined) sql = "";
+	return new Promise(function(resolve, reject){
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT * FROM ElemAssociation " + sql + " ORDER by elemassoid");
+	}, function(){alert("Select fail");});
+};
+
+function selectSetings(sql, objectLst, cb){
+	var render = function(tx, rs) {
+		return selectParser(objectLst, "setingsid", rs, cb);
+	};
+	if(sql == undefined) sql = "";
+	return new Promise(function(resolve, reject){
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT * FROM Setings " + sql + " ORDER by setingsid");
+	}, function(){alert("Select fail");});
+};
+
+function selectElements(sql, objectLst, cb){
+	var render = function(tx, rs) {
+		return selectParser(objectLst, "elementsid", rs, cb);
+	};
+	if(sql == undefined) sql = "";
+	return new Promise(function(resolve, reject){
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT * FROM Elements " + sql + " ORDER by elemid");
+	}, function(){alert("Select fail");});
+};
+
+function selectLanguage(sql, objectLst, cb){
+	var render = function(tx, rs) {
+		return selectParser(objectLst, "languageid", rs, cb);
 	};
 	if(sql == undefined) sql = "";
 	return new Promise(function(resolve, reject){
@@ -48,363 +150,138 @@ function selectLanguage(sql, objectLst, cb){
 	}, function(){alert("Select fail");});
 };
 
-function selectTag(sql, objectLst, cb){
+function selectLerningStat(sql, objectLst, cb){
 	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			var objname = "" + rs.rows.item(i)["languageid"] + "-" + rs.rows.item(i)["tagid"];
-			//alert("objname: " + objname);
-			objectLst[objname] = new myVoiceTag();
-			//window.appData.tag[rs.rows.item(i)["tagid"]] = new myVoiceTag();
-			for (var propName in rs.rows.item(i)) {
-				//window.appData.tag[rs.rows.item(i)["tagid"]][propName] = rs.rows.item(i)[propName];
-				objectLst[objname][propName] = rs.rows.item(i)[propName];
-			}
-		}
-		if (typeof(cb) == Function){
-			//alert("time for tag cb");
-			cb(objectLst);
-		}
-		return true;
+		return selectParser(objectLst, "lerningstatid", rs, cb);
 	};
 	if(sql == undefined) sql = "";
 	return new Promise(function(resolve, reject){
-		return selectRecords(function(tx, rs) {if (render(tx, rs)) {return resolve(objectLst);} else {alert("rejected"); return reject("error in callback");}}, "SELECT * FROM Tag " + sql + " ORDER by tagid");
-	}, function(){alert("Select fail");});
-};
-
-function selectTagText(sql, objectLst, cb){
-	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["tagtextid"]] = new myVoiceTagText();
-			for (var propName in rs.rows.item(i)) {
-				objectLst[rs.rows.item(i)["tagtextid"]][propName] = rs.rows.item(i)[propName];
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
 			}
-		}
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
-	};
-	if(sql == undefined) sql = "";
-	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM TagText " + sql + " ORDER by tagTextid");
-	}, function(){alert("Select fail");});
-};
-
-function selectLibraryLst(sql, objectLst, cb){
-	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["librarylstid"]] = new myVoiceLibraryLst();
-			//window.appData.libLst[rs.rows.item(i)["librarylstid"]] = new myVoiceLibraryLst();
-			for (var propName in rs.rows.item(i)) {
-				//window.appData.libLst[rs.rows.item(i)["librarylstid"]][propName] = rs.rows.item(i)[propName];
-				objectLst[rs.rows.item(i)["librarylstid"]][propName] = rs.rows.item(i)[propName];
-			}
-		}
-		//window.appData.libLst = objectLst;
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
-	};
-	if(sql == undefined) sql = "";
-	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM LibraryLst " + sql + " ORDER by libraryLstid");
+		}, "SELECT * FROM LerningStat " + sql + " ORDER by lerningstatid");
 	}, function(){alert("Select fail");});
 };
 
 function selectLibrary(sql, objectLst, cb){
 	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["libraryid"]] = new myVoiceLibrary();
-			for (var propName in rs.rows.item(i)) {
-				objectLst[rs.rows.item(i)["libraryid"]][propName] = rs.rows.item(i)[propName];
-			}
-		}
-		//window.appData.lib = objectLst;
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
+		return selectParser(objectLst, "libraryid", rs, cb);
 	};
 	if(sql == undefined) sql = "";
 	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM Library " + sql + " ORDER by libraryid");
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT * FROM Library " + sql + " ORDER by libraryid");
 	}, function(){alert("Select fail");});
 };
 
-function selectUser(sql, objectLst, cb){
+function selectLibraryLst(sql, objectLst, cb){
 	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["userid"]] = new myVoiceLibrary();
-			for (var propName in rs.rows.item(i)) {
-				objectLst[rs.rows.item(i)["userid"]][propName] = rs.rows.item(i)[propName];
-			}
-		}
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
+		return selectParser(objectLst, "librarylstid", rs, cb);
 	};
 	if(sql == undefined) sql = "";
 	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM User " + sql + " ORDER by userid");
-	}, function(){alert("Select fail");});
-};
-
-function selectGlobElemAssociation(sql, objectLst, cb){
-	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["globelemassoid"]] = new myVoiceGlobElemAssociation();
-			for (var propName in rs.rows.item(i)) {
-				objectLst[rs.rows.item(i)["globelemassoid"]][propName] = rs.rows.item(i)[propName];
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
 			}
-		}
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
-	};
-	if(sql == undefined) sql = "";
-	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM GlobElemAssociation " + sql + " ORDER by globelemassoid");
-	}, function(){alert("Select fail");});
-};
-
-function selectElemAssociation(sql, objectLst, cb){
-	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["elemassoid"]] = new myVoiceElemAssociation();
-			for (var propName in rs.rows.item(i)) {
-				objectLst[rs.rows.item(i)["elemassoid"]][propName] = rs.rows.item(i)[propName];
-			}
-		}
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
-	};
-	if(sql == undefined) sql = "";
-	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM ElemAssociation " + sql + " ORDER by elemassoid");
-	}, function(){alert("Select fail");});
-};
-
-function selectText(sql, objectLst, cb){
-	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["textid"]] = new myVoiceText();
-			for (var propName in rs.rows.item(i)) {
-				objectLst[rs.rows.item(i)["textid"]][propName] = rs.rows.item(i)[propName];
-			}
-		}
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
-	};
-	if(sql == undefined) sql = "";
-	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM Text " + sql + " ORDER by textid");
-	}, function(){alert("Select fail");});
-};
-
-function selectElements(sql, objectLst, cb){
-	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			var objname = "" + rs.rows.item(i)["user"]+ "_" + rs.rows.item(i)["elemid"];
-			objectLst[objname] = new myVoiceElem();
-			for (var propName in rs.rows.item(i)) {
-				objectLst[objname][propName] = rs.rows.item(i)[propName];
-			}
-		}
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
-	};
-	if(sql == undefined) sql = "";
-	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM Elements " + sql + " ORDER by elemid");
-	}, function(){alert("Select fail");});
-};
-
-function selectElemSetings(sql, objectLst, cb){
-	var render = function(tx, rs) {
-		tmpObjectLst = {};
-		for (var i = 0; i < rs.rows.length; i++) {
-			var objname = rs.rows.item(i)["elemsetingsid"];
-			if(objectLst[objname] === undefined || (objectLst[objname]['lastchange'] < rs.rows.item(i)['lastchange'])){
-				objectLst[objname] = new myVoiceElem();
-				for (var propName in rs.rows.item(i)) {
-					objectLst[objname][propName] = rs.rows.item(i)[propName];
-				}
-			}
-		}
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
-	};
-	if(sql == undefined) sql = "";
-	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM ElemSetings " + sql + " ORDER by elemsetingsid");
-	}, function(){alert("Select fail");});
-};
-
-function selectElemStat(sql, objectLst, cb){
-	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["elemstatid"]] = new myVoiceElemStat();
-			for (var propName in rs.rows.item(i)) {
-				objectLst[rs.rows.item(i)["elemstatid"]][propName] = rs.rows.item(i)[propName];
-			}
-		}
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
-	};
-	if(sql == undefined) sql = "";
-	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM ElemStat " + sql + " ORDER by elemStatid");
-	}, function(){alert("Select fail");});
-};
-
-function selectGlobElemStat(sql, objectLst, cb){
-	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["globelemstatid"]] = new myVoiceGlobElemStat();
-			for (var propName in rs.rows.item(i)) {
-				objectLst[rs.rows.item(i)["globelemstatid"]][propName] = rs.rows.item(i)[propName];
-			}
-		}
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
-	};
-	if(sql == undefined) sql = "";
-	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM GlobElemStat " + sql + " ORDER by globElemStatid");
+		}, "SELECT * FROM LibraryLst " + sql + " ORDER by librarylstid");
 	}, function(){alert("Select fail");});
 };
 
 function selectSound(sql, objectLst, cb){
 	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["soundid"]] = new myVoiceSound();
-			//window.appData.sound[rs.rows.item(i)["soundid"]][propName] = new myVoiceSound();
-			for (var propName in rs.rows.item(i)) {
-				//window.appData.sound[rs.rows.item(i)["soundid"]][propName] = rs.rows.item(i)[propName];
-				objectLst[rs.rows.item(i)["soundid"]][propName] = rs.rows.item(i)[propName];
-			}
-		}
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
+		return selectParser(objectLst, "soundid", rs, cb);
 	};
 	if(sql == undefined) sql = "";
 	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM Sound " + sql + " ORDER by soundid");
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT * FROM Sound " + sql + " ORDER by soundid");
 	}, function(){alert("Select fail");});
 };
 
-function selectContext(sql, objectLst, cb){
+function selectElemSetings(sql, objectLst, cb){
 	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["contextid"]] = new myVoiceContext();
-			window.appData.sound[rs.rows.item(i)["contextid"]][propName] = new myVoiceContext();
-			for (var propName in rs.rows.item(i)) {
-				window.appData.sound[rs.rows.item(i)["contextid"]][propName] = rs.rows.item(i)[propName];
-				objectLst[rs.rows.item(i)["contextid"]][propName] = rs.rows.item(i)[propName];
-			}
-		}
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
+		return selectParser(objectLst, "elemsetingsid", rs, cb);
 	};
 	if(sql == undefined) sql = "";
 	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM Context " + sql + " ORDER by contextid");
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT * FROM ElemSetings " + sql + " ORDER by elemsetingsid");
 	}, function(){alert("Select fail");});
 };
 
-function selectLerningStat(sql, objectLst, cb){
+function selectLibElem(sql, objectLst, cb){
 	var render = function(tx, rs) {
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)["lerningstatid"]] = new myVoiceLerningStat;
-			window.appData.sound[rs.rows.item(i)["lerningstatid"]][propName] = new myVoiceLerningStat;
-			for (var propName in rs.rows.item(i)) {
-				window.appData.sound[rs.rows.item(i)["lerningstatid"]][propName] = rs.rows.item(i)[propName];
-				objectLst[rs.rows.item(i)["lerningstatid"]][propName] = rs.rows.item(i)[propName];
-			}
-		}
-		if (typeof(cb) == Function){
-			setTimeout(function () {
-				if (cb){
-					cb(objectLst);
-				}
-			}, 1);
-		}
-		return true;
+		return selectParser(objectLst, "libelemid", rs, cb);
 	};
 	if(sql == undefined) sql = "";
 	return new Promise(function(resolve, reject){
-		selectRecords(function(tx, rs) {if (render(tx, rs)) {resolve(objectLst);} else {alert("rejected");reject("error in callback");}}, "SELECT * FROM LerningStat " + sql + " ORDER by lerningstatid");
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT * FROM LibElem " + sql + " ORDER by libelemid");
+	}, function(){alert("Select fail");});
+};
+
+function selectLibLink(sql, objectLst, cb){
+	var render = function(tx, rs) {
+		return selectParser(objectLst, "liblinkid", rs, cb);
+	};
+	if(sql == undefined) sql = "";
+	return new Promise(function(resolve, reject){
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT * FROM LibLink " + sql + " ORDER by liblinkid");
+	}, function(){alert("Select fail");});
+};
+
+function selectText(sql, objectLst, cb){
+	var render = function(tx, rs) {
+		return selectParser(objectLst, "textid", rs, cb);
+	};
+	if(sql == undefined) sql = "";
+	return new Promise(function(resolve, reject){
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT * FROM Text " + sql + " ORDER by textid");
 	}, function(){alert("Select fail");});
 };

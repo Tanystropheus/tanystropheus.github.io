@@ -58,8 +58,8 @@ function openDb(okcb, failcb) {
 function initialInsert(){
 	//alert("initial insert");
 	insertSql = [
-		"INSERT INTO Language VALUES(1,'Français')",
-		"INSERT INTO Language VALUES(2,'Anglais')"
+		"INSERT INTO Language (langname) VALUES('Français')",
+		"INSERT INTO Language (langname) VALUES('Anglais')"
 	];
 
 	var insertPromises = [];
@@ -67,17 +67,17 @@ function initialInsert(){
 		insertPromises.push(new Promise(function(){
 			//alert("sql: " + insertSql[sqlReq]);
 			document.db.executeSql( insertSql[sqlReq], null, function(res){
-				//alert(insertSql[sqlReq] + " finish");
+				//alert(insertSql[sqlReq] + " finish succes");
 				resolve(res);
-			}, function(err){
-				//alert(insertSql[sqlReq] + " finish");
+			}, function(err, err2){
+				alert(insertSql[sqlReq] + " finish Error: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
 				reject(err);
 			});
 		}));
 	}
 	return Promise.all(insertSql).then(
 		function(val){
-			alert("Insert initial data ok");
+			//alert("Insert initial data ok");
 		},
 		function(err){
 			alert("Insert initial data Fail!!: " + JSON.stringify(err, null, 4));
@@ -112,31 +112,30 @@ function initDb(callback){
 	 * initialiser la basse et créer les tables
 	 * */
 	createTableSql = [
-	//~ "DROP TABLE IF EXISTS Context",
-	//~ "DROP TABLE IF EXISTS ElemAssociation",
-	//~ "DROP TABLE IF EXISTS ElemSetings",
-	//~ "DROP TABLE IF EXISTS Elements",
-	//~ "DROP TABLE IF EXISTS Language",
-	//~ "DROP TABLE IF EXISTS LerningStat",
-	//~ "DROP TABLE IF EXISTS Library",
-	//~ "DROP TABLE IF EXISTS LibraryLst",
-	//~ "DROP TABLE IF EXISTS Sound",
-	//~ "DROP TABLE IF EXISTS Text",
-	//~ "DROP TABLE IF EXISTS User",
-	"CREATE TABLE Context (contextid integer primary key,  time date, places text, activiti text, interlocutor text)",
-	"CREATE TABLE ElemAssociation (elemassoid integer primary key, elemlst text, date date, learning integer)",
-	"CREATE TABLE Setings (setingsid integer primary key, width integer, writing text, sound integer, lastchange date)",
+	"DROP TABLE IF EXISTS Context",
+	"DROP TABLE IF EXISTS ElemAssociation",
+	"DROP TABLE IF EXISTS ElemSetings",
+	"DROP TABLE IF EXISTS Elements",
+	"DROP TABLE IF EXISTS Language",
+	"DROP TABLE IF EXISTS LerningStat",
+	"DROP TABLE IF EXISTS Library",
+	"DROP TABLE IF EXISTS LibraryLst",
+	"DROP TABLE IF EXISTS Sound",
+	"DROP TABLE IF EXISTS Text",
+	"CREATE TABLE Context (contextid integer primary key AUTOINCREMENT,  time date, places text, activiti text, interlocutor text)",
+	"CREATE TABLE ElemAssociation (elemassoid integer primary key AUTOINCREMENT, elemlst text, date date, learning integer)",
+	"CREATE TABLE Setings (setingsid integer primary key AUTOINCREMENT, width integer, writing text, sound integer, lastchange date)",
 	"CREATE TABLE Elements (elemid integer, elemurl text, soundid integer, textid integer, state integer, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid))",
-	"CREATE TABLE Language (languageid integer primary key, langname text)",
-	"CREATE TABLE LerningStat (lerningstatid integer primary key, contextid integer, elemassoid integer, good integer, FOREIGN KEY(contextid) REFERENCES Context(contextid), FOREIGN KEY(elemassoid) REFERENCES ElemAssociation(elemassoid))",
-	"CREATE TABLE Library (libraryid integer primary key, libtitle text)",
-	"CREATE TABLE LibraryLst (librarylstid integer primary key, liblsttitle text, userlog text)",
-	"CREATE TABLE Sound (soundid integer primary key, soundurl text,  languageid, FOREIGN KEY(languageid) REFERENCES Language(languageid))",
-	"CREATE TABLE ElemSetings (elemsetingsid integer primary key, setingsid integer, elemid integer,  FOREIGN KEY(setingsid) REFERENCES Setings(setingsid),  FOREIGN KEY(elemid) REFERENCES Elements(elemid))",
-	"CREATE TABLE LibElem (libelemid integer primary key, libraryid integer, elemid integer,  FOREIGN KEY(libraryid) REFERENCES Library(libraryid),  FOREIGN KEY(elemid) REFERENCES Elements(elemid))",
-	"CREATE TABLE LibLink (liblinkid integer primary key, libraryid integer, librarylstid integer,  FOREIGN KEY(libraryid) REFERENCES Library(libraryid), FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))",
-	"CREATE TABLE Text (textid integer primary key, languageid text, text text, FOREIGN KEY(languageid) REFERENCES Language(languageid))"
-	//~ "CREATE TABLE User (userid integer primary key, languageid integer, librarylstid text, interfacesetings text, FOREIGN KEY(languageid) REFERENCES Language(languageid), FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))"
+	"CREATE TABLE Language (languageid integer primary key AUTOINCREMENT, langname text)",
+	"CREATE TABLE LerningStat (lerningstatid integer primary key AUTOINCREMENT, contextid integer, elemassoid integer, good integer, FOREIGN KEY(contextid) REFERENCES Context(contextid), FOREIGN KEY(elemassoid) REFERENCES ElemAssociation(elemassoid))",
+	"CREATE TABLE Library (libraryid integer primary key AUTOINCREMENT, libtitle text)",
+	"CREATE TABLE LibraryLst (librarylstid integer primary key AUTOINCREMENT, liblsttitle text, userlog text)",
+	"CREATE TABLE Sound (soundid integer primary key AUTOINCREMENT, soundurl text,  languageid, FOREIGN KEY(languageid) REFERENCES Language(languageid))",
+	"CREATE TABLE ElemSetings (elemsetingsid integer primary key AUTOINCREMENT, setingsid integer, elemid integer,  FOREIGN KEY(setingsid) REFERENCES Setings(setingsid),  FOREIGN KEY(elemid) REFERENCES Elements(elemid))",
+	"CREATE TABLE LibElem (libelemid integer primary key AUTOINCREMENT, libraryid integer, elemid integer,  FOREIGN KEY(libraryid) REFERENCES Library(libraryid),  FOREIGN KEY(elemid) REFERENCES Elements(elemid))",
+	"CREATE TABLE LibLink (liblinkid integer primary key AUTOINCREMENT, libraryid integer, librarylstid integer,  FOREIGN KEY(libraryid) REFERENCES Library(libraryid), FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))",
+	"CREATE TABLE Text (textid integer primary key AUTOINCREMENT, languageid integer, text text, FOREIGN KEY(languageid) REFERENCES Language(languageid))"
+	//~ "CREATE TABLE User (userid integer primary key AUTOINCREMENT, languageid integer, librarylstid text, interfacesetings text, FOREIGN KEY(languageid) REFERENCES Language(languageid), FOREIGN KEY(librarylstid) REFERENCES LibraryLst(librarylstid))"
 	];
 
 	var createTablePromises = [];
