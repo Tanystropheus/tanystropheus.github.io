@@ -57,8 +57,8 @@ function insertElemAssociation(elem, okfunc, failfunc){
 };
 
 function insertSetings(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO Setings (width, writing, sound, lastchange) VALUES (?, ?, ?, ?)",
-	[elem.width, elem.writing, elem.sound, elem.lastchange], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (?, ?, ?, ?, ?)",
+	[elem.width, JSON.stringify(elem.writing), elem.sound, elem.lastchange, elem.pos], okfunc, failfunc);
 	return true;
 };
 

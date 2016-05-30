@@ -11,7 +11,7 @@ function updateElemAssociation(elem){
 };
 
 function updateSetings(elem){
-	myObjExecSqliteSQL("UPDATE ElemAssociation SET width='" + elem.width  + "' , writing='" + elem.writing + "' , sound='" + elem.sound + "' , lastchange='" + elem.lastchange + "' WHERE setingsid="+ elem.setingsid
+	myObjExecSqliteSQL("UPDATE ElemAssociation SET width='" + elem.width  + "' , writing='" + elem.writing + "' , sound='" + elem.sound + "' , lastchange='" + elem.lastchange + "' , pos='" + elem.pos + "' WHERE setingsid="+ elem.setingsid
 	[], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " "+JSON.stringify(err2, null, 4));});
 	return true;
 };

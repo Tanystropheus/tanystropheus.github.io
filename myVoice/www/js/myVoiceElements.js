@@ -131,12 +131,13 @@ function myVoiceElemSetings(){
 	this.elemsetingsid = null; // ID should be the same as the Element Primary key: user_elemid
 	this.width = 10;
 	this.writing = {
-		police: "",
-		policecolor: "",
+		police: '',
+		policecolor: '',
 		size: 15,
-		color: "",
+		color: '',
 		place: 0
 	};
 	this.sound = 0;
 	this.lastchange = Date.now();
+	this.pos = 0;
 }

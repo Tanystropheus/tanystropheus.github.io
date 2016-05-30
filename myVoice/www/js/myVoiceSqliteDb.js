@@ -59,7 +59,60 @@ function initialInsert(){
 	//alert("initial insert");
 	insertSql = [
 		"INSERT INTO Language (langname) VALUES('Français')",
-		"INSERT INTO Language (langname) VALUES('Anglais')"
+		"INSERT INTO Language (langname) VALUES('Anglais')",
+		"INSERT INTO Text (languageid, text) VALUES ( 1, 'text1')",
+		"INSERT INTO Text (languageid, text) VALUES ( 1, 'text2')",
+		"INSERT INTO Text (languageid, text) VALUES ( 1, 'text3')",
+		"INSERT INTO Text (languageid, text) VALUES ( 1, 'text4')",
+		"INSERT INTO Text (languageid, text) VALUES ( 1, 'text5')",
+		"INSERT INTO Text (languageid, text) VALUES ( 1, 'text6')",
+		"INSERT INTO Text (languageid, text) VALUES ( 1, 'text7')",
+		"INSERT INTO Text (languageid, text) VALUES ( 1, 'text8')",
+		"INSERT INTO Sound (soundurl,  languageid) VALUES ('fakeURL1', 1)",
+		"INSERT INTO Sound (soundurl,  languageid) VALUES ('fakeURL2', 1)",
+		"INSERT INTO Sound (soundurl,  languageid) VALUES ('fakeURL3', 1)",
+		"INSERT INTO Sound (soundurl,  languageid) VALUES ('fakeURL4', 1)",
+		"INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 1)",
+		"INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 2)",
+		"INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 3)",
+		"INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 4)",
+		"INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 5)",
+		"INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 6)",
+		"INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 7)",
+		"INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 8)",
+		"INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre1.png', 1, 1, 0)",
+		"INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre2.png', 1, 2, 0)",
+		"INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre3.png', 1, 3, 0)",
+		"INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre4.png', 1, 4, 0)",
+		"INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre5.png', 1, 5, 0)",
+		"INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre6.png', 1, 6, 0)",
+		"INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre7.png', 1, 7, 0)",
+		"INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre8.png', 1, 8, 0)",
+		"INSERT INTO ElemSetings (setingsid, elemid) VALUES (1, 1)",
+		"INSERT INTO ElemSetings (setingsid, elemid) VALUES (2, 2)",
+		"INSERT INTO ElemSetings (setingsid, elemid) VALUES (3, 3)",
+		"INSERT INTO ElemSetings (setingsid, elemid) VALUES (4, 4)",
+		"INSERT INTO ElemSetings (setingsid, elemid) VALUES (5, 5)",
+		"INSERT INTO ElemSetings (setingsid, elemid) VALUES (6, 6)",
+		"INSERT INTO ElemSetings (setingsid, elemid) VALUES (7, 7)",
+		"INSERT INTO ElemSetings (setingsid, elemid) VALUES (8, 8)",
+		"INSERT INTO Library (libtitle) VALUES ('onglet1')",
+		"INSERT INTO Library (libtitle) VALUES ('onglet2')",
+		"INSERT INTO Library (libtitle) VALUES ('onglet3')",
+		"INSERT INTO Library (libtitle) VALUES ('onglet4')",
+		"INSERT INTO LibElem (libraryid, elemid) VALUES (1, 1)",
+		"INSERT INTO LibElem (libraryid, elemid) VALUES (1, 2)",
+		"INSERT INTO LibElem (libraryid, elemid) VALUES (2, 3)",
+		"INSERT INTO LibElem (libraryid, elemid) VALUES (2, 4)",
+		"INSERT INTO LibElem (libraryid, elemid) VALUES (3, 5)",
+		"INSERT INTO LibElem (libraryid, elemid) VALUES (3, 6)",
+		"INSERT INTO LibElem (libraryid, elemid) VALUES (4, 7)",
+		"INSERT INTO LibElem (libraryid, elemid) VALUES (4, 8)",
+		"INSERT INTO LibraryLst (liblsttitle, userlog) VALUES ('utilisation', 'LogUtilisateur1')",
+		"INSERT INTO LibLink (libraryid, librarylstid) VALUES (1, 1)",
+		"INSERT INTO LibLink (libraryid, librarylstid) VALUES (2, 1)",
+		"INSERT INTO LibLink (libraryid, librarylstid) VALUES (3, 1)",
+		"INSERT INTO LibLink (libraryid, librarylstid) VALUES (4, 1)"
 	];
 
 	var insertPromises = [];
@@ -71,7 +124,7 @@ function initialInsert(){
 				resolve(res);
 			}, function(err, err2){
 				alert(insertSql[sqlReq] + " finish Error: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
-				reject(err);
+				return reject(err);
 			});
 		}));
 	}
@@ -88,7 +141,7 @@ function initialInsert(){
 function initialSelect(){
 	//alert(JSON.stringify(selectLanguage("", window.appData.language, function(objLst){ /* alert("language: " + JSON.stringify(objLst, null, 4)); resolve(objLst); */ })));
 	var selectPromises = [
-		selectLanguage( undefined , window.appData.language, function(objLst){ resolve(objLst);}),
+		selectLanguage( "" , window.appData.language, function(objLst){ resolve(objLst);}),
 		selectLibraryLst("", window.appData.libraryLst, function(objLst){ resolve(objLst);}),
 		selectLibrary("", window.appData.library, function(objLst){ resolve(objLst);}),
 		selectElemAssociation("", window.appData.elemAssociation, function(objLst){ resolve(objLst);}),
@@ -124,7 +177,7 @@ function initDb(callback){
 	"DROP TABLE IF EXISTS Text",
 	"CREATE TABLE Context (contextid integer primary key AUTOINCREMENT,  time date, places text, activiti text, interlocutor text)",
 	"CREATE TABLE ElemAssociation (elemassoid integer primary key AUTOINCREMENT, elemlst text, date date, learning integer)",
-	"CREATE TABLE Setings (setingsid integer primary key AUTOINCREMENT, width integer, writing text, sound integer, lastchange date)",
+	"CREATE TABLE Setings (setingsid integer primary key AUTOINCREMENT, width integer, writing text, sound integer, lastchange date, pos integer)",
 	"CREATE TABLE Elements (elemid integer, elemurl text, soundid integer, textid integer, state integer, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid))",
 	"CREATE TABLE Language (languageid integer primary key AUTOINCREMENT, langname text)",
 	"CREATE TABLE LerningStat (lerningstatid integer primary key AUTOINCREMENT, contextid integer, elemassoid integer, good integer, FOREIGN KEY(contextid) REFERENCES Context(contextid), FOREIGN KEY(elemassoid) REFERENCES ElemAssociation(elemassoid))",

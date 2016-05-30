@@ -44,13 +44,15 @@ function selectParser(objectLst, id, rs, cb){
 			myObject = myVoiceLibLink;
 		case "textid":
 			myObject = myVoiceText;
+		default :
+			myObject = Object;
 	}
 	try{
 		for (var i = 0; i < rs.rows.length; i++) {
 			objectLst[rs.rows.item(i)[id]] = new myVoiceLanguage();
-			window.appData.language[rs.rows.item(i)[id]] = new myVoiceLanguage();
+			//window.appData.language[rs.rows.item(i)[id]] = new myVoiceLanguage();
 			for (var propName in rs.rows.item(i)) {
-				window.appData.language[rs.rows.item(i)[id]][propName] = rs.rows.item(i)[propName];
+				//window.appData.language[rs.rows.item(i)[id]][propName] = rs.rows.item(i)[propName];
 				objectLst[rs.rows.item(i)[id]][propName] = rs.rows.item(i)[propName];
 			}
 		}
