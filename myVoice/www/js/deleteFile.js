@@ -1,11 +1,10 @@
 /* ********************************************************************************************* */
 /* ************************************* FONCTIONS DEL  **************************************** */
 /* ********************************************************************************************* */
+var tmp = {};
 
 function pre_del(id)
 {
-	var tmp = {};
-
 	var sql = "where elemid =" + id;
 	selectElement(sql , tmp, function(){
 		del(tmp);
@@ -23,7 +22,12 @@ function del(tmp)
 		alert("del son GOOD");
 	});
 	}
-	deleteInSqliteTable(db, "Text", "textid =" + tmp.textid);
 	deleteInSqliteTable(db, "Sound", "soundid =" + tmp.soundid);
+
+	sql = "where textid =" + tmp.textid;
+	selectElements(sql, tmp);
+	if (tmp[1] === undefined){
+		deleteInSqliteTable(db, "Text", "textid =" + tmp.textid);}
+	deleteInSqliteTable(db, "LibElem", "elemid =" + tmp.elemid);
 	deleteInSqliteTable(db, "Elements", "elemid =" + tmp.elemid);
 }

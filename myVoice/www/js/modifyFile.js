@@ -3,8 +3,11 @@
 /* ********************************************************************************************* */
 var pictureSource;
 var destinationType;
+var tmpelem = {};
+var tmpson = {};
+var tmptexte = {};
 var tmp = {};
-
+var unique = 0;
 /* ********************************************************************************************* */
 /* ************************************* FONCTIONS SQL ***************************************** */
 /* ********************************************************************************************* */
@@ -13,20 +16,35 @@ function pre_modify(id) {
 	pictureSource = navigator.camera.PictureSourceType;
 	destinationType = navigator.camera.DestinationType;
 	var sql = "where elemid =" + id;
-	selectElement(sql, tmp, function(){
-		alert(JSON.stringify(tmp));
+	selectElements(sql, tmpelem, function(){
+		alert(JSON.stringify(tmpelem));
 	});
+	if (tmpelem[0].sound !== undefined) {
+		sql = "where soundid =" + tmpelem[0].soundid;
+		selectSound(sql, tmpson, function(){
+			alert(JSON.stringify(tmpson));
+		});
+	}
+	sql = "where textid =" + tmpelem[0].textid;
+	selectText(sql, tmptexte, function(){
+		alert(JSON.stringify(tmpson));
+	});
+	if (tmptexte[1] === undefined)
+		unique = 1;
 }
 
 function updateBdd(){
 	var tname = Elements;
-	var set = "width =" + tmp.width;
-	var cond = "elemid =" + tmp.elemid;
+	var set = "width =" + tmpelem[0].width;
+	var cond = "elemid =" + tmpelem[0].elemid;
 	updateInSqliteTable(tname, set, cond);
 	tname = Text;
-	set = "text =" + tmp.textelem.text;
-	cond = "textid =" + tmp.textid;
-	updateInSqliteTable(tname, set, cond);
+	if (unique === 0){
+		set = "text =" + tmptexte[0].text;
+		cond = "textid =" + tmpelem[0].textid;
+		updateInSqliteTable(tname, set, cond);
+	}
+	else
 }
 /* ********************************************************************************************* */
 /* ************************************* FONCTIONS IMAGES ************************************** */
@@ -41,8 +59,8 @@ function selectPhoto(imageURI) {
   myImage.src = imageURI;
   if (myImage.src !== undefined) {
 	  mvFile(imageURI);
-	  tmp.width = myImage.width;
-	  alert(JSON.stringify(tmp));
+	  tmpelem[0].width = myImage.width;
+	  alert(JSON.stringify(tmpelem[0]));
   }
   else {
 	 alert("merci de choisir une photo");
@@ -63,8 +81,8 @@ function pickPhoto(imageData) {
   smallImage.src = "data:image/jpeg;base64," + imageData;
   if (smallImage.src !== undefined) {
 	  mvFile(smallImage.src);
-	  tmp.width = smallImage.width;
-	  alert(JSON.stringify(tmp));
+	  tmpelem[0].width = smallImage.width;
+	  alert(JSON.stringify(tmpelem[0]));
   }
   else {
 	  alert("merci de prendre une photo");
@@ -82,7 +100,7 @@ function capturePhoto() {
 
 function captureSuccess(mediaFiles) {
 	if (mediaFiles[0].fullPath !== undefined) {
-		tmp.soundelem.soundurl = mvFile("file://" + mediaFiles[0].fullPath);
+		tmpelem[0].soundurl = mvFile("file://" + mediaFiles[0].fullPath);
 		alert(JSON.stringify(tmp));
 	}
 	else {
@@ -100,7 +118,7 @@ function captureAudio() {
 
 function modifyName() {
 	if (document.getElementById('name').value !== undefined) {
-		tmp.textelem.text = document.getElementById('name').value;
+		tmptexte[0].text = document.getElementById('name').value;
 		alert(JSON.stringify(tmp));
 	}
 	else {

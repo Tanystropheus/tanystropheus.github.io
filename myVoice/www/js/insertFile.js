@@ -14,8 +14,9 @@ var tmp;
 
 /* ************************************* VARIABLE PRESET *************************************** */
 
-var elem = new myVoiceElem(" ", " ", " ", " ", 1 , " ", " ", " ", "t");
-
+var elem = new myVoiceElem(" ", " ", " ", "t" );
+var son =  new myVoiceSound(" ", "1");
+var texte = new myVoiceText(" ", "1");
 /* ********************************************************************************************* */
 /* ************************************* FONCTIONS SQL ***************************************** */
 /* ********************************************************************************************* */
@@ -37,11 +38,13 @@ function selectMax(sql, tmp, cb){
 
 function insertBdd(){
 	insertElements(elem);
-	insertText(elem.textelem);
+	insertText(texte);
 	if (elem.soundid !== undefined) {
-		insertSound(elem.soundelem);
+		insertSound(son);
 	}
-	elem = (" ", " ", " ", " ", 1 , " ", " ", " ", "t");
+	elem = (" ", " ", " ", " ", "t");
+	son = (" ",  " ", "1");
+	texte = (" ", " ", "1");
 }
 
 
@@ -57,11 +60,9 @@ function selectPhoto(imageURI) {
   myImage.style.display = 'block';
   myImage.src = imageURI;
   if (myImage !== undefined) {
-  	selectMax("SELECT MAX(elemid) FROM Elements", tmp, function (tmp) {
-	  	elem.elemid = tmp + 1;
 	  	elem.elemurl = mvFile(imageURI);
 	  	elem.width = myImage.width;
-	  	alert(JSON.stringify(elem)); });
+	  	alert(JSON.stringify(elem));
 	}
 	else {
 		alert("merci de choisir une photo");
@@ -79,12 +80,10 @@ function pickPhoto(imageData) {
   var smallImage = document.getElementById('pick');
   smallImage.style.display = 'block';
   smallImage.src = "data:image/jpeg;base64," + imageData;
-  if (smallImage.src !== undefined) {
-	  selectMax("SELECT MAX(elemid) FROM Elements", tmp, function (tmp) {
-		  elem.elemid = tmp + 1;
+  if (imageData !== undefined) {
 		  elem.elemurl = mvFile(smallImage.src);
 		  elem.width = smallImage.width;
-		  alert(JSON.stringify(elem)); });
+		  alert(JSON.stringify(elem));
 	}
 	else {
 		alert("merci de prendre une photo");
@@ -104,8 +103,7 @@ function captureSuccess(mediaFiles) {
 	if (mediaFiles[0].fullPath !== undefined) {
 		selectMax("SELECT MAX(soundid) FROM Sound", tmp, function (tmp) {
 			elem.soundid = tmp + 1;
-			elem.soundelem.soundid = elem.soundid;
-			elem.soundelem.soundurl = mvFile("file://" + mediaFiles[0].fullPath);
+			son.soundurl = mvFile("file://" + mediaFiles[0].fullPath);
 			alert(JSON.stringify(elem)); });
 	}
 	else {
@@ -122,11 +120,17 @@ function captureAudio() {
 /* ********************************************************************************************* */
 
 function createName() {
-	selectMax("SELECT MAX(textid) FROM Text", tmp, function (tmp) {
-		elem.textid = tmp + 1;
-		elem.textelem.textid = elem.textid;
-		elem.textelem.text = document.getElementById('name').value;
+	var sql = "where text =" + document.getElementById('name').value;
+	selectText(sql, tmp, function(){
+		alert(JSON.stringify(tmp));
 	});
+	if (tmp[0] !== undefined){
+		selectMax("SELECT MAX(textid) FROM Text", tmp, function (tmp) {
+			elem.textid = tmp + 1;} );}
+	else {
+		elem.textid = tmp[0].textid;
+	}
+	texte.text = document.getElementById('name').value;
 }
 
 /* ********************************************************************************************* */
