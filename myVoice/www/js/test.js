@@ -17,6 +17,7 @@ orgniser les donner
 */
     function elem_stat()
     {
+        this.elemId = 0;
         this.nb_use = 0;
         this.lst_senstenceId = [];
     }
@@ -168,7 +169,7 @@ orgniser les donner
 //
  //               lenght = all_elem_stat[indice]['lst_senstenceId'].length+1;
 
-
+                all_elem_stat[indice]['elemId'] = indice;
                 all_elem_stat[indice]['lst_senstenceId'][all_elem_stat[indice]['nb_use']] = sentence['sentenceId'];
                 all_elem_stat[indice]['nb_use']++;
   //              console.log(all_elem_stat[indice]['lst_senstenceId']);

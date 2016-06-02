@@ -17,6 +17,7 @@ orgniser les donner
 */
     function elem_stat()
     {
+        this.elemId = 0;
         this.nb_use = 0;
         this.lst_senstenceId = [];
     }
@@ -48,13 +49,14 @@ orgniser les donner
 
         function f2()
         {
-            var group = new Group();
+            
+            // var group = new Group();
 
-            var pt_tl = new Point(30, 10);
-            var pt_br = new Point(400, 200);
+            // var pt_tl = new Point(30, 10);
+            // var pt_br = new Point(400, 200);
 
-            console.log("youuuouy");
-            draw_the_grid(-49, 422, 5, group, pt_tl, pt_br);
+            // console.log("youuuouy");
+            // draw_the_grid(-49, 422, 5, group, pt_tl, pt_br);
         }
 //*
         
@@ -167,7 +169,7 @@ orgniser les donner
 //
  //               lenght = all_elem_stat[indice]['lst_senstenceId'].length+1;
 
-
+                all_elem_stat[indice]['elemId'] = indice;
                 all_elem_stat[indice]['lst_senstenceId'][all_elem_stat[indice]['nb_use']] = sentence['sentenceId'];
                 all_elem_stat[indice]['nb_use']++;
   //              console.log(all_elem_stat[indice]['lst_senstenceId']);
