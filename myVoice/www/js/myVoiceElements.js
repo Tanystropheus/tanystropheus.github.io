@@ -81,6 +81,7 @@ function myVoiceElemAssociation(elemassoid, userId, globelemassoid, nbuse, date)
 	};
 };
 
+//alert("myVoiceElem");
 function myVoiceElem(elemid, elemUrl, Width, user, soundId, textId, taglst, state) {
 	this.elemid = elemid;
 	this.elemurl = elemUrl;
@@ -208,3 +209,35 @@ function myVoiceElemSetings(id){
 	this.sound = 0;
 	this.lastchange = Date.now();
 }
+
+
+function myVoiceSentence(sentenceId, listElemId, time) {
+	this.sentenceId = sentenceId;
+	this.listElemId = listElemId;
+	this.time = time;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
+};
+
+function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
+	this.sentenceId = globaLsentenceId;
+	this.listTime = listTime;
+	this.nbUse = listTime.lenght;
+	this.listElemId = listElemId;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
+};
+
+/*
+function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
+	this.sentenceId = globaLsentenceId;
+	this.listTime = listTime;
+	this.nbUse = listTime.lenght;
+	this.listElemId = listElemId;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
+};
+//*/

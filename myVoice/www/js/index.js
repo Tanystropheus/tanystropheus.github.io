@@ -46,6 +46,8 @@ var app = {
 	onDeviceReady: function() {
 		app.receivedEvent('deviceready');
 		//alert("Device Ready");
+
+
 		if (!window.localStorage.getItem("Interfaces_Setings")){
 			window.appData.interfaces_setings = {
 				backgroundColor: "",
@@ -69,7 +71,7 @@ var app = {
 				butonColor: "",
 				language: 0
 			};
-			window.localStorage.setItem("Interfaces_Setings", JSON.stringify(window.appData.interfaces_setings));
+			window.localS/torage.setItem("Interfaces_Setings", JSON.stringify(window.appData.interfaces_setings));
 		} else {
 			window.appData.interfaces_setings = JSON.parse(window.localStorage.getItem("Interfaces_Setings"));
 		}

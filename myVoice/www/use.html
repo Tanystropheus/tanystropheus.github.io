@@ -8,20 +8,120 @@
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <script type="text/javascript" src="cordova.js" ></script>
+        <script type="text/javascript" src="js/paper-full.js"></script>
+        <script type="text/javascript" src="js/test.js" canvas="myCanvas"></script>
+        <script type="text/javascript" src="js/manage_data.js" canvas="myCanvas"></script>
+        <script type="text/javascript" src="js/myGraph.js" canvas="myCanvas"></script>
         <script type="text/javascript" src="js/myVoiceInsert.js"></script>
         <script type="text/javascript" src="js/myVoiceSelect.js"></script>
         <script type="text/javascript" src="js/myVoiceUpdate.js"></script>
         <script type="text/javascript" src="js/myVoiceSqliteDb.js"></script>
         <script type="text/javascript" src="js/myVoiceElements.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/index.js"></script> 
+
         <title>Ma Voix</title>
+
+        <style type="text/css">
+            img.img_stat{
+                width: 50px;
+                height: 50px;
+            }
+            div.library_stat{
+                border-style: solid;
+            }
+            canvas{
+                border-style: solid;
+        </style>>
     </head>
 
-    <!-- Page Utilisation -->
     <body>
+
+
+
+
+
+
+        <!-- Page paramètres -->
+        <div data-role="page" id="statpage">
+            <div data-role="header">
+                <h1>Stat</h1>
+                <a href="#usepage" data-transition="slide" class="ui-btn ui-btn-right ui-icon-gear ui-btn-icon-right ui-btn-inline ui-corner-all">Utilisation</a>
+            </div>
+
+             <div data-role="main" class="ui-content" id="image_stat">
+                <div class="library_stat" id="img_persone" style="border-color: red;">
+                    <img onclick="f1(this)" class="img_stat" src="img/personnage/Batman.png" alt="Batman">
+                    <img onclick="f1(this)" class="img_stat" src="img/personnage/sorcier.png" alt="sorcier">
+                    <img onclick="f1(this)" class="img_stat" src="img/personnage/sultans.png" alt="sultan">
+                    <img onclick="f1(this)" class="img_stat" src="img/personnage/tueur.png" alt="tueur">
+                    <img onclick="f1(this)" class="img_stat" src="img/personnage/Le Petit Poucet.png" alt="Le Petit Poucet">
+                </div>
+
+                <div class="library_stat" id="img_action" style="border-color: blue;">
+                    <img onclick="f1(this)" class="img_stat" src="img/action/to hop.png" alt="to hop">
+                    <img onclick="f1(this)" class="img_stat" src="img/action/to give.png" alt="to give">
+                    <img onclick="f1(this)" class="img_stat" src="img/action/to jump.png" alt="to jump">
+                    <img onclick="f1(this)" class="img_stat" src="img/action/to finish.png" alt="to finish">
+                    <img onclick="f1(this)"  class="img_stat" src="img/action/to answer.png" alt="to answer">
+                    
+                </div>
+
+                <div class="library_stat" id="img_objet" style="border-color: green;">
+                
+                    <img onclick="f1(this)" class="img_stat" src="img/objet/salt.png" alt="salt">             
+                    <img onclick="f1(this)" class="img_stat" src="img/objet/stylo.png" alt="stylo">
+                    <img onclick="f1(this)" class="img_stat" src="img/objet/cahier.png" alt="cahier">
+                    <img onclick="f1(this)"  class="img_stat" src="img/objet/feuilles.png" alt="feuilles">
+                    <img onclick="f1(this)"  class="img_stat" src="img/objet/scotch.png" alt="scotch">
+                   
+                </div>
+
+               <div class="library_stat" id="img_adj" style="border-color: purple;">
+                    
+                    <img onclick="f1(this)" class="img_stat" src="img/adjectif/sale.png" alt="sale">
+                    <img onclick="f1(this)" class="img_stat" src="img/adjectif/sec.png" alt="sec">
+                    <img onclick="f1(this)" class="img_stat" src="img/adjectif/chaud.png" alt="chaud">
+                    <img onclick="f1(this)" class="img_stat" src="img/adjectif/vide.png" alt="vide">
+                    <img onclick="f1(this)" class="img_stat" src="img/adjectif/vieux.png" alt="vieux">
+                </div>
+
+
+                <div id="ressult">
+                    <script>
+                      //  alert("width:"+this.width);
+                    </script>
+                </div>
+                <canvas id="myCanvas" width="500px" height="500px" style="fillColore"></canvas>
+             </div>
+            <div data-role="footer" class="footer">
+                <h1>Fsooter Text</h1>
+                    <a id="F2" href="#" onclick="f2()" style="position: absolute; left:0px" >F2</a>
+                    <a id="F3" href="#" onclick="f3()" style="position: absolute; left:50px" >F3</a>
+                    <a id="F4" href="#" onclick="f4()" style="position: absolute; right:50px" >F4</a>
+                    <a id="F5" href="#" onclick="f5()" style="position: absolute; right:0px" >F5</a>
+                    
+
+            </div>
+
+        </div>
+
+<script type="text/javascript">
+    function f1(img)
+    {
+        console.log("url"+img.src);
+      //  ff1();
+    }
+
+
+
+</script>>
+
+    <!-- Page Utilisation -->
         <div data-role="page" id="usepage">
             <div data-role="header" class="header">
                 <h1>Mode Utilisation</h1>
+                 <!-- Bouton de Stat -->
+                <a href="#statpage" data-transition="slide" class="ui-btn ui-btn-left ui-icon-gear ui-btn-icon-left ui-btn-inline ui-corner-all">Stat</a>
                  <!-- Bouton de paramétrage -->
                 <a href="#settingpage" data-transition="slide" class="ui-btn ui-btn-right ui-icon-gear ui-btn-icon-right ui-btn-inline ui-corner-all">Paramètres</a>
             </div>
@@ -45,7 +145,7 @@
                                 <li class="element">1
                                     <ul>
                                         <li>
-                                            <img class="imgClass" src="img/carre1.png" alt="Test1"/>
+                                            <!-- <img class="imgClass" src="img/carre1.png" alt="Test1"/> -->
                                         </li>
                                     </ul>
                                 </li>
@@ -59,14 +159,14 @@
                                 <li class="element">3
                                     <ul>
                                         <li>
-                                            <img class="imgClass" src="img/carre3.png" alt="Test3"/>
+                                            <!-- <img class="imgClass" src="img/carre3.png" alt="Test3"/> -->
                                         </li>
                                     </ul>
                                 </li>
                                 <li class="element">4
                                     <ul>
                                         <li>
-                                            <img class="imgClass" src="img/carre4.png" alt="Test4"/>
+                                            <!-- <img class="imgClass" src="img/carre4.png" alt="Test4"/> -->
                                         </li>
                                     </ul>
                                 </li>
