@@ -1,0 +1,55 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-sqlcipher-adapter": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "es6-promise-plugin": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-sqlite": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "file": "plugins/cordova-sqlcipher-adapter/www/SQLitePlugin.js",
+            "id": "cordova-sqlcipher-adapter.SQLitePlugin",
+            "pluginId": "cordova-sqlcipher-adapter",
+            "clobbers": [
+                "SQLitePlugin"
+            ]
+        },
+        {
+            "file": "plugins/es6-promise-plugin/www/promise.js",
+            "id": "es6-promise-plugin.Promise",
+            "pluginId": "es6-promise-plugin",
+            "runs": true
+        },
+        {
+            "file": "plugins/cordova-plugin-sqlite/www/SQLitePlugin.js",
+            "id": "cordova-plugin-sqlite.SQLitePlugin",
+            "pluginId": "cordova-plugin-sqlite",
+            "clobbers": [
+                "window.sqlitePlugin",
+                "cordova.plugins.sqlitePlugin"
+            ]
+        }
+    ],
+    "plugin_metadata": {
+        "cordova-plugin-whitelist": "1.2.1",
+        "cordova-sqlcipher-adapter": "0.1.5",
+        "es6-promise-plugin": "3.0.2",
+        "cordova-plugin-sqlite": "1.0.3"
+    }
+}

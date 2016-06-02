@@ -1,0 +1,24 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-sqlite": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-sqlcipher-adapter": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "es6-promise-plugin": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        }
+    },
+    "dependent_plugins": {}
+}
