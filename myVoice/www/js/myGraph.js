@@ -88,12 +88,17 @@ function get_max(tab, name)
 }
 
 
+var group;
 
 function draw_histogram(elem_stat)
 {
 	// grid parameter
 
-	var group = new Group();
+	if (group == undefined)
+	{
+		group = new Group();
+	}
+	group.removeChildren();
 	var copy = [];
 	var max = 0;
 	var min = 0;

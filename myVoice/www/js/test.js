@@ -48,13 +48,14 @@ orgniser les donner
 
         function f2()
         {
-            var group = new Group();
+            
+            // var group = new Group();
 
-            var pt_tl = new Point(30, 10);
-            var pt_br = new Point(400, 200);
+            // var pt_tl = new Point(30, 10);
+            // var pt_br = new Point(400, 200);
 
-            console.log("youuuouy");
-            draw_the_grid(-49, 422, 5, group, pt_tl, pt_br);
+            // console.log("youuuouy");
+            // draw_the_grid(-49, 422, 5, group, pt_tl, pt_br);
         }
 //*
         
