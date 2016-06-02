@@ -46,6 +46,8 @@ var app = {
 	onDeviceReady: function() {
 		app.receivedEvent('deviceready');
 		//alert("Device Ready");
+		interActLogin("auth1");
+		window.open = cordova.InAppBrowser.open;
 		if (!window.localStorage.getItem("Interfaces_Setings")){
 			window.appData.interfaces_setings = {
 				backgroundColor: "",
@@ -73,6 +75,7 @@ var app = {
 		} else {
 			window.appData.interfaces_setings = JSON.parse(window.localStorage.getItem("Interfaces_Setings"));
 		}
+		genSetingForm(document.getElementById("setingArea"));
 		return openDb().then(function(){
 				return initDb(function(objLst){ alert("appData:" + JSON.stringify(appData, null, 4)); });
 			}, function(err, err2){

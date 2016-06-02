@@ -52,7 +52,7 @@ img {
 .footer {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 170px;
+  height: 100px;
   text-transform: uppercase;
 }
 .ui-content {
