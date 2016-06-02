@@ -15,7 +15,11 @@ orgniser les donner
 
 
 */
-
+    function elem_stat()
+    {
+        this.nb_use = 0;
+        this.lst_senstenceId = [];
+    }
 
 
     paper.install(window);
@@ -29,6 +33,8 @@ orgniser les donner
 
     var all_elem = [];
     var all_phrase = [];
+    var all_elem_stat = [];
+    var all_phrase_stat = [];
 
 
 
@@ -48,7 +54,7 @@ orgniser les donner
             var pt_br = new Point(400, 200);
 
             console.log("youuuouy");
-            draw_the_grid(-87, 135, 5, group, pt_tl, pt_br);
+            draw_the_grid(-49, 422, 5, group, pt_tl, pt_br);
         }
 //*
         
@@ -56,7 +62,7 @@ orgniser les donner
         {
             gen_x_sentence_in(20, all_phrase);
       //      console.clear();
-            console.log(all_phrase);
+     //       console.log(all_phrase);
         }
 
         function get_image(lst_elem)
@@ -66,6 +72,8 @@ orgniser les donner
             for(var x = 0; x < lst_img.length; x++)
             {
                 lst_elem[x] = new myVoiceElem(x, lst_img.item(x).src, lst_img.item(x).width, 0, x, x, lst_img.item(x).alt, true);
+   //             all_elem_stat[x] = new elem_stat();
+
             }
         }
 
@@ -81,7 +89,7 @@ orgniser les donner
         function add_one_sentence_to(sentence)
         {
             var mili_in_day = 1440000;
-            var dist = 13 + parseInt(Math.random() * 5);
+            var dist = 10 + parseInt(Math.random() * 5);
             var i = 0;
             var val = 0;
             var count = 0;
@@ -100,6 +108,7 @@ orgniser les donner
             }
 
             sentence[sentence.length] = new myVoiceSentence(sentence.length, group_img, parseInt(Date.now() - (Math.random() * mili_in_day * 30)));
+             actual_elem_stat(sentence[sentence.length - 1]);
         }
 
         function cmp_time(a, b)
@@ -109,48 +118,71 @@ orgniser les donner
             return (a['time'] - b['time']);
         }
 
-        function get_minmax(tab, name)
-        {
-            var min = tab[0][name];
-            var max = tab[0][name];
-
-            for (var x in tab)
-            {
-                if (tab[x][name] > max)
-                    max = tab[x][name];
-                if (tab[x][name] < min)
-                    min = tab[x][name];
-            }
-            return ([min, max]);
-        }
+        // function draw_plot(tab, val_name)
+        // {
+        //     for (var x in tab)
+        //     {
+        //         tab[x][val_name];
+        //     }
+        // }
 
         function f5()
         {
-           // console.clear();
-           //  console.log("=============================== BEFOR ===============================");
-           //  for (x = 0; x < all_phrase.length; x++)
-            // {
-            //     console.log(all_phrase[x]['time']);
-            // }
-            all_phrase.sort(cmp_time);
-            // console.log("=============================== AFTER ===============================");
-            // for (x = 0; x < all_phrase.length; x++)
-            // {
-            //     console.log(all_phrase[x]['time']);
-            // }
-        //    draw_line(all_phrase, 'time', 'nbUse');
+
+        //     actual_elem_stat(all_phrase[parseInt(Math.random() * 20)]);
+            for (var x in all_elem_stat)
+            {
+                console.log("lst ["+x+"]");
+       //         console.log();
+                console.log(all_elem_stat[x]['lst_senstenceId']);
+            }
+
         }
 
         function f4()
         {
-            f3();
-            console.clear();
-            all_phrase.sort(cmp_time);
+   //         f3();
+  //          console.clear();
+   //         all_phrase.sort(cmp_time);
+   draw_histogram(all_elem_stat);
             
         }
 
+        function actual_elem_stat(sentence)
+        {
+            var indice = 0;
+   //         var lenght = 0;
+    //        console.log("id:"+sentence['sentenceId']);
+            for (var x in sentence['listElemId'])
+            {
+   //             console.log(sentence['listElemId'][x]);
+                indice = sentence['listElemId'][x];
+
+                if (all_elem_stat[indice] === undefined)
+                {
+                    console.log("OUI");
+                    all_elem_stat[indice] = new elem_stat();
+                    all_elem_stat[indice]['nb'] = 0;
+                }
+//
+ //               lenght = all_elem_stat[indice]['lst_senstenceId'].length+1;
 
 
+                all_elem_stat[indice]['lst_senstenceId'][all_elem_stat[indice]['nb_use']] = sentence['sentenceId'];
+                all_elem_stat[indice]['nb_use']++;
+  //              console.log(all_elem_stat[indice]['lst_senstenceId']);
+                //console.log("type"+typeof(all_elem_stat[indice]));
+                //console.log(all_elem_stat[indice]);
+                //all_phrase_stat[x];
+            }
+       //     console.log(all_elem_stat);
+
+        }
+
+        function caca()
+        {
+            // 
+        }
 /*
 function draw_the_grid(min, max, nb_line, group, pt_tl, pt_br)
 {

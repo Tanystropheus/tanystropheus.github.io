@@ -221,7 +221,7 @@ function myVoiceSentence(sentenceId, listElemId, time) {
 };
 
 function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
-	this.sentenceId = globaLsentenceId;
+	this.globaLsentenceId = globaLsentenceId;
 	this.listTime = listTime;
 	this.nbUse = listTime.lenght;
 	this.listElemId = listElemId;

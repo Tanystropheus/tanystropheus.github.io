@@ -1,113 +1,243 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   maVoixElement.js                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bsamuel <bsamuel@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/16 11:48:02 by bsamuel           #+#    #+#             */
-/*   Updated: 2016/04/16 11:59:16 by bsamuel          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-function maVoixLanguage(languageid, langname) {
-    this.languageid = languageid;
+function myVoiceLanguage(languageid, langname) {
+	this.languageid = languageid;
 	this.langname = langname;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
 };
 
-function maVoixTag(tagid, tagname) {
-    this.tagid = tagid;
-	this.tagname = tagname;
+function myVoiceTag(tagid, languageId, tagtext) {
+	this.tagid = tagid;
+	this.languageid = languageId;
+	this.tagtext = tagtext;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
 };
 
-function maVoixTagText(tagid, tagname, languageId, tagtextid) {
-    this.tagtextid = tagtextid;
-    this.languageid = languageId;
-    this.tagelem = new maVoixTag(tagid, tagname);
+function myVoiceLibraryLst(librarylstid, liblsttitle, libraryid) {
+	this.librarylstid = librarylstid;
+	this.libraryid = libraryid;  // str contenant les id des lib de l'utilisateur
+	this.liblsttitle = liblsttitle;
+	//this.librarylst = {};
+	this.parseIdLst = function(){
+		var idlst = str.split(",");
+		for(var i in idlst){
+			// select lib bi id in strore in libarylst
+		} 
+	}
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
 };
 
-function maVoixLibraryLst(tagid, tagname, libraryid, liblsttitle, librarylstid) {
-    this.librarylstid = librarylstid;
-    this.libraryid = libraryid;  // str contenant les id des lib de l'utilisateur
-    this.liblsttitle = liblsttitle;
+function myVoiceLibrary(libraryId, userId, libTitle, lstelemid) {
+	this.libraryid = libraryId;
+	this.userid = userId;
+	this.libtitle = libTitle;
+	this.lstelemid = lstelemid; // str contenant les id des élément de la library
+	this.elemlst = {};
+	this.parseIdLst = function(){
+		var idlst = str.split(",");
+		for(var i in idlst){
+			// select elem bi id in strore in elemlst
+		} 
+	}
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
+
 };
 
-function maVoixLibrary(libraryId, userId, libTitle, lstelemid) {
-    this.libraryid = libraryId;
-    this.userid = userId;
-    this.libtitle = libTitle;
-    this.lstelemid = lstelemid; // str contenant les id des élément de la library
+function myVoiceUser(librarylstid, userId, languageid, login, password, backupurl, setings) {
+	this.languageid = languageid;
+	this.userid = userId;
+	this.librarylstid = librarylstid;
+	this.login = login;
+	this.password = password;
+	this.backupurl = backupurl;
+	this.interfacesetings = setings;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
 };
 
-function maVoixUser(librarylstid, userId, languageid, login, password, backupurl) {
-    this.languageid = languageid;
-    this.userid = userId;
-    this.librarylstid = librarylstid;
-    this.login = login;
-    this.password = password;
-    this.backupurl = backupurl;
+function myVoiceGlobElemAssociation(globelemassoid, listelemid) {
+	this.globelemassoid = globelemassoid;
+	this.listelemid = listelemid;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
 };
 
-function maVoixGlobElemAssociation(globelemassoid, listelemid) {
-    this.globelemassoid = globelemassoid;
-    this.listelemid = listelemid;
+function myVoiceElemAssociation(elemassoid, userId, globelemassoid, nbuse, date) {
+	this.elemassoid = elemassoid;
+	this.userid = userId;
+	this.globelemassoid = globelemassoid;
+	this.nbuse = nbuse;
+	this.date = date;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
 };
 
-function maVoixElemAssociation(elemassoid, userId, globelemassoid, nbuse, date) {
-    this.elemassoid = elemassoid;
-    this.userid = userId;
-    this.globelemassoid = globelemassoid;
-    this.nbuse = nbuse;
-    this.date = date;
+//alert("myVoiceElem");
+function myVoiceElem(elemid, elemUrl, Width, user, soundId, textId, taglst, state) {
+	this.elemid = elemid;
+	this.elemurl = elemUrl;
+	this.user = user;
+	this.soundid = soundId;
+	//this.soundelem = new myVoiceSound(soundUrl, languageId, soundId);
+	this.textid = textId;
+	//this.textelem = new myVoiceText(text, languageId, textId);
+	this.width = Width;
+	this.taglst = taglst;
+	this.state = state;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
 };
 
-function maVoixElem(elemid, elemUrl, Width, soundUrl, languageId, soundId, text, textId) {
-    this.elemid = elemid;
-    this.elemurl = elemUrl;
-    this.soundid = soundId;
-    this.soundelem = new maVoixSound(soundUrl, languageId, soundId);
-    this.textelem = new maVoixText(text, languageId, textId);
-    this.width = Width;
+function myVoiceContext(contextid, time, places, activiti, interlocutor) {
+	this.contextid = contextid;
+	this.time = time;
+	this.places = places;
+	this.activiti = activiti;
+	this.interlocutor = interlocutor;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
 };
 
-function maVoixElemStat(elemstatid, userId, elemid, nbuse, elemassoid) {
-    this.elemstatid = elemstatid;
-    this.userid = userId;
-    this.elemid = elemid;
-    this.nbuse = nbuse;
-    this.elemassoid = elemassoid;
+function myVoiceElemStat(elemstatid, userId, elemid, nbuse, elemassoid) {
+	this.elemstatid = elemstatid;
+	this.userid = userId;
+	this.elemid = elemid;
+	this.nbuse = nbuse;
+	this.elemassoid = elemassoid;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
 };
 
-function maVoixGlobElemStat(elemstatid, globelemstatid, nbuse) {
-    this.elemstatid = elemstatid;
-    this.globelemstatid = globelemstatid;
-    this.nbuse = nbuse;
+function myVoiceGlobElemStat(globelemstatid, elemstatid, nbuse) {
+	this.elemstatid = elemstatid;
+	this.globelemstatid = globelemstatid;
+	this.nbuse = nbuse;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
 };
 
-function maVoixSound(soundUrl, languageId, soundId) {
-    this.soundid = soundId;
-    this.languageid = languageId;
-    this.soundurl = soundUrl;
+function myVoiceLerningStat(lerningstatid, contextid, elemstatid, nbtrue) {
+	this.lerningstatid = lerningstatid;
+	this.contextid = contextid;
+	this.elemstatid = elemstatid;
+	this.nbtrue = nbtrue;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
 };
 
-function maVoixText(text, languageId, textId) {
-    this.soundid = textId;
-    this.languageid = languageId;
-    this.soundurl = text;
+function myVoiceSound(soundUrl, languageId, soundId) {
+	this.soundid = soundId;
+	this.languageid = languageId;
+	this.soundurl = soundUrl;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
 };
 
-
+function myVoiceText(text, languageId, textId) {
+	this.soundid = textId;
+	this.languageid = languageId;
+	this.soundurl = text;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
+};
 
 function debugelem(elem) {
 	var	htmlText = '</br></br>Object {\n';
-    var text = 'Object {\n';
-    for (var i in elem) {
-        if (i !== 'debug') {
-            htmlText += ' [' + i + '] => ' + elem[i] + ' </br>';
-            text += '\t[' + i + '] => ' + elem[i] + '\n';
-        }
-    }
-    text = text + '}';
-    console.log(text);
+	var text = 'Object {\n';
+	for (var i in elem) {
+		if (i !== 'debug') {
+			htmlText += ' [' + i + '] => ' + elem[i] + ' </br>';
+			text += '\t[' + i + '] => ' + elem[i] + '\n';
+		}
+	}
+	text = text + '}';
+	console.log(text);
+	alert(text);
 	return htmlText;
+};
+
+function myVoiceInterfaceSetings(){
+	this.backgroundColor = "";
+	this.writingpolice = "";
+	this.writingsize = 15;
+	this.writinglogo = "URL";
+	this.writingcolor = "";
+	this.tabPos = 1;
+	this.speakAreaPos = 1;
+	this.speakAreaColor = "";
+	this.nbColumn = 3;
+	this.random = 1;
+	this.manual = 0;
+	this.DD = 0;
+	this.click = 1;
+	this.sound = 0;
+	this.tabnav = {
+		slide : 0,
+		click : 1,
+	};
+	this.butonColor = "";
+	this.language = 0;
+	this.lastchange = Date.now();
 }
+
+function myVoiceElemSetings(id){
+	this.elemsetingsid = id; // ID should be the same as the Element Primary key: user_elemid
+	this.width = 10;
+	this.writing = {
+		police: "",
+		policecolor: "",
+		size: 15,
+		color: "",
+		place: 0
+	};
+	this.sound = 0;
+	this.lastchange = Date.now();
+}
+
+
+function myVoiceSentence(sentenceId, listElemId, time) {
+	this.sentenceId = sentenceId;
+	this.listElemId = listElemId;
+	this.time = time;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
+};
+
+function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
+	this.globaLsentenceId = globaLsentenceId;
+	this.listTime = listTime;
+	this.nbUse = listTime.lenght;
+	this.listElemId = listElemId;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
+};
+
+/*
+function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
+	this.sentenceId = globaLsentenceId;
+	this.listTime = listTime;
+	this.nbUse = listTime.lenght;
+	this.listElemId = listElemId;
+	this.updatedb = function(){
+		alert("db update func not yet created");
+	};
+};
+//*/
