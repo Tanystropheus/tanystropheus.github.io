@@ -1,4 +1,4 @@
- 
+
 /*
 
 afficher les donner
@@ -32,12 +32,26 @@ orgniser les donner
         paper.setup('myCanvas');
     }
 
+
+// variable globale:
     var all_elem = [];
     var all_phrase = [];
     var all_elem_stat = [];
     var all_phrase_stat = [];
 
 
+/*
+function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
+    this.global_sentenceId = globaLsentenceId;
+    this.list_time = listTime;
+    this.nb_use = listTime.lenght;
+    this.list_elemId = listElemId;
+    this.updatedb = function(){
+        alert("db update func not yet created");
+    };
+};
+
+*/
 
  //   gen_x_sentence_in(10, phrase);
 
@@ -57,7 +71,7 @@ orgniser les donner
 
             // console.log("youuuouy");
             // draw_the_grid(-49, 422, 5, group, pt_tl, pt_br);
-            f3();
+            // f3();
             draw_pie_chart(all_elem_stat);
         }
 //*
@@ -96,8 +110,8 @@ orgniser les donner
             for (var x in sentence['listElemId'])
             {
                 indice = sentence['listElemId'][x];
-
-                if (all_elem_stat[indice] === undefined)
+//                console.log("indice:"+indice);
+                if (all_elem_stat[indice] == undefined)
                 {
                     console.log("OUI");
                     all_elem_stat[indice] = new elem_stat();
@@ -113,7 +127,7 @@ orgniser les donner
         function add_one_sentence_to(sentence)
         {
             var mili_in_day = 1440000;
-            var dist = 10 + parseInt(Math.random() * 5);
+            var dist = 15 + parseInt(Math.random() * 5);
             var i = 0;
             var val = 0;
             var count = 0;
@@ -121,7 +135,7 @@ orgniser les donner
 
             while(i < all_elem.length)
             {
-                val = parseInt(Math.random() * dist) + 1;
+                val = parseInt(Math.random() * dist);
 
                 i +=  val;
                 if (i >= all_elem.length)
@@ -132,7 +146,9 @@ orgniser les donner
             }
 
             sentence[sentence.length] = new myVoiceSentence(sentence.length, group_img, parseInt(Date.now() - (Math.random() * mili_in_day * 30)));
+ //           console.log("sentenceId:"+(sentence.length - 1));
              actual_elem_stat(sentence[sentence.length - 1]);
+             actual_sentence_stat(sentence[sentence.length - 1]);
         }
 
         function cmp_time(a, b)
@@ -153,20 +169,29 @@ orgniser les donner
         function f5()
         {
 
-        //     actual_elem_stat(all_phrase[parseInt(Math.random() * 20)]);
-            for (var x in all_elem_stat)
-            {
-                console.log("lst ["+x+"]");
-       //         console.log();
-                console.log(all_elem_stat[x]['lst_senstenceId']);
-            }
+       //  //     actual_elem_stat(all_phrase[parseInt(Math.random() * 20)]);
+       //      for (var x in all_elem_stat)
+       //      {
+       //          console.log("lst ["+x+"]");
+       // //         console.log();
+       //          console.log(all_elem_stat[x]['lst_senstenceId']);
+       //      }
+            console.log(all_phrase_stat);
 
         }
 
         function f4()
         {
 
-            f3();
-            draw_histogram(all_elem_stat);
+           // f3();
+           draw_histogram(all_elem_stat);
+
+            // for (x in all_elem)
+            // {
+            //     if (all_elem_stat[x] == undefined)
+            //         console.log("elem_stat:"+(x)+" get fuck");
+            //     if (all_elem[x] == undefined)
+            //         console.log("elem:"+(x)+" get fuck");
+            // }
             
         }

@@ -9,6 +9,12 @@
 */
 
 //*
+/*variable globale*/
+var img;
+var group_hist;
+var pt_txt;
+var group_pie;
+
 
 function draw_the_grid(min, max, nb_line, group, pt_tl, pt_br)
 {
@@ -88,10 +94,6 @@ function get_max(tab, name)
 }
 
 
-var img;
-var group_hist;
-var pt_txt;
-var group_pie;
 
 function display_img_histo(event)
 {
@@ -178,63 +180,6 @@ function draw_histogram(elem_stat)
 
 
 
-
-// function draw_char_pie(elem_stat)
-// {
-// 	var	size = get_sum(elem_stat, 'nb_use');
-// 	var curseur = 0;
-// 	var centre = new Point(150, 150);
-// 	var rayon = 70;
-// 	var pt1 = new Point(1, 0);
-// 	var mid = new Point(1, 0);
-// 	var pt2 = new Point(1, 0);
-
-// 	if (group_pie == undefined)
-// 		group_pie = new group();
-
-// 	for (var x in elem_stat)
-// 	{
-// 		var path = new Path();
-// 		pt1.an
-// 		// la on va faire tout les truc du machin;
-// 	}
-// }
-
-// function	draw_line()
-// {
-// 	// laon reprend un peu le meme system que pour les truc 
-// }
-
-
-// // fonction de tri/organisation des donner
-
-
-
-
-
-// 	if (img == undefined)
-// 		img = new Raster();
-// 	if (pt_txt == undefined)
-// 		pt_txt = new PointText();
-
-// 	img.source = all_elem[this.data]['elemurl'];
-// 	img.position = this.position;
-// 	img.strokeBounds = 'black';
-// 	img.style = {strokeColor: 'black',
-//     strokeWidth: 5};
-
-// 	if (img.scaling.x < 0.99)
-// 		img.scale(img.size.width / all_elem[this.data]['width']);
-// 	img.scale(all_elem[this.data]['width'] / img.size.width);
-// 	console.log('ON est laaaa');
-// 	console.log(img);
-// 	img.position.y = this.segments[0].point.y + img.width * img.scaling.y / 2 + 10;
-// 	pt_txt.position.y = img.position.y + img.width * img.scaling.y / 2 + 10;
-// 	pt_txt.position.x = img.position.x;
-// 	pt_txt.content = all_elem[this.data]['taglst'];
-
-
-
 function get_sum(tab, name)
 {
 	var size = 0;
@@ -274,30 +219,6 @@ function display_img_pie(event)
 
 function draw_pie_chart(elem_stat)
 {
-
-	/*
-var path = new Path();
-path.strokeColor = 'black';
-path.closed = true;
-
-var firstPoint = new Point(30, 75);
-path.add(firstPoint);
-
-// The point through which we will create the arc:
-var throughPoint = new Point(40, 40);
-
-// The point at which the arc will end:
-var toPoint = new Point(130, 75);
-
-// Draw an arc through 'throughPoint' to 'toPoint'
-path.arcTo(throughPoint, toPoint);
-
-// Add a red circle shaped path at the position of 'throughPoint':
-var circle = new Path.Circle(throughPoint, 3);
-circle.fillColor = 'red';
-	//*/
-
-
 //*
 	var	size = get_sum(elem_stat, 'nb_use');
 	var curseur = 0;
@@ -325,19 +246,7 @@ circle.fillColor = 'red';
 	mid.angle = (pt_new.angle + pt_last.angle) / 2;
 
 
-	console.log('the point:')
-    // console.log(p1);
-    // console.log(p2);
-    // console.log(p3);
-    // console.log(centre);
-
-//	path = news Path.Arc(p1, p2, p3);
-//	path.add(pt_last);
-//	path.Arc(p1, p2, p3);
-//	path.add(centre);
-	// path.position.x += centre.x;
-	// path.position.y += centre.y;
-	
+//	console.log('the point:')
 	for(var i = 0; i < nb_part; i++)
 	{
 		if (elem_stat[i] != undefined)
@@ -346,7 +255,6 @@ circle.fillColor = 'red';
 		    path.fillColor = new Color({ hue: i / nb_part * 360, saturation: 0.7, brightness:0.8 });
 		    path.strokeColor = new Color({ hue: i / nb_part * 360, saturation: 0.7, brightness:0.1 });
 
-	//		var firstPoint = new Point(30, 75);
 			curseur += elem_stat[i]['nb_use'];
 			pt_new.angle = (curseur / size) * 360;
 			mid.angle = (pt_new.angle + pt_last.angle) / 2;
@@ -355,27 +263,17 @@ circle.fillColor = 'red';
 		        mid.angle += 180;
 		    }
 
-		    //p3 = pt_last + centre;
 		    p1.x = pt_last.x + centre.x;
 		    p1.y = pt_last.y + centre.y;
-		    console.log(typeof(p1));
+//		    console.log(typeof(p1));
 			path.add(p1);
-
-			// The point through which we will create the arc:
-//			var throughPoint = new Point(40, 40);
-
-			// The point at which the arc will end:
-//			var toPoint = new Point(130, 75);
-
-			// Draw an arc through 'throughPoint' to 'toPoint'
-			//p1 = centre + mid;
 
 			p2.x = centre.x + mid.x
 			p2.y = centre.y + mid.y
 			p3.x = centre.x + pt_new.x;
 			p3.y = centre.y + pt_new.y;
-			console.log(typeof(p2));
-			console.log(typeof(p3));
+			// console.log(typeof(p2));
+			// console.log(typeof(p3));
 			path.arcTo(p2, p3);
 			path.add(centre);
 
@@ -383,49 +281,11 @@ circle.fillColor = 'red';
 			path.onMouseDown = display_img_pie;
 			path.data = elem_stat[i]['elemId'];
 
-
-			// // Add a red circle shaped path at the position of 'throughPoint':
-			// var circle = new Path.Circle(throughPoint, 3);
-			// circle.fillColor = 'red';
-			
-
-			/*
-		    curseur += elem_stat[i]['nb_use'];
-		    path = new Path();
-		    path.closed = true;
-		    path.fillColor = 'black';//new Color({ hue: i / nb_part * 360, saturation: 0.7, brightness:0.8 });
-		    path.strokeColor = 'red';//new Color({ hue: i / nb_part * 360, saturation: 0.7, brightness:0.1 });
-		    
-		    pt_new.angle = (curseur / size) * 360;
-		    mid.angle = (pt_new.angle + pt_last.angle) / 2;
-		    if (pt_last.angle * pt_new.angle < 0 || pt_new.angle <= pt_last.angle)
-		    {
-		        mid.angle += 180;
-		    }
-		    
-		    p1 = centre + pt_last;
-		    p2 = centre + mid;
-		    p3 = centre + pt_new;
-
-		    path.add(p1);
-		    path.arcTo(p2, p3);
-		    path.add(centre);
-		    if (elem_stat[i] != undefined)
-		   		path.data = elem_stat[i]['elemId'];
-		    path.onMouseDown = display_img_pie;
-		    group_pie.addChild(path);
-		    
-		    pt_last.x = pt_new.x;
-		    pt_last.y = pt_new.y;
-		    */
 		    pt_last.x = pt_new.x;
 		    pt_last.y = pt_new.y;
 		}
 	}
 	//*/
 	view.draw();
-	// for (var x in group_pie.children)
-	// {
-		console.log(group_pie);
-	// }
+
 }

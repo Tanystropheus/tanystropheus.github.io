@@ -220,11 +220,11 @@ function myVoiceSentence(sentenceId, listElemId, time) {
 	};
 };
 
-function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
-	this.globaLsentenceId = globaLsentenceId;
-	this.listTime = listTime;
-	this.nbUse = listTime.lenght;
-	this.listElemId = listElemId;
+function myVoiceGlobaleSentence(globaLsentenceId, listElemId) {
+	this.global_sentenceId = globaLsentenceId;
+	this.list_time = [];
+	this.nb_use = 0;
+	this.list_elemId = listElemId;
 	this.updatedb = function(){
 		alert("db update func not yet created");
 	};
