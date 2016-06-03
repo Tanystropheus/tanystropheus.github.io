@@ -57,6 +57,8 @@ orgniser les donner
 
             // console.log("youuuouy");
             // draw_the_grid(-49, 422, 5, group, pt_tl, pt_br);
+            f3();
+            draw_pie_chart(all_elem_stat);
         }
 //*
         
@@ -87,6 +89,26 @@ orgniser les donner
                 add_one_sentence_to(sentence_tab);
             }
         }
+
+        function actual_elem_stat(sentence)
+        {
+            var indice = 0;
+            for (var x in sentence['listElemId'])
+            {
+                indice = sentence['listElemId'][x];
+
+                if (all_elem_stat[indice] === undefined)
+                {
+                    console.log("OUI");
+                    all_elem_stat[indice] = new elem_stat();
+                    all_elem_stat[indice]['nb'] = 0;
+                }
+                all_elem_stat[indice]['elemId'] = indice;
+                all_elem_stat[indice]['lst_senstenceId'][all_elem_stat[indice]['nb_use']] = sentence['sentenceId'];
+                all_elem_stat[indice]['nb_use']++;
+            }
+        }
+
 
         function add_one_sentence_to(sentence)
         {
@@ -143,133 +165,8 @@ orgniser les donner
 
         function f4()
         {
-   //         f3();
-  //          console.clear();
-   //         all_phrase.sort(cmp_time);
-   draw_histogram(all_elem_stat);
+
+            f3();
+            draw_histogram(all_elem_stat);
             
         }
-
-        function actual_elem_stat(sentence)
-        {
-            var indice = 0;
-   //         var lenght = 0;
-    //        console.log("id:"+sentence['sentenceId']);
-            for (var x in sentence['listElemId'])
-            {
-   //             console.log(sentence['listElemId'][x]);
-                indice = sentence['listElemId'][x];
-
-                if (all_elem_stat[indice] === undefined)
-                {
-                    console.log("OUI");
-                    all_elem_stat[indice] = new elem_stat();
-                    all_elem_stat[indice]['nb'] = 0;
-                }
-//
- //               lenght = all_elem_stat[indice]['lst_senstenceId'].length+1;
-
-                all_elem_stat[indice]['elemId'] = indice;
-                all_elem_stat[indice]['lst_senstenceId'][all_elem_stat[indice]['nb_use']] = sentence['sentenceId'];
-                all_elem_stat[indice]['nb_use']++;
-  //              console.log(all_elem_stat[indice]['lst_senstenceId']);
-                //console.log("type"+typeof(all_elem_stat[indice]));
-                //console.log(all_elem_stat[indice]);
-                //all_phrase_stat[x];
-            }
-       //     console.log(all_elem_stat);
-
-        }
-
-        function caca()
-        {
-            // 
-        }
-/*
-function draw_the_grid(min, max, nb_line, group, pt_tl, pt_br)
-{
-    var size_data = max - min;
-    var delta_val = size_data / nb_line;
-    var coef = (pt_br.y - pt_tl.y) / (max - min);
-
-    var y = 0;
-    while (y <= size_data + delta_val + 1)
-    {
-        console.log("y:"+y);
-        var text = new PointText(new Point(0, pt_br.y));
-        var path = new Path;
-        var p1 = new Point();
-        var p2 = new Point();
-
-        p1.x = pt_tl.x;
-        p1.y =  pt_br.y - (y);
-
-        p2.x = pt_br.x;
-        p2.y =  pt_br.y - y;
-
-
-
-        path.add(p1);
-        path.add(p2);
-        path.strokeColor = 'black';
-
-        text.content = parseInt(y + min);
-        text.position = new Point(pt_tl.x - 15, pt_br.y - (y));
-        text.fillColor = 'grey';
-        group.addChild(text);
-        group.addChild(path);
-        y += delta_val;
-                console.log(p1);
-        console.log(p2);
-            view.draw();
- //       console.log(path.segments[1]);
-    }
-    view.draw();
-}
-
-//*
-
-        function ff4()
-        {
-            var group = new Group();
-            var pt_tl = new Point(100, 100);
-            var pt_br = new Point(200, 200);
-
-            console.log("youuuouy");
-            draw_the_grid(0, 130, 10, group, pt_tl, pt_br);
-        }
-//*/
-
-
-/*
-    cree une grille:
-        il faut le min et le max
-        on defini un nombre de ligne a tracer
-
-    cree une ligne
-    cree des point qui donne l'info du truc
-
-//*/
-
-
-
-/*
-// full ou oas
-function draw_line(tab_val)
-{
-    // on trace la ligne interactive avec un tableau en entrer et des chifre et du texte ou autre;
-}
-
-
-function draw_pie_char(tab_val)
-{
-
-}
-
-
-function draw_histograme()
-{
-
-}
-
-//*/
