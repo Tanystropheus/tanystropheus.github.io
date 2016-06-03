@@ -32,6 +32,8 @@ orgniser les donner
         paper.setup('myCanvas');
     }
 
+
+// variable globale:
     var all_elem = [];
     var all_phrase = [];
     var all_elem_stat = [];
