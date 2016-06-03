@@ -38,7 +38,6 @@ function interActAuthorization(){
 }
 
 function interActLogin(authorization_code){
-	alert("Debit");
 	$.ajax({
 		type: "GET",
 		dataType: "jsonp",

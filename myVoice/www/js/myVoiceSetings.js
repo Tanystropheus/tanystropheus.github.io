@@ -13,6 +13,23 @@ function genCatForm(place){
 	if (window.appData.interfaces_setings.tabPos === "4") document.getElementById("CatPosLeft").setAttribute("checked", "on");
 }
 
+function genCatColorForm(){
+	function render(tx, rx){
+		var text = "";
+		for (var i = 0; i < rs.rows.length; i++) {
+			text += '<label id="'+ liblsttitle + 'ColorLab" for="'+ liblsttitle +'Color">'+ liblsttitle +'</label><input id="'+ liblsttitle +'Color"/>'
+		}
+	};
+	selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT liblsttitle FROM LibraryLst " + sql + " ORDER by librarylstid");
+}
+
 function genSetingForm(place){
 	//alert(place);
 	place.appendChild(document.createTextNode("Selectioner la position des catégories"));

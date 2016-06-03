@@ -46,7 +46,6 @@ var app = {
 	onDeviceReady: function() {
 		app.receivedEvent('deviceready');
 		//alert("Device Ready");
-		interActLogin("auth1");
 		window.open = cordova.InAppBrowser.open;
 		if (!window.localStorage.getItem("Interfaces_Setings")){
 			window.appData.interfaces_setings = {
