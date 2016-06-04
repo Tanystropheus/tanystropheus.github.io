@@ -1,0 +1,17 @@
+#footer_app{
+min-height:30px;
+height:26vh;
+width : 100vw;
+}
+#st_field{
+min-height:30px;
+height:6vh;
+width : 100vw;
+background-color: darkseagreen;
+}
+#sentences_field{
+min-height:30px;
+height:20vh;
+width : 100vw;
+background-color: lightgreen;
+}

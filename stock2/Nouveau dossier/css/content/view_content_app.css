@@ -1,0 +1,56 @@
+#content_app{
+min-height:30px;
+height:66vh;
+width : 100vw;
+}
+#libraries_field{
+min-height:30px;
+height:6vh;
+width : 100vw;
+}
+#pictures_field{
+min-height:30px;
+height:60vh;
+width : 100vw;
+background-color: steelblue;
+}
+#libraries_left, #libraries_right{
+height :6vh;
+width :2vw;
+}
+#pictures_left, #pictures_right{
+height :60vh;
+width :2vw;
+}
+#libraries_right, #pictures_right{
+    float:right;
+}
+#libraries_select li{
+    display: block;
+    width: 16vw;
+    height :6vh;
+    float:left;
+    background-color: darkslateblue;
+}
+
+#libraries_select li:nth-child(n+7){
+    visibility: hidden;
+    width:0;
+}
+
+
+#picture_set_1, #picture_set_2{
+display: block;
+width: 96vw;
+}
+#picture_set_1 li, #picture_set_2 li{
+display: block;
+width: 90vw;
+}
+#pictures_field img {
+height:18vh;
+width:18vh;
+}
+#picture_set_1 li:nth-child(n+1), #picture_set_2 li:nth-child(n+1){
+    float:left;
+}
