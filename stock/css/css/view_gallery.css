@@ -1,0 +1,27 @@
+/* VIEW GALLERY CSS */
+/*HEADER && FOOTER*/
+#header_gallery, #header_gallery button, #footer_gallery, #footer_gallery button{
+    min-height:30px;
+    height:5vh;
+    min-width: 100%;
+    width: 100%;
+}
+/*CONTENT*/
+#content_gallery {
+min-height: 266px;
+height: 90vh;
+min-width: 51px;/*2x51+170=272*/
+width: 100%;/*2x17.75+62.5*/
+background-color: pink;
+}
+
+#content_gallery ul {
+display: block;
+height: 90vh;
+}
+
+#content_gallery li {
+display: block;
+height: 33%;
+background-color: yellow;
+}
