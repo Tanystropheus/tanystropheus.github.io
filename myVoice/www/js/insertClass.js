@@ -1,5 +1,3 @@
-var tmp = {};
-
 function insertLibBdd(libtit){
 	var sql = "where libtitle =" + libtit;
 	selectLibrary(sql, tmp, function(){

@@ -52,6 +52,7 @@ function selectParser(objectLst, id, rs, cb){
 			objectLst[rs.rows.item(i)[id]] = new myVoiceLanguage();
 			//window.appData.language[rs.rows.item(i)[id]] = new myVoiceLanguage();
 			for (var propName in rs.rows.item(i)) {
+				//if(id == "elemid") alert(propName + ": " + rs.rows.item(i)[propName]);
 				//window.appData.language[rs.rows.item(i)[id]][propName] = rs.rows.item(i)[propName];
 				objectLst[rs.rows.item(i)[id]][propName] = rs.rows.item(i)[propName];
 			}
@@ -120,7 +121,7 @@ function selectSetings(sql, objectLst, cb){
 
 function selectElements(sql, objectLst, cb){
 	var render = function(tx, rs) {
-		return selectParser(objectLst, "elementsid", rs, cb);
+		return selectParser(objectLst, "elemid", rs, cb);
 	};
 	if(sql == undefined) sql = "";
 	return new Promise(function(resolve, reject){

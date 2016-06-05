@@ -7,8 +7,6 @@
 /* ************************************* VARIABLE GLOBAL *************************************** */
 /* ********************************************************************************************* */
 
-var pictureSource;
-var destinationType;
 var entry;
 var tmp;
 
@@ -56,41 +54,36 @@ function insertBdd(){
 /* ************************************* SELECT PHOTO ****************************************** */
 
 function selectPhoto(imageURI) {
-  var myImage = document.getElementById('select');
-  myImage.style.display = 'block';
-  myImage.src = imageURI;
-  if (myImage !== undefined) {
+	alert("dans select");
+  if (imageURI !== undefined) {
 	  	elem.elemurl = mvFile(imageURI);
-	  	elem.width = myImage.width;
 	  	alert(JSON.stringify(elem));
 	}
 	else {
 		alert("merci de choisir une photo");
 	}
 }
-function getPhoto(source) {
+function getPhoto() {
+	alert("debut get");
   navigator.camera.getPicture(selectPhoto, fail, { quality: 10,
 	destinationType: destinationType.FILE_URI,
-	sourceType: source });
+	sourceType: pictureSource.PHOTOLIBRARY });
+
 }
 
 /* ************************************* PICK PHOTO ****************************************** */
 
 function pickPhoto(imageData) {
-  var smallImage = document.getElementById('pick');
-  smallImage.style.display = 'block';
-  smallImage.src = "data:image/jpeg;base64," + imageData;
-  if (imageData !== undefined) {
-		  elem.elemurl = mvFile(smallImage.src);
-		  elem.width = smallImage.width;
-		  alert(JSON.stringify(elem));
-	}
+	alert("je pete les plombs");
+	if (imageData !== undefined) {
+		  elem.elemurl = mvFile("data:image/jpeg;base64," + imageData);
+		  alert(JSON.stringify(elem)); }
 	else {
-		alert("merci de prendre une photo");
-	}
+		alert("merci de prendre une photo"); }
 }
 
 function capturePhoto() {
+    alert("lololool");
   navigator.camera.getPicture(pickPhoto, fail, { quality: 50,
 	destinationType: destinationType.DATA_URL });
 }
@@ -120,16 +113,8 @@ function captureAudio() {
 /* ********************************************************************************************* */
 
 function createName() {
-	var sql = "where text =" + document.getElementById('name').value;
-	selectText(sql, tmp, function(){
-		alert(JSON.stringify(tmp));
-	});
-	if (tmp[0] !== undefined){
-		selectMax("SELECT MAX(textid) FROM Text", tmp, function (tmp) {
-			elem.textid = tmp + 1;} );}
-	else {
-		elem.textid = tmp[0].textid;
-	}
+	selectMax("SELECT MAX(textid) FROM Text", tmp, function (tmp) {
+		elem.textid = tmp + 1; } );
 	texte.text = document.getElementById('name').value;
 }
 
@@ -158,7 +143,7 @@ function mvFile(file) {
 /* ************************************* CALLBACK ********************************************** */
 /* ********************************************************************************************* */
 
-function win(file) {
+function win() {
 	alert("GOOD");
 }
 

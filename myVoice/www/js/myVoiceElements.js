@@ -22,9 +22,9 @@ function myVoiceSetings(width, writing, sound, lastchange) {
 
 function myVoiceElem(elemurl, soundid, textid, state) {
 	this.elemid = null;
-	this.elemurl = elemUrl;
-	this.soundid = soundId;
-	this.textid = textId;
+	this.elemurl = elemurl;
+	this.soundid = soundid;
+	this.textid = textid;
 	this.state = state;
 };
 
@@ -131,10 +131,10 @@ function myVoiceElemSetings(){
 	this.elemsetingsid = null; // ID should be the same as the Element Primary key: user_elemid
 	this.width = 10;
 	this.writing = {
-		police: '',
-		policecolor: '',
+		police: null,
+		policecolor: null,
 		size: 15,
-		color: '',
+		color: null,
 		place: 0
 	};
 	this.sound = 0;

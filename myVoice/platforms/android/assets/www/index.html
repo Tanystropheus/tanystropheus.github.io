@@ -1,49 +1,93 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<script type="text/javascript" src="js/myVoiceInsert.js"></script>
+        <script type="text/javascript" src="js/myVoiceSelect.js"></script>
+        <script type="text/javascript" src="js/myVoiceUpdate.js"></script>
+        <script type="text/javascript" src="js/myVoiceSqliteDb.js"></script>
+        <script type="text/javascript" src="js/myVoiceElements.js"></script>
+        <script type="text/javascript" src="js/myVoiceSetings.js"></script>
+        <script type="text/javascript" src="js/myVoiceOauth.js"></script>
+        <script type="text/javascript" src="js/GenSql.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/index.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/insertFile.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/deleteFile.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/modifyFile.js"></script>
+
+        <script type="text/javascript" src="js/data_object.js"></script>
+        <script type="text/javascript" src="js/tools.js"></script>
+        <script type="text/javascript" src="js/view.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/view.css">
+        <script type="text/javascript" src="js/header/view_header_admin.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/header/view_header_admin.css">
+        <script type="text/javascript" src="js/header/view_header_user.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/header/view_header_user.css">
+        <script type="text/javascript" src="js/content/view_content_app.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/content/view_content_app.css">
+        <script type="text/javascript" src="js/content/view_content_import.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/content/view_content_import.css">
+        <script type="text/javascript" src="js/content/view_content_gallery.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/content/view_content_gallery.css">
+        <script type="text/javascript" src="js/footer/view_footer_app.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/footer/view_footer_app.css">
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+        <script src="js/jquery.ui.touch-punch.min.js"></script>
+        <!-- <script type="text/javascript" src="js/myVoiceInsert.js"></script>
+        <script type="text/javascript" src="js/myVoiceSelect.js"></script>
+        <script type="text/javascript" src="js/myVoiceUpdate.js"></script>
+        <script type="text/javascript" src="js/myVoiceSqliteDb.js"></script>
+        <script type="text/javascript" src="js/myVoiceElements.js"></script>
+        <script type="text/javascript" src="js/myVoiceSetings.js"></script>
+        <script type="text/javascript" src="js/myVoiceOauth.js"></script>
+        <script type="text/javascript" src="js/GenSql.js"></script> -->
+	<!-- <script type="text/javascript" charset="utf-8" src="js/index.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/insertFile.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/deleteFile.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/modifyFile.js"></script> -->
+<script type="text/javascript">
+
+function allowdrop(ev){
+ev.preventDefault();
+}
+function drag(ev){
+    ev.dataTransfer.setData("Text", ev.target.id);
+}
+function drop(ev){
+    var selected_img = document.getElementById(ev.dataTransfer.getData("Text"));
+    var targeted_img = ev.target;
+    var clone_first = selected_img.cloneNode();
+    var parent_data  = selected_img.parentElement;
+    var clone_second = targeted_img.cloneNode();
+    var parent_data2 = targeted_img.parentElement;
+    if (targeted_img.getAttribute("class") === "img_frame")
+        targeted_img.appendChild(selected_img);
+    if (targeted_img.id.indexOf("img/") === 0){
+        parent_data.innerHTML = "";
+        parent_data2.innerHTML = "";
+        parent_data.appendChild(clone_second);
+        parent_data2.appendChild(clone_first);
+    }
+    ev.preventDefault();
+}
+</script>
     </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
+    <body onload="show_view_gallery()">
+        <div id="view">
+            <div id="header" ></div>
+            <div id="content" ></div>
+            <div id="footer" ></div>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+        <div id="popup" style="visibility:hidden;">
+            <span id="alert">
+            </span>
+        </div>
     </body>
 </html>

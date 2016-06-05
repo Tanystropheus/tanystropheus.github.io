@@ -1,33 +1,34 @@
 /* ********************************************************************************************* */
+/* ************************************* FONCTIONS INSERT ************************************** */
+/* ********************************************************************************************* */
+
+
+/* ********************************************************************************************* */
 /* ************************************* VARIABLE GLOBAL *************************************** */
 /* ********************************************************************************************* */
-alert("test-1");
 
-var pictureSource = navigator.camera.PictureSourceType;
-alert(navigator);
-alert(pictureSource);
-var destinationType = navigator.camera.DestinationType;
+var pictureSource;
+var destinationType;
 var entry;
 var tmp;
 
 /* ************************************* VARIABLE PRESET *************************************** */
 
-var elem = new myVoiceElem(" ", " ", " ", " ", 1 , " ", " ", " ", "t");
-
+var elem = new myVoiceElem(" ", " ", " ", "t" );
+var son =  new myVoiceSound(" ", "1");
+var texte = new myVoiceText(" ", "1");
 /* ********************************************************************************************* */
 /* ************************************* FONCTIONS SQL ***************************************** */
 /* ********************************************************************************************* */
 
 function selectMax(sql, tmp, cb){
 	var render = function(tx, rs) {
-		alert("dans Select Max");
 		if (rs.insertId !== undefined) {
 			tmp = rs.insertId;
 		}
 		else {
 			tmp = 0;
 		}
-		alert(tmp);
 		if (typeof cb !== undefined){
 			cb(tmp);
 		}
@@ -36,8 +37,16 @@ function selectMax(sql, tmp, cb){
 }
 
 function insertBdd(){
-	alert("Fonction insert");
+	insertElements(elem);
+	insertText(texte);
+	if (elem.soundid !== undefined) {
+		insertSound(son);
+	}
+	elem = (" ", " ", " ", " ", "t");
+	son = (" ",  " ", "1");
+	texte = (" ", " ", "1");
 }
+
 
 /* ********************************************************************************************* */
 /* ************************************* FONCTIONS IMAGES ************************************** */
@@ -47,41 +56,46 @@ function insertBdd(){
 /* ************************************* SELECT PHOTO ****************************************** */
 
 function selectPhoto(imageURI) {
-	alert("dans capture image");
-  var myImage = document.getElementById('select');
-  myImage.style.display = 'block';
-  myImage.src = imageURI;
-  selectMax("SELECT MAX(elemid) FROM Elements", tmp, function (tmp) {
-	  elem.elemid = tmp + 1;
-	  elem.elemurl = mvImage(smallImage.src);
-	  elem.width = smallImage.width;
-  });
+	alert("dans select");
+  // //var myImage = document.getElementById('select');
+  // myImage.style.display = 'block';
+  // myImage.src = imageURI;
+  if (imageURI !== undefined) {
+	  	elem.elemurl = mvFile(imageURI);
+		//  	elem.width = myImage.width;
+	  	alert(JSON.stringify(elem));
+	}
+	else {
+		alert("merci de choisir une photo");
+	}
 }
-
-function getPhoto(source) {
-	alert("avant capture image");
+function getPhoto() {
+	alert("debut get");
   navigator.camera.getPicture(selectPhoto, fail, { quality: 10,
 	destinationType: destinationType.FILE_URI,
-	sourceType: source });
+	sourceType: pictureSource.PHOTOLIBRARY });
+
 }
 
 /* ************************************* PICK PHOTO ****************************************** */
 
 function pickPhoto(imageData) {
-	alert("dans capture image");
-  var smallImage = document.getElementById('pick');
-  smallImage.style.display = 'block';
-  smallImage.src = "data:image/jpeg;base64," + imageData;
-  selectMax("SELECT MAX(elemid) FROM Elements", tmp, function (tmp) {
-	  elem.elemid = tmp + 1;
-	  elem.elemurl = mvImage(smallImage.src);
-	  elem.width = smallImage.width;
-  });
+  //var smallImage = document.getElementById('pick');
+  // smallImage.style.display = 'block';
+ // var smallImage.src = "data:image/jpeg;base64," + imageData;
+ 	alert("je pete les plombs");
+  if (imageData !== undefined) {
+		  elem.elemurl = mvFile("data:image/jpeg;base64," + imageData);
+		  elem.width = smallImage.width;
+		  alert(JSON.stringify(elem));
+	}
+	else {
+		alert("merci de prendre une photo");
+	}
 }
 
 function capturePhoto() {
-	alert("avant capture image prendre");
-
+    alert("lololool");
   navigator.camera.getPicture(pickPhoto, fail, { quality: 50,
 	destinationType: destinationType.DATA_URL });
 }
@@ -91,16 +105,18 @@ function capturePhoto() {
 /* ********************************************************************************************* */
 
 function captureSuccess(mediaFiles) {
-	alert("dans capture audio");
-	selectMax("SELECT MAX(soundid) FROM Sound", tmp, function (tmp) {
-		elem.soundid = tmp + 1;
-		elem.soundelem.soundid = elem.soundid;
-		elem.soundelem.soundurl = mvFile("file://" + mediaFiles[0].fullPath);
-	});
+	if (mediaFiles[0].fullPath !== undefined) {
+		selectMax("SELECT MAX(soundid) FROM Sound", tmp, function (tmp) {
+			elem.soundid = tmp + 1;
+			son.soundurl = mvFile("file://" + mediaFiles[0].fullPath);
+			alert(JSON.stringify(elem)); });
+	}
+	else {
+		alert("si vous souhaitez ajouter une bande son merci de l'enregistrer");
+	}
 }
 
 function captureAudio() {
-	alert("avant capture son");
 	navigator.device.capture.captureAudio(captureSuccess, fail);
 }
 
@@ -109,21 +125,17 @@ function captureAudio() {
 /* ********************************************************************************************* */
 
 function createName() {
-	alert("dans create text");
-	selectMax("SELECT MAX(textid) FROM Text", tmp, function (tmp) {
-		alert(JSON.stringify(elem));
-		alert(tmp + 1);
-		elem.textid = tmp + 1;
-		alert(elem.textid);
-		alert("avanf textelem");
-		elem.textelem.textid = elem.textid;
-		alert("valeur text id ..");
-		alert(elem.textelem.textid);
-		elem.textelem.text = document.getElementById('name').value;
-		alert("apres documet name");
-		alert(elem.textelem.text);
-
+	var sql = "where text =" + document.getElementById('name').value;
+	selectText(sql, tmp, function(){
+		alert(JSON.stringify(tmp));
 	});
+	if (tmp[0] !== undefined){
+		selectMax("SELECT MAX(textid) FROM Text", tmp, function (tmp) {
+			elem.textid = tmp + 1;} );}
+	else {
+		elem.textid = tmp[0].textid;
+	}
+	texte.text = document.getElementById('name').value;
 }
 
 /* ********************************************************************************************* */
@@ -131,7 +143,6 @@ function createName() {
 /* ********************************************************************************************* */
 
 function onRequestFileSystemSuccess(fileSystem) {
-	alert("test1");
 	entry = fileSystem.root;
 	entry.getDirectory("DataBank", {create: true, exclusive: false}, win, fail);
 }
@@ -152,7 +163,7 @@ function mvFile(file) {
 /* ************************************* CALLBACK ********************************************** */
 /* ********************************************************************************************* */
 
-function win(file) {
+function win() {
 	alert("GOOD");
 }
 

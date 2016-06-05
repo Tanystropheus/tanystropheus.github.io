@@ -46,10 +46,13 @@ var app = {
 	onDeviceReady: function() {
 		app.receivedEvent('deviceready');
 		//alert("Device Ready");
-		pictureSource = navigator.camera.PictureSourceType;
-		destinationType = navigator.camera.DestinationType;
+		var pictureSource = navigator.camera.PictureSourceType;
+		alert(JSON.stringify(pictureSource));
+
+		var destinationType = navigator.camera.DestinationType;
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null);
-		
+
+		window.open = cordova.InAppBrowser.open;
 		if (!window.localStorage.getItem("Interfaces_Setings")){
 			window.appData.interfaces_setings = {
 				backgroundColor: "",
@@ -77,13 +80,13 @@ var app = {
 		} else {
 			window.appData.interfaces_setings = JSON.parse(window.localStorage.getItem("Interfaces_Setings"));
 		}
+		genSetingForm(document.getElementById("setingArea"));
 		return openDb().then(function(){
 				return initDb(function(objLst){ alert("appData:" + JSON.stringify(appData, null, 4)); });
 			}, function(err, err2){
 				alert("openDb Fail: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
 			}
 		);
-
 		//createSqliteTable(db, 'SimpsonFamily', 'id integer primary key, nom text');
 	},
 	receivedEvent: function(id) {
