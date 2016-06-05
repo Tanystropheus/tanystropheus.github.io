@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+    <!--    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        <meta name="msapplication-tap-highlight" content="no"> -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/seting.css">
+        <script type="text/javascript" src="cordova.js" ></script>
+        <script type="text/javascript" src="js/myVoiceInsert.js"></script>
+        <script type="text/javascript" src="js/myVoiceSelect.js"></script>
+        <script type="text/javascript" src="js/myVoiceUpdate.js"></script>
+        <script type="text/javascript" src="js/myVoiceSqliteDb.js"></script>
+        <script type="text/javascript" src="js/myVoiceElements.js"></script>
+        <script type="text/javascript" src="js/myVoiceSetings.js"></script>
+        <script type="text/javascript" src="js/myVoiceOauth.js"></script>
+        <script type="text/javascript" src="js/GenSql.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <title>Ma Voix</title>
+    </head>
+
+    <!-- Page Utilisation -->
+    <body>
+        <div data-role="page" id="usepage">
+            <div data-role="header" class="header">
+                <h1>Mode Utilisation</h1>
+                 <!-- Bouton de paramétrage -->
+                <a href="#settingpage" data-transition="slide" class="ui-btn ui-btn-right ui-icon-gear ui-btn-icon-right ui-btn-inline ui-corner-all">Paramètres</a>
+            </div>
+
+            <div data-role="main" class="ui-content">
+                <!-- Onglets -->
+                <div data-role="tabs" class="tabs">
+                    <div data-role="navbar" class="onglet">
+                        <ul>
+                            <li><a href="#act" id="actions" class="ui-btn-active ui-btn-inline topCornersOnly">Demandes</a></li>
+                            <li><a href="#obj" id="objects" class="ui-btn-inline topCornersOnly">Aliment</a></li>
+                            <li><a href="#att" id="items" class="ui-btn-inline topCornersOnly">Attributs</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Zone des éléments -->
+                    <div id="act">
+                        <div class="elementArea">
+                            <!-- Organisation des éléments -->
+                            <ul id="sortable-el" class="connectedSortable">
+                                <li class="element">jardin
+                                    <ul>
+                                        <li>
+                                            <img class="imgClass" src="img/jardin.png" alt="Test1"/>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="element">menu
+                                    <ul>
+                                        <li>
+                                            <img class="imgClass" src="img/menu.png" alt="menu"/>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>        
+                    </div>
+                    <div id="obj">
+                        <div class="elementArea">
+                            <ul id="sortable-el" class="connectedSortable">
+                                <li class="element">patates au chorizo
+                                    <ul>
+                                        <li>
+                                            <img class="imgClass" src="img/patates_au_chorizo.png" alt="patates_au_chorizo"/>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="att"> 
+                        <div class="elementArea">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bande de parole -->
+            <div data-role="footer" class="footer">
+                <div class="speakArea">
+                    <ul id="sortable-sp" class="connectedSortable">
+                    </ul>
+                    <a href="#" class="ui-btn ui-icon-audio ui-btn-icon-right ui-btn-inline ui-corner-all">Ecouter</a>
+                    <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-right ui-btn-inline ui-corner-all">Supprimer</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page paramètres -->
+        <div data-role="page" id="settingpage">
+            <div data-role="header">
+                <h1>Paramétrage</h1>
+            </div>
+
+             <div data-role="main" class="ui-content">
+                <p>
+                    <h4>Pour passer au mode apprentissage :</h4>
+                    <!-- Switch mode -->
+                    <fieldset>
+                        <div data-role="fieldcontain">
+                            <select id="select-based-flipswitch" data-role="flipswitch">
+                                <option value="leave">MU</option>
+                                <option value="arrive">MA</option>
+                            </select>
+                            <div id="setingArea">
+                            </div>
+                        </div>
+                    </fieldset>
+                </p>
+
+                <!-- Bouton de validation des paramètres -->
+                <a href="#popupSave" data-rel="popup" data-position-to="window" class="ui-btn ui-btn-inline ui-corner-all" id="button_param" data-transition="pop" onclick=getSetingForm() >Sauvegarder</a>
+                <!-- Popup formulaire pour mode apprentissage -->
+                <div data-role="popup" id="popupSave" class="ui-corner-all" data-overlay-theme="b">
+                    <form method="post" action="demoform.asp">
+                        <p id="error">Remplissez tous les champs :<p>
+                        <input type="text" name="fname" id="fname" placeholder="Entrez votre nom" data-clear-btn="true">
+                        <input type="text" name="flocation" id="flocation" placeholder="Entrez l'activité" data-clear-btn="true">
+                        <input type="text" name="factivity" id="factivity" placeholder="Entrez le lieu" data-clear-btn="true">
+                        <a href="#form" id="button_form" data-transition="slide" class="ui-btn  ui-corner-all">Enregistrer</a>
+                    </form>
+                </div>
+             </div>
+
+            <div data-role="footer" class="footer">
+                <h1>Footer Text</h1>
+            </div>
+        </div>
+
+        <!-- Page Apprentissage -->
+        <div data-role="page" id="learningpage">
+            <div data-role="header">
+                <h1>Mode Apprentissage</h1>
+                 <!-- Bouton de paramétrage -->
+                <a href="#settingpage" data-transition="slide" class="ui-btn ui-btn-right ui-icon-gear ui-btn-icon-right ui-btn-inline ui-corner-all">Paramètres</a>
+             </div>
+
+            <div data-role="main" class="ui-content">
+                <div data-role="tabs" class="tabs">
+                    <div data-role="navbar" class="onglet">
+                        <ul>
+                            <li><a href="#actT" id="actionsT" class="ui-btn-active ui-btn-inline topCornersOnly">Aliment</a></li>
+                            <li><a href="#objT" id="objectsT" class="ui-btn-inline topCornersOnly">Objets</a></li>
+                            <li><a href="#itT" id="itemsT" class="ui-btn-inline topCornersOnly">Attributs</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Zone des éléments -->
+                    <div id="actT">
+                        <div class="elementArea">
+                            <ul id="sortable-elT" class="connectedSortable">
+                                <li class="element">patates au chorizo
+                                    <ul>
+                                        <li>
+                                            <img class="imgClass" src="img/patates_au_chorizo.png" alt="patates_au_chorizo"/>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul id="sortable-elT" class="connectedSortable">
+                                <li class="element">amuse gueule
+                                    <ul>
+                                        <li>
+                                            <img class="imgClass" src="img/amuse-gueule.png" alt="amuse-gueule"/>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="objT">
+                        <div class="elementArea">
+                        </div>
+                    </div>
+                    <div id="itT">
+                        <div class="elementArea">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+             <!-- Bande de parole -->
+            <div data-role="footer" class="footer">
+                <div class="speakArea">
+                    <ul id="sortable-spT" class="connectedSortable">
+                    </ul>
+                    <a href="#" class="ui-btn ui-icon-audio ui-btn-icon-right ui-btn-inline ui-corner-all">Ecouter</a>
+                    <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-right ui-btn-inline ui-corner-all">Supprimer</a>
+                    <a href="#popupCheck" data-rel="popup" class="ui-btn ui-icon-check ui-btn-icon-right ui-btn-inline ui-corner-all" data-transition="pop">Valider</a>
+                    <!-- Popup de validation -->
+                    <div data-role="popup" id="popupCheck" data-overlay-theme="b">
+                        <p>La phrase est-elle correcte ?</p>
+                        <a href="#" id="iconCheck" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-inline ui-btn-icon-notext"></a>
+                        <a href="#" id="iconNoCheck" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-inline ui-btn-icon-notext"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- include the jQuery library-->
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <!-- include the jQuery Mobile library -->
+        <script>
+            $(document).bind('mobileinit',function(){
+                $.mobile.changePage.defaults.changeHash = false;
+                $.mobile.hashListeningEnabled = false;
+                $.mobile.pushStateEnabled = false;
+            });
+        </script> 
+        <script src="js/jquery.mobile-1.4.5.min.js"></script>
+
+        <script src="js/jquery-ui-1.11.4.min.js"></script>
+        <script src="js/jquery.ui.touch-punch.min.js"></script>
+        <script src="js/myscript.js"></script>
+    </body>
+</html>
