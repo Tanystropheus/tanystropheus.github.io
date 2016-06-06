@@ -15,12 +15,7 @@ orgniser les donner
 
 
 */
-    function elem_stat()
-    {
-        this.elemId = 0;
-        this.nb_use = 0;
-        this.lst_senstenceId = [];
-    }
+
 
 
     paper.install(window);
@@ -38,6 +33,7 @@ orgniser les donner
     var all_phrase = [];
     var all_elem_stat = [];
     var all_phrase_stat = [];
+
 
 
 /*
@@ -89,7 +85,7 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
             
             for(var x = 0; x < lst_img.length; x++)
             {
-                lst_elem[x] = new myVoiceElem(x, lst_img.item(x).src, lst_img.item(x).width, 0, x, x, lst_img.item(x).alt, true);
+                lst_elem[lst_img.item(x).id] = new myVoiceElem(lst_img.item(x).id, lst_img.item(x).src, lst_img.item(x).width, 0, x, x, lst_img.item(x).alt, true);
    //             all_elem_stat[x] = new elem_stat();
 
             }
@@ -145,10 +141,10 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
                 count++;
             }
 
-            sentence[sentence.length] = new myVoiceSentence(sentence.length, group_img, parseInt(Date.now() - (Math.random() * mili_in_day * 30)));
+            sentence[sentence.length] = new myVoiceSentence(sentence.length, group_img, Date.now() - ((Math.random() * mili_in_day * 180)));
  //           console.log("sentenceId:"+(sentence.length - 1));
              actual_elem_stat(sentence[sentence.length - 1]);
-             actual_sentence_stat(sentence[sentence.length - 1]);
+//             actual_sentence_stat(sentence[sentence.length - 1]);
         }
 
         function cmp_time(a, b)
@@ -166,18 +162,18 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
         //     }
         // }
 
+function f1(elem_id)
+{
+    var from = new Point(30, 30);
+    var to = new Point(view.size.width - 30, 200);
+
+    draw_line(parseInt(elem_id), from, to);
+}
+
         function f5()
         {
-
-       //  //     actual_elem_stat(all_phrase[parseInt(Math.random() * 20)]);
-       //      for (var x in all_elem_stat)
-       //      {
-       //          console.log("lst ["+x+"]");
-       // //         console.log();
-       //          console.log(all_elem_stat[x]['lst_senstenceId']);
-       //      }
-            console.log(all_phrase_stat);
-
+            //   console.log(get_time_interval());
+            // console.log("time _unite:"+get_time_unite());
         }
 
         function f4()

@@ -82,6 +82,7 @@ function myVoiceElemAssociation(elemassoid, userId, globelemassoid, nbuse, date)
 };
 
 //alert("myVoiceElem");
+
 function myVoiceElem(elemid, elemUrl, Width, user, soundId, textId, taglst, state) {
 	this.elemid = elemid;
 	this.elemurl = elemUrl;
@@ -102,7 +103,7 @@ function myVoiceContext(contextid, time, places, activiti, interlocutor) {
 	this.contextid = contextid;
 	this.time = time;
 	this.places = places;
-	this.activiti = activiti;
+	this.activiti = activiti;				
 	this.interlocutor = interlocutor;
 	this.updatedb = function(){
 		alert("db update func not yet created");
@@ -210,6 +211,12 @@ function myVoiceElemSetings(id){
 	this.lastchange = Date.now();
 }
 
+    function elem_stat()
+    {
+        this.elemId = 0;
+        this.nb_use = 0;
+        this.lst_senstenceId = [];
+    }
 
 function myVoiceSentence(sentenceId, listElemId, time) {
 	this.sentenceId = sentenceId;
