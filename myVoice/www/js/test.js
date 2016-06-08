@@ -74,7 +74,7 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
         
         function f3()
         {
-            gen_x_sentence_in(20, all_phrase);
+            gen_x_sentence_in(200, all_phrase);
       //      console.clear();
      //       console.log(all_phrase);
         }
@@ -162,23 +162,40 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
         //     }
         // }
 
-function    actualise_curve()
-{
-    // il faut determiner le max de toute les courbe
-}
+// function    actualise_curve()
+// {
+//     // il faut determiner le max de toute les courbe
+// }
+
 
 function f1(elem_id)
 {
-    var from = new Point(30, 30);
-    var to = new Point(view.size.width - 30, 200);
 
-    draw_line(parseInt(elem_id), from, to);
+    invert_state(elem_id);
+
+   // how_is_active();
+    draw_grid_4_line();
+    // actualise the curve
+
+
+
+    // var from = new Point(30, 30);
+    // var to = new Point(view.size.width - 30, view.size.height / 3);
+
+ //   draw_line(parseInt(elem_id), from, to);
+//    actu_line(elem_id, from, to, 30);// alume ou etain puis redessine tout;
+//    actualise_curve();
+
 }
 
         function f5()
         {
             //   console.log(get_time_interval());
             // console.log("time _unite:"+get_time_unite());
+ //           actu_line(elem_id, from, to, max);
+            actualise_curve();
+
+
         }
 
         function f4()
@@ -190,7 +207,7 @@ function f1(elem_id)
             // for (x in all_elem)
             // {
             //     if (all_elem_stat[x] == undefined)
-            //         console.log("elem_stat:"+(x)+" get fuck");
+                    // console.log("elem_stat:"+(x)+" get fuck");
             //     if (all_elem[x] == undefined)
             //         console.log("elem:"+(x)+" get fuck");
             // }

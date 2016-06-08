@@ -25,7 +25,7 @@ function draw_the_grid(min, max, nb_line, group, pt_tl, pt_br)
     var y = 0.0;
     while (y <= size_data + 1)
     {
-        console.log("y:"+y);
+        // console.log("y:"+y);
         var text = new PointText(new Point(0, pt_br.y));
         var path = new Path;
         var p1 = new Point();
@@ -49,8 +49,8 @@ function draw_the_grid(min, max, nb_line, group, pt_tl, pt_br)
         group.addChild(text);
         group.addChild(path);
         y += delta_val;
-        console.log(p1);
-        console.log(p2);
+        // console.log(p1);
+        // console.log(p2);
  //       view.draw();
  //       console.log(path.segments[1]);
     }
@@ -111,8 +111,8 @@ function display_img_histo(event)
 	if (img.scaling.x < 0.99)
 		img.scale(img.size.width / all_elem[this.data]['width']);
 	img.scale(all_elem[this.data]['width'] / img.size.width);
-	console.log('ON est laaaa');
-	console.log(img);
+	// console.log('ON est laaaa');
+	// console.log(img);
 	img.position.y = this.segments[0].point.y + img.width * img.scaling.y / 2 + 10;
 	pt_txt.position.y = img.position.y + img.width * img.scaling.y / 2 + 10;
 	pt_txt.position.x = img.position.x;
