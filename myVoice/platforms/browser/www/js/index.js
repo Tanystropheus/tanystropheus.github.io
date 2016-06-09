@@ -71,7 +71,7 @@ var app = {
 				butonColor: "",
 				language: 0
 			};
-			window.localS/torage.setItem("Interfaces_Setings", JSON.stringify(window.appData.interfaces_setings));
+			window.localStorage.setItem("Interfaces_Setings", JSON.stringify(window.appData.interfaces_setings));
 		} else {
 			window.appData.interfaces_setings = JSON.parse(window.localStorage.getItem("Interfaces_Setings"));
 		}

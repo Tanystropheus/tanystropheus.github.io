@@ -1,4 +1,4 @@
-
+    
 /*
 
 afficher les donner
@@ -201,10 +201,12 @@ function    border_if_actif(elem)
 }
 
 var group_grid;
+var grp_curseur;
 function f1(elem)
 {
     //console.log(elem.style);
 
+    
     var from = new Point(30, 30);
     var to = new Point(view.size.width - 30, view.size.height / 3);
     var max = 0;
@@ -212,9 +214,7 @@ function f1(elem)
 
     border_if_actif(elem);
     if (group_grid == undefined)
-    {
         group_grid = new Group();
-    }
     group_grid.removeChildren();
 
     invert_state(parseInt(elem.id));
@@ -235,8 +235,15 @@ function f1(elem)
             //   console.log(get_time_interval());
             // console.log("time _unite:"+get_time_unite());
  //           actu_line(elem_id, from, to, max);
-            actualise_curve();
+  //          actualise_curve();
+            var from = new Point(30, 30);
+            var to = new Point(view.size.width - 30, view.size.height / 3);
 
+            if (grp_curseur == undefined)
+            {
+                grp_curseur = new Group();
+            }
+            draw_unite_curseur(from, to, grp_curseur);
 
         }
 
