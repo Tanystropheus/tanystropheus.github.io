@@ -175,32 +175,59 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
     -allouer et liere/detruire des objet                        DONE
     -definir un maximum                                         DONE
     -afficher les ligne avec ce maximum                         DONE
-    -afficher la grille                                         
+    -afficher la grille                                         DONE
+
+
+
     -definir un curseur pour mobifier les borne ou l'interval
-    
+        -curseur additif;
 
     -faire la meme chose pour les phrase
     -representation en arbre des phrase
     -classification temporel avec les genre de box
 */
 
+/*
+                border-style: solid;
+                border-color: green;
+*/
 
-
-function f1(elem_id)
+function    border_if_actif(elem)
 {
+    if (elem.style.border == "")
+        elem.style.border = "solid";
+    else
+        elem.style.border = "";
+}
+
+var group_grid;
+function f1(elem)
+{
+    //console.log(elem.style);
+
     var from = new Point(30, 30);
     var to = new Point(view.size.width - 30, view.size.height / 3);
     var max = 0;
+    var nb_line = 10;
 
-//console.clear();
-    // console.log("++++++++++++  f1  ++++++++++++");
-    invert_state(elem_id);
-    max = define_max();
-    for(var x in all_elem)
+    border_if_actif(elem);
+    if (group_grid == undefined)
     {
-        draw_line(parseInt(x), from, to, max);
+        group_grid = new Group();
     }
+    group_grid.removeChildren();
 
+    invert_state(parseInt(elem.id));
+    max = define_max();
+//    alert("max:"+max);
+    if (max != 0)
+    {
+        draw_the_grid(0, max, nb_line, group_grid, from, to);
+        for(var x in all_elem)
+        {
+            draw_line(parseInt(x), from, to, max);
+        }
+    }
 }
 
         function f5()
