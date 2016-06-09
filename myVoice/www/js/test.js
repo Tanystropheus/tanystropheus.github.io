@@ -168,23 +168,38 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
 // }
 
 
+
+
+/*
+    -afficher les graphe avec un max pre defini.                DONE
+    -allouer et liere/detruire des objet                        DONE
+    -definir un maximum                                         DONE
+    -afficher les ligne avec ce maximum                         DONE
+    -afficher la grille                                         
+    -definir un curseur pour mobifier les borne ou l'interval
+    
+
+    -faire la meme chose pour les phrase
+    -representation en arbre des phrase
+    -classification temporel avec les genre de box
+*/
+
+
+
 function f1(elem_id)
 {
+    var from = new Point(30, 30);
+    var to = new Point(view.size.width - 30, view.size.height / 3);
+    var max = 0;
 
+//console.clear();
+    // console.log("++++++++++++  f1  ++++++++++++");
     invert_state(elem_id);
-
-   // how_is_active();
-    draw_grid_4_line();
-    // actualise the curve
-
-
-
-    // var from = new Point(30, 30);
-    // var to = new Point(view.size.width - 30, view.size.height / 3);
-
- //   draw_line(parseInt(elem_id), from, to);
-//    actu_line(elem_id, from, to, 30);// alume ou etain puis redessine tout;
-//    actualise_curve();
+    max = define_max();
+    for(var x in all_elem)
+    {
+        draw_line(parseInt(x), from, to, max);
+    }
 
 }
 
