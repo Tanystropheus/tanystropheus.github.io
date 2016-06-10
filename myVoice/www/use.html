@@ -17,6 +17,7 @@
         <script type="text/javascript" src="js/myVoiceSetings.js"></script>
         <script type="text/javascript" src="js/myVoiceOauth.js"></script>
         <script type="text/javascript" src="js/GenSql.js"></script>
+        <script type="text/javascript" src="js/plugins/LaunchMyApp.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <title>Ma Voix</title>
     </head>
@@ -98,6 +99,7 @@
         <div data-role="page" id="settingpage">
             <div data-role="header">
                 <h1>Paramétrage</h1>
+                <a href="#popupSave" data-rel="popup" data-position-to="window" class="ui-btn ui-btn-inline ui-corner-all" id="button_param" data-transition="pop" onclick=oauthClientToken() >co</a>
             </div>
 
              <div data-role="main" class="ui-content">
@@ -110,8 +112,7 @@
                                 <option value="leave">MU</option>
                                 <option value="arrive">MA</option>
                             </select>
-                            <div id="setingArea">
-                            </div>
+                            <div id="setingArea"></div>
                         </div>
                     </fieldset>
                 </p>
@@ -223,3 +224,60 @@
         <script src="js/myscript.js"></script>
     </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form class="new_user" id="new_user" action="https://pasteur-oauth2.herokuapp.com/users/sign_in" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="i9lG3dql8y0NkzgLPOi7g6jqArxs3Z3/uzyt48JYDjLvA6divqc85kJ+44mCQxmWxQF3o3c7kaWPD77E5fpzsw==" />
+  <div class="field">
+    <label for="user_email">Email</label><br />
+    <input autofocus="autofocus" type="email" value="" name="user[email]" id="user_email" />
+  </div>
+
+  <div class="field">
+    <label for="user_password">Password</label><br />
+    <input autocomplete="off" type="password" name="user[password]" id="user_password" />
+  </div>
+
+    <div class="field">
+      <input name="user[remember_me]" type="hidden" value="0" /><input type="checkbox" value="1" name="user[remember_me]" id="user_remember_me" />
+      <label for="user_remember_me">Remember me</label>
+    </div>
+  <input type="hidden" name="client_id" id="client_id" value="fcf7909a8b33e76b51d160c49da543025fa7f3ec816e3d04273fef623e7ab38d" />
+
+  <div class="actions">
+    <input type="submit" name="commit" value="Log in" />
+  </div>
+</form>
+  <a href="https://pasteur-oauth2.herokuapp.com/users/sign_up?client_id=fcf7909a8b33e76b51d160c49da543025fa7f3ec816e3d04273fef623e7ab38d">Sign up</a><br />
+
+  <a href="https://pasteur-oauth2.herokuapp.com/users/password/new">Forgot your password?</a><br />

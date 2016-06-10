@@ -6,11 +6,11 @@ function genInitSql(){
 	nblibmax = [6, 6];
 
 	libName = ["Verbes", "Aliments", "Adjectifs", "Boissons", "Jouets d'intérieur", "Jeux d'extérieur"];
-	libSizemin = [1, 20, 41, 53, 62, 84];
-	libSizemax = [19, 40, 52, 61, 83, 92];
+	libSizemin = [1, 18, 39, 51, 60, 82];
+	libSizemax = [17, 38, 50, 59, 81, 90];
 
 
-	text = ["Manger", "Boire", "Courir", "Sauter", "Tourner", "Tirer", "Pouser", "Donner", "Chatouiller", "Souffler", "Secouer", "Sortir", "Suvrir", "Fermer", "Rouler", "Glisser", "Allumer", "Faire un câlin", "Faire un bisou",
+	text = ["Manger", "Boire", "Courir", "Sauter", "Tourner", "Tirer", "Pousser", "Donner", "Chatouiller", "Souffler", "Secouer", "Sortir", "Suivre", "Fermer", "Rouler", "Glisser", "Allumer", //"Faire un câlin", "Faire un bisou",
 		"Pain", "Gâteau", "Bonbon", "Chips", "Fruits", "Pâtes", "Pomme de terre", "Viande", "Légumes", "Fromage", "Yaourt", "Glace", "Barquette à la fraise,", "Prince", "Finger", "Pomme", "Raisin", "Orange", "Fraise", "Carottes", "Haricots verts",
 		"Bleu", "Blanc", "Rouge", "Vert", "Grand", "Petit", "Moyen", "1", "2", "3", "4", "5",
 		"eau", "jus de pomme", "jus d'orange", "jus de raisin", "oasis", "coca", "perrier", "lait", "thé",
@@ -50,10 +50,10 @@ function genInitSql(){
 
 	for(var i = 0; i < text.length; i++){
 		Textsqlreq += "INSERT INTO Text (languageid, text) VALUES ( 1, \"" + text[i] + "\");\n",
-		Elementssqlreq += "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/" + text[i].replace(new RegExp(' ', 'g'), '').replace(new RegExp("'", 'g'), '') + ".png', 1, " + (i+1) + ", 0);\n";
+		Elementssqlreq += "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/" + text[i].replace(new RegExp(' ', 'g'), '').replace(new RegExp("'", 'g'), '').toLowerCase() + ".png', 1, " + (i+1) + ", 0);\n";
 		Setingssqlreq += "INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: null, policecolor: null, size: 15, color: null, place: 0}', 1, 0, 1);\n";
 		ElemSetingssqlreq += "INSERT INTO ElemSetings (setingsid, elemid) VALUES ("+ (i+1) +", "+ (i+1) + ");\n";
-		Soundsqlreq += "INSERT INTO Sound (soundurl,  languageid) VALUES (\"sound/" + text[i].replace(new RegExp(' ', 'g'), '') + ".mp3\", 1);\n";
+		Soundsqlreq += "INSERT INTO Sound (soundurl,  languageid) VALUES (\"sound/" + text[i].replace(new RegExp(' ', 'g'), '').replace(new RegExp("'", 'g'), '').toLowerCase() + ".mp3\", 1);\n";
 		for(var j = 0; j < libName.length; j++){
 			if((i+1) >= libSizemin[j] && (i+1) <= libSizemax[j]){
 				LibElemsqlreq += "INSERT INTO LibElem (libraryid, elemid) VALUES (" + (j+1) + ", " + (i+1) + ");\n";

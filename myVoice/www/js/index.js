@@ -74,9 +74,9 @@ var app = {
 		} else {
 			window.appData.interfaces_setings = JSON.parse(window.localStorage.getItem("Interfaces_Setings"));
 		}
-		genSetingForm(document.getElementById("setingArea"));
+		//genLogForm();
 		return openDb().then(function(){
-				return initDb(function(objLst){ alert("appData:" + JSON.stringify(appData, null, 4)); });
+				return initDb(function(objLst){ genSetingForm(document.getElementById("setingArea"));/*alert("appData:" + JSON.stringify(appData, null, 4));*/ });
 			}, function(err, err2){
 				alert("openDb Fail: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
 			}
