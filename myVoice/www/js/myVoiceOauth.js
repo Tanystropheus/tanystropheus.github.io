@@ -17,11 +17,11 @@ if (typeof String.prototype.startsWith != 'function') {
 
 function oauthClientToken(){
 	//alert("begin oauth");
-	var ref = window.open(window.api + '/auth/interact_oauth/authorize?client_id=' + getClientId() + '&client_secret=' + getClientSecret(), '_self', 'location=yes');
+	var ref = window.open(window.api + '/auth/interact_oauth/authorize?client_id=' + getClientId() + '&client_secret=' + getClientSecret(), '_blank', 'location=no');
 	ref.addEventListener('loadstart', function(e) {
 				//~ alert("toto");
 				var url = e.url;
-				var code = /\?code=(.+)$/.exec(url);
+				var code = /\?code=(.+)$/.exec(url)[1];
 				var error = /\?error=(.+)$/.exec(url);
 				if (code || error) {
 					ref.close();
@@ -29,7 +29,7 @@ function oauthClientToken(){
 
 				if (code) {
 					//~ alert("test");
-					alert("code: " + JSON.stringify(code, null, 4));
+					//alert("code: " + JSON.stringify(code, null, 4));
 					interActLogin(code);
 				} else if (error) {
 					//The user denied access to the app
@@ -43,35 +43,25 @@ function oauthClientToken(){
 		ref.addEventListener('loaderror', function(e) {alert(JSON.stringify(e, null, 4));});
 	};
 
-function interActAuthorization(){
-	var ref = window.open(window.api + '/auth/interact_oauth/authorize?client_id=' + clientId, '_blank', 'location=no');
-	ref.addEventListener('loadstart', function(event) { 
-		if((event.url).startsWith("http://")) {
-			authorization_code = (event.url).split("code=")[1];
-			ref.close();
-			interActLogin(authorization_code);
-		}
-	});
-}
-
 function interActLogin(authorization_code){
 	alert("begin interActLogin!!");
-	alert("authorization_code" + authorization_code);
+	//alert("authorization_code: " + authorization_code);
 	$.ajax({
 		type: "GET",
-		dataType: "jsonp",
+		dataType: "text",
 		crossDomain: true,
 		data:{client_id: getClientId(), client_secret: getClientSecret(), grant_type: "authorization_code", code: authorization_code},
 		url: window.api + "/auth/interact_oauth/access_token",
 		success: function(data) {
-			alert("begin suces");
+			//alert("begin suces: " + JSON.stringify(data, null, 4));
+			data = JSON.stringify(data, null, 4);
 			if (data.uid) window.localStorage.setItem("uid", data.uid);
 			if (data.token) setUserToken(data.token);
 			alert("Connexion réusie");
 		},
-		error: function(data, status) {
+		error: function(data, status, status2) {
 			//alert("ERROR: " + data);
-			alert("Connexion échouer: " + JSON.stringify(data, null, 4) + JSON.stringify(status, null, 4));
+			alert("Connexion échouer: " + JSON.stringify(data, null, 4) + "erreur 2: " + JSON.stringify(status, null, 4) + "erreur 3: " + JSON.stringify(status2, null, 4));
 		}
 	});
 }
@@ -92,29 +82,30 @@ function interActLogOut(){
 	});
 }
 
-
-function test(){
-	authorization_code = "autorization1";
-	$.ajax({
-		type: "GET",
-		dataType: "jsonp",
-		crossDomain: true,
-		data:{client_id: getClientId(), client_secret: getClientSecret(), grant_type: "authorization_code", code: authorization_code},
-		url: window.api,// + "/auth/interact_oauth/access_token",
-		success: function(data) {
+//~ function test(){
+	//~ authorization_code = "autorization1";
+	//~ $.ajax({
+		//~ type: "GET",
+		//~ dataType: "jsonp",
+		//~ crossDomain: true,
+		//~ data:{client_id: getClientId(), client_secret: getClientSecret(), grant_type: "authorization_code", code: authorization_code},
+		//~ url: window.api,// + "/auth/interact_oauth/access_token",
+		//~ success: function(data) {
 			//~ window.localStorage.setItem("uid", data.uid);
 			//~ setUserToken(data.token);
-			alert("Connexion réusie");
-		},
-		error: function(data, status) {
-			console.log("ERROR: " + data);
-			alert("Connexion échouer: " + JSON.stringify(data, null, 4));
-		}
-	});
-}
+			//~ alert("Connexion réusie");
+		//~ },
+		//~ error: function(data, status) {
+			//~ console.log("ERROR: " + data);
+			//~ alert("Connexion échouer: " + JSON.stringify(data, null, 4));
+		//~ }
+	//~ });
+//~ }
 
 function getUserToken(){
-	return "test";
+	var user_token = window.localStorage.getItem("userToken");
+	if (user_token)	return user_token;
+	else alert("You are not Login in interact");
 	//return window.localStorage.getItem("userToken");
 }
 
