@@ -108,11 +108,11 @@ function	find_begin(tab_val, val_begin)
 {
 	var i = 0;
 
-	console.log("tab:");
-	console.log(tab_val);
-	console.log("val_begin:"+val_begin);
-	console.log(typeof(tab_val[0]));
-	console.log(typeof(val_begin));
+	// console.log("tab:");
+	// console.log(tab_val);
+	// console.log("val_begin:"+val_begin);
+	// console.log(typeof(tab_val[0]));
+	// console.log(typeof(val_begin));
 	while (tab_val[i] < val_begin)
 		i++;
 	return (i);
@@ -122,9 +122,9 @@ function	find_begin(tab_val, val_begin)
 function	get_max_nb(tab_value)
 {
 
-	var max = 0;
+	var max = 1;
 
-	for(var x = 0; x < all_elem.length; x++)
+	for(var x = 0; x < tab_value.length; x++)
 	{
 		if (tab_value[x] >= max)
 			max = tab_value[x];
@@ -136,27 +136,44 @@ function fill_me_the_val(elem_id)
 {
 	var tab_value = [];
 	var time_interval = get_time_interval();
-	var time_unite = get_time_unite();
+	var time_unite = get_time_unite();// si non on peu metre que le resu.ta est defini en fonciton d'une variable globale
 	var lst_time = get_lst_time(elem_id);
 
-	var tab_length = parseInt((time_interval.end - time_interval.begin) / time_unite);
+	if (global_unite_time != undefined)
+	{
+		time_unite = global_unite_time;
+
+	}
+	console.log("time_unite"+time_unite);
+
+	var tab_length = Math.ceil((time_interval.end - time_interval.begin) / time_unite);
 	// console.info("tab_length:"+tab_length);
 	var next_time = time_interval.begin + time_unite;
 	var x =find_begin(lst_time, time_interval.begin);
 	console.log("x:"+x);
 
 
-
-	for(var i = 0; i < tab_length; i++)
+	for(var i = 0; i < tab_length + 1; i++)
 	{
 		tab_value[i] = 0;
-		while(lst_time[x] < next_time && lst_time[x] < time_interval.end)
+		while(lst_time[x] < next_time && lst_time[x] <= time_interval.end)
 		{
 			tab_value[i]++;
 			x++;
 		}
 		next_time += time_unite;
 	}
+	tab_value[tab_length] = tab_value[tab_length - 1];
+
+	// for (var i = 0; i < 10; i++)
+	// {
+	// 	for (var x = 1; x < tab_value.length - 1; x++)
+	//  	{
+	//  		tab_value[x] = (tab_value[x - 1] + 0 * tab_value[x] + tab_value[x + 1]) / 2;
+	//  		//path.add(new Point(from.x + (x) * delta_x, to.y - delta_y * tab_value[x]));
+	//  	}
+	//  	tab_value[tab_value.length - 1] = (tab_value[tab_value.length - 2]);
+	//  }
 
 	return (tab_value);
 }
@@ -182,7 +199,7 @@ function    invert_state(elem_id)
 
 function	define_max()
 {
-	var maximum = 0;
+	var maximum = 1;
 	var tmp = 0;
 	var tab_value = [];
 
@@ -207,16 +224,18 @@ function	draw_line(elem_id, from, to, max)
 			groups_line[elem_id].removeChildren();
 	 	var tab_value = fill_me_the_val(elem_id);
 
+
+
 	 	var max_val = max;
-		var delta_x = (to.x - from.x) / tab_value.length;
+		var delta_x = (to.x - from.x) / (tab_value.length - 1);
 		var delta_y = (to.y - from.y) / max_val;
 		var path = new Path();
 	    path.strokeColor = new Color({ hue: (elem_id / all_elem.length * 360), saturation: 0.7, brightness:0.8 , alpha:0.7});
 	    path.strokeWidth = 3;
 
-		for (var x in tab_value)
-			path.add(new Point(from.x + x * delta_x, to.y - delta_y * tab_value[x]));
-//		path.smooth();
+		for (var x = 0; x < tab_value.length; x++)
+			path.add(new Point(from.x + (x) * delta_x, to.y - delta_y * tab_value[x]));
+		// path.smooth();
 		groups_line[elem_id].addChild(path);
 		view.draw();
 	}

@@ -23,7 +23,7 @@ function draw_the_grid(min, max, nb_line, group, pt_tl, pt_br)
     var coef = (pt_br.y - pt_tl.y) / (max - min);
 
     var y = 0.0;
-    while (y <= size_data + 1)
+    while (y <= size_data)
     {
         // console.log("y:"+y);
         var text = new PointText(new Point(0, pt_br.y));
@@ -48,6 +48,18 @@ function draw_the_grid(min, max, nb_line, group, pt_tl, pt_br)
         text.fillColor = 'grey';
         group.addChild(text);
         group.addChild(path);
+
+       	var test = (pt_br.y - (y * coef));
+        if (test < 31)
+        {
+        	console.log("==========================================");
+        	console.log("y:"+test);
+        	console.log("max:"+max);
+        	console.log(pt_br);
+        	console.log("==========================================");
+
+		}
+
         y += delta_val;
         // console.log(p1);
         // console.log(p2);

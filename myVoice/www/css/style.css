@@ -20,7 +20,7 @@
 }
 #act, #obj, #att, #actT, #objT, #itT {
   position: absolute;
-  top: 30px; right: 0; bottom: 0; left: 0;
+  top: 80px; right: 0; bottom: 0; left: 0;
 }
 
 .topCornersOnly {
@@ -51,13 +51,13 @@ img {
 }
 .footer {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 170px;
+  bottom: 0px; left: 0; right: 0;
+  height: 80px;
   text-transform: uppercase;
 }
 .ui-content {
   position: absolute;
-  top: 60px; right: 0; bottom: 170px; left: 0;
+  top: 60px; right: 0; bottom: 30px; left: 0;
 }
 .tabs {
   position: absolute;

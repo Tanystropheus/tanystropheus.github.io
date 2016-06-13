@@ -12,6 +12,8 @@
         <script type="text/javascript" src="js/test.js" canvas="myCanvas"></script>
         <script type="text/javascript" src="js/myLine.js" canvas="myCanvas"></script>
         <script type="text/javascript" src="js/curseur_time.js" canvas="myCanvas"></script>
+        <script type="text/javascript" src="js/generative_senario.js" canvas="myCanvas"></script>
+        <script type="text/javascript" src="js/senario.js" canvas="myCanvas"></script>
         <!-- <script type="text/javascript" src="js/combined_line.js" canvas="myCanvas"></script> -->
         <!-- <script type="text/javascript" src="js/char_pie.js" canvas="myCanvas"></script> -->    
         <script type="text/javascript" src="js/manage_data.js" canvas="myCanvas"></script>
@@ -27,8 +29,8 @@
 
         <style type="text/css">
             img.img_stat{
-                width: 50px;
-                height: 50px;
+                width: 30px;
+                height: 30px;
             }
 /*            div.library_stat{
                 border-style: solid;
@@ -100,9 +102,9 @@
                       //  alert("width:"+this.width);
                     </script>
                 </div>
-                <canvas id="myCanvas" width="500px" height="500px" ></canvas>
+                <canvas id="myCanvas" width="600%" height="600" resise="on"></canvas>
              </div>
-            <div data-role="footer" class="footer">
+            <div data-role="footer" class="footer" style="height:20%">
                 <h1>Controle zone</h1>
                     <a id="F2" href="#" onclick="f2()" style="position: absolute; left:0px" >F2</a>
                     <a id="F3" href="#" onclick="f3()" style="position: absolute; left:50px" >F3</a>
@@ -136,6 +138,7 @@
                     </div>
                     <div classe="time" style="width:130px;height:30px; position:absolute;right:250px ;top:55%">
                         <input id="inter_time_end" type="time"  style="display:inline-block" value="01:01 AM"/>
+
                     </div>
 
             </div>

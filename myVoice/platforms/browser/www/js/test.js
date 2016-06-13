@@ -33,6 +33,16 @@ orgniser les donner
     var all_phrase = [];
     var all_elem_stat = [];
     var all_phrase_stat = [];
+    var group_grid;
+
+    var tool_time;
+
+
+    function    f2()
+    {
+        // mix_all_test();
+        globale_senar_1();
+    }
 
 
 
@@ -54,27 +64,68 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
 //    console.clear();
  //   console.log(phrase);
 
-
-
-
-        function f2()
+        function    print_sentence(sentence)
         {
-            
-            // var group = new Group();
-
-            // var pt_tl = new Point(30, 10);
-            // var pt_br = new Point(400, 200);
-
-            // console.log("youuuouy");
-            // draw_the_grid(-49, 422, 5, group, pt_tl, pt_br);
-            // f3();
-            draw_pie_chart(all_elem_stat);
+            var tmp = 0;
+            result = "";
+            for (x in sentence['listElemId'])
+            {
+                tmp = parseInt(sentence['listElemId'][x]);
+                result += "["+tmp+"]";
+            }
+            console.log(result);
         }
+
+        function the_test()
+        {
+            var size = 1000;
+            var memory = [];
+            var mem = 0;
+
+            for(var x =0; x < size; x++)
+            {
+                mem = 0;
+                for (var y = 0; y < 10; y++)
+                {
+                    mem += Math.random();
+                }
+        //        console.log(mem);
+                memory[x] = parseInt(mem);
+            }
+         //   memory.sort();
+        //    console.log(memory);
+        }
+
+
+        // function f2()
+        // {
+            
+        //     // var group = new Group();
+
+        //     // var pt_tl = new Point(30, 10);
+        //     // var pt_br = new Point(400, 200);
+
+        //     // console.log("youuuouy");
+        //     // draw_the_grid(-49, 422, 5, group, pt_tl, pt_br);
+        //     // f3();
+        //     // draw_pie_chart(all_elem_stat);
+        //     all_phrase.sort(cmp_sentence);
+        //     console.log("+++++++++++++++++++++++++++");
+        //     console.clear();
+        //     for (var x in all_phrase)
+        //     {
+        //         print_sentence(all_phrase[x]);
+        //     }
+
+        //     // the_test();
+        //     console.log("===========================");
+        // }
 //*
         
         function f3()
         {
             gen_x_sentence_in(200, all_phrase);
+            all_phrase.sort(cmp_sentence);
       //      console.clear();
      //       console.log(all_phrase);
         }
@@ -98,6 +149,7 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
             {
                 add_one_sentence_to(sentence_tab);
             }
+         //   sentence_tab.sort(cmp_sentence);
         }
 
         function actual_elem_stat(sentence)
@@ -122,7 +174,7 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
 
         function add_one_sentence_to(sentence)
         {
-            var mili_in_day = 1440000;
+            var mili_in_day = 86400000;
             var dist = 15 + parseInt(Math.random() * 5);
             var i = 0;
             var val = 0;
@@ -131,7 +183,7 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
 
             while(i < all_elem.length)
             {
-                val = parseInt(Math.random() * dist);
+                val = parseInt(Math.random() * dist) + Math.random() + 1;
 
                 i +=  val;
                 if (i >= all_elem.length)
@@ -141,7 +193,7 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
                 count++;
             }
 
-            sentence[sentence.length] = new myVoiceSentence(sentence.length, group_img, Date.now() - ((Math.random() * mili_in_day * 180)));
+            sentence[sentence.length] = new myVoiceSentence(sentence.length, group_img, Date.now() - ((Math.random() * mili_in_day * 30)));
  //           console.log("sentenceId:"+(sentence.length - 1));
              actual_elem_stat(sentence[sentence.length - 1]);
 //             actual_sentence_stat(sentence[sentence.length - 1]);
@@ -153,6 +205,53 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
             // console.log(b);
             return (a['time'] - b['time']);
         }
+
+        function min(a, b)
+        {
+            if (a >= b)
+            {
+                return (b);
+            }
+            else
+            {
+                return (a);
+            }
+        }
+
+        function cmp_sentence(a, b)
+        {
+           //  console.log(a['time']);
+            // console.log(b);
+            var x = 0;
+            var id = min(a['listElemId'].length, b['listElemId'].length);
+
+            // if (a['listElemId'].length != b['listElemId'].length)
+            // {
+            //     return (a['listElemId'][id] - b['listElemId'][id]);
+            // }
+            // else
+            // {
+                var mem = a['listElemId'][nb] - b['listElemId'][nb];
+                // console.log("==");
+                // console.log(a);
+                // console.log(b);
+                // console.log(mem);
+                for (var nb = 0 ; nb < id; nb++ )
+                {
+                    if (parseInt(a['listElemId'][nb]) != parseInt(b['listElemId'][nb]))
+                    {
+                        return (parseInt(b['listElemId'][nb]) - parseInt(a['listElemId'][nb]));
+                    }
+                }
+                if (a['listElemId'].length >= b['listElemId'].length)
+                    return (-1);
+                else
+                    return (1);
+                // console.log("**");
+        }
+            // return (a['time'] - b['time']);
+        // }
+
 
         // function draw_plot(tab, val_name)
         // {
@@ -202,15 +301,15 @@ function    border_if_actif(elem)
 
 var group_grid;
 var grp_curseur;
+
 function f1(elem)
 {
     //console.log(elem.style);
-
     
-    var from = new Point(30, 30);
-    var to = new Point(view.size.width - 30, view.size.height / 3);
-    var max = 0;
-    var nb_line = 10;
+    // var from = new Point(30, 30);
+    // var to = new Point(view.size.width - 30, view.size.height / 3);
+    // var max = 0;
+    // var nb_line = 10;
 
     border_if_actif(elem);
     if (group_grid == undefined)
@@ -218,8 +317,38 @@ function f1(elem)
     group_grid.removeChildren();
 
     invert_state(parseInt(elem.id));
+
+    actual_draw();
+
+//     max = define_max();
+// //    alert("max:"+max);
+//     if (max != 0)
+//     {
+//         draw_the_grid(0, max, nb_line, group_grid, from, to);
+//         for(var x in all_elem)
+//         {
+//             draw_line(parseInt(x), from, to, max);
+//         }
+//     }
+}
+
+function    actual_draw()
+{
+
+    var from = new Point(30, 30);
+    var to = new Point(view.size.width - 30, view.size.height / 3);
+    var max = 0;
+    var nb_line = 10;
     max = define_max();
-//    alert("max:"+max);
+    //    alert("max:"+max);
+    if (group_grid == undefined)
+    {
+        group_grid = new Group();
+    }
+    if (group_grid.isEmpty() == false)
+    {
+        group_grid.removeChildren();
+    }
     if (max != 0)
     {
         draw_the_grid(0, max, nb_line, group_grid, from, to);
@@ -230,8 +359,26 @@ function f1(elem)
     }
 }
 
-        function f5()
+
+        function curseur_time()
         {
+            // console.log(all_elem_stat);
+            //
+            if (tool_time == undefined)
+            {
+                tool_time = new Tool();
+            }
+
+            tool_time.onMouseUp = function(event) {
+                actual_draw();
+                // Create a new path every time the mouse is clicked
+                // path = new Path();
+                // path.add(event.point);
+                // path.strokeColor = 'black';
+            }
+          //  tool_time.onMouse
+
+
             //   console.log(get_time_interval());
             // console.log("time _unite:"+get_time_unite());
  //           actu_line(elem_id, from, to, max);
@@ -247,6 +394,8 @@ function f1(elem)
 
         }
 
+
+
         function f4()
         {
 
@@ -261,4 +410,87 @@ function f1(elem)
             //         console.log("elem:"+(x)+" get fuck");
             // }
             
+        }
+
+
+/*
+    on genere des nombre puis on les affiche dans l'ordre
+
+*/
+
+        function    stage(tab_indice, the_phrase)
+        {
+            var tab_result = [];
+            var begin = find_begin(tab_indice);
+            var end = find_end(tab_indice);
+            var cmp = tab_indice.length;
+        }
+
+/*
+    On donne un indice min, un indice max, un donne un endroi ou regarder et ca renge tout seul les cathegorie
+*/
+
+        function f5()
+        {
+             //all_phrase.sort(cmp_sentence);
+      //       stage([], all_phrase);
+         //   all_phrase[0]['list_elemId']
+            console.clear();
+            
+
+            // console.log(parseInt(all_phrase[0]['listElemId']));
+            // console.log(all_phrase[0]['listElemId']);
+            var prev = parseInt(all_phrase[0]['listElemId'][0]);
+            var conteur = 0;
+            for (var i = 0 ; i < all_phrase.length; i++)
+            {
+                all_phrase[i]['listElemId'][0] = parseInt(all_phrase[i]['listElemId'][0]);
+
+                if (all_phrase[i]['listElemId'][0] != prev)
+                {
+
+                    if (Number.isInteger(all_phrase[i]['listElemId'][0]))
+                    {
+
+                        console.log("=====>  ["+prev+"]"+conteur+"  i:"+i);
+                        conteur = 0;
+                        // if(!Number.isInteger(prev))
+                        // {
+                        //     console.log(prev);
+                        // }
+                        prev = all_phrase[i]['listElemId'][0];
+                    }
+                    else
+                    {
+                        console.error("AiAIAI");
+                        console.log("i:"+i);
+                        // console.log(all_phrase[i])
+                        // console.log(prev);
+                        console.error("NON NON NON")
+                    }
+                }
+
+                // if(!(Number.isInteger(all_phrase[i]['listElemId'][0])))
+                //     {
+                //         console.error("AiAIAI");
+                //         console.log("i:"+i);
+                //         console.log(all_phrase[i])
+                //         console.log(prev);
+                //         console.error("NON NON NON")
+                //     }
+
+                // if (all_phrase[i]['listElemId'][0] == NaN || all_phrase[i]['listElemId'][0] == undefined)
+                // {
+                //     console.log("i:"+i);
+                //     console.log(all_phrase[i])
+                //     console.log(prev);
+                //     console.error("NON NON NON");
+                // }
+                conteur++;
+            }
+            console.log("=====>  ["+prev+"]"+conteur+"  i:"+(all_phrase.length - 1))
+
+             var x = 0;
+             var ref = parseInt(all_phrase[0]['listElemId'][x]);
+            console.log(ref);
         }
