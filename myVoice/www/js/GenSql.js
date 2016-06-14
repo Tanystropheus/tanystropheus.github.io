@@ -47,6 +47,7 @@ function genInitSql(){
 			}
 		}
 	}
+	LibLinksqlreq += "INSERT INTO ElemAssociation (elemlst, date, learning) VALUES ('1,2,3', " + Date.now().toString() + ", 0);\n";
 
 	for(var i = 0; i < text.length; i++){
 		Textsqlreq += "INSERT INTO Text (languageid, text) VALUES ( 1, \"" + text[i] + "\");\n",
@@ -62,7 +63,7 @@ function genInitSql(){
 	}
 
 	sqlreq = Languagesqlreq + Textsqlreq + Soundsqlreq + LibraryLstsqlreq + Elementssqlreq + Setingssqlreq + ElemSetingssqlreq + Librarysqlreq + LibElemsqlreq + LibLinksqlreq;
-	console.log(sqlreq);
+	//console.log(sqlreq);
 	var tab;
 	tab = sqlreq.split(';\n');
 	tab.pop();

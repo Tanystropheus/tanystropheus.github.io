@@ -98,7 +98,7 @@ function debugelem(elem) {
 		}
 	}
 	text = text + '}';
-	console.log(text);
+	//console.log(text);
 	alert(text);
 	return htmlText;
 };

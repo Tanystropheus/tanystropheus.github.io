@@ -26,7 +26,7 @@ function updateSucces(){
 function openDb(okcb, failcb) {
 	var dbName = "myVoice";
 	var promese = new Promise(function(resolve, reject){
-		document.db = window.sqlitePlugin.openDatabase(
+		window.db = window.sqlitePlugin.openDatabase(
 			{
 				name: dbName,
 				key: 'your-password-here',
@@ -56,81 +56,13 @@ function openDb(okcb, failcb) {
 };
 
 function initialInsert(){
-	//alert("initial insert");
-	//~ insertSql = [
-		//~ "INSERT INTO Language (langname) VALUES('Français')",
-		//~ "INSERT INTO Language (langname) VALUES('Anglais')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Manger')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Boire')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Courir')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Sauter')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Tourner')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Tirer')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Pouser')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Donner')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Chatouiller')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Souffler')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Secouer')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Sortir')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Suvrir')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'Fermer')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'rouler')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'glisser')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'allumer')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, ' faire un câlin')",
-		//~ "INSERT INTO Text (languageid, text) VALUES ( 1, 'faire un bisou')",
-		//~ "INSERT INTO Sound (soundurl,  languageid) VALUES ('fakeURL1', 1)",
-		//~ "INSERT INTO Sound (soundurl,  languageid) VALUES ('fakeURL2', 1)",
-		//~ "INSERT INTO Sound (soundurl,  languageid) VALUES ('fakeURL3', 1)",
-		//~ "INSERT INTO Sound (soundurl,  languageid) VALUES ('fakeURL4', 1)",
-		//~ "INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 1)",
-		//~ "INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 2)",
-		//~ "INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 3)",
-		//~ "INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 4)",
-		//~ "INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 5)",
-		//~ "INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 6)",
-		//~ "INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 7)",
-		//~ "INSERT INTO Setings (width, writing, sound, lastchange, pos) VALUES (50, '{police: '', policecolor: '', size: 15, color: '', place: 0}', 1, 0, 8)",
-		//~ "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre1.png', 1, 1, 0)",
-		//~ "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre2.png', 1, 2, 0)",
-		//~ "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre3.png', 1, 3, 0)",
-		//~ "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre4.png', 1, 4, 0)",
-		//~ "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre5.png', 1, 5, 0)",
-		//~ "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre6.png', 1, 6, 0)",
-		//~ "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre7.png', 1, 7, 0)",
-		//~ "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/carre8.png', 1, 8, 0)",
-		//~ "INSERT INTO ElemSetings (setingsid, elemid) VALUES (1, 1)",
-		//~ "INSERT INTO ElemSetings (setingsid, elemid) VALUES (2, 2)",
-		//~ "INSERT INTO ElemSetings (setingsid, elemid) VALUES (3, 3)",
-		//~ "INSERT INTO ElemSetings (setingsid, elemid) VALUES (4, 4)",
-		//~ "INSERT INTO ElemSetings (setingsid, elemid) VALUES (5, 5)",
-		//~ "INSERT INTO ElemSetings (setingsid, elemid) VALUES (6, 6)",
-		//~ "INSERT INTO ElemSetings (setingsid, elemid) VALUES (7, 7)",
-		//~ "INSERT INTO ElemSetings (setingsid, elemid) VALUES (8, 8)",
-		//~ "INSERT INTO Library (libtitle) VALUES ('onglet1')",
-		//~ "INSERT INTO Library (libtitle) VALUES ('onglet2')",
-		//~ "INSERT INTO Library (libtitle) VALUES ('onglet3')",
-		//~ "INSERT INTO Library (libtitle) VALUES ('onglet4')",
-		//~ "INSERT INTO LibElem (libraryid, elemid) VALUES (1, 1)",
-		//~ "INSERT INTO LibElem (libraryid, elemid) VALUES (1, 2)",
-		//~ "INSERT INTO LibElem (libraryid, elemid) VALUES (2, 3)",
-		//~ "INSERT INTO LibElem (libraryid, elemid) VALUES (2, 4)",
-		//~ "INSERT INTO LibElem (libraryid, elemid) VALUES (3, 5)",
-		//~ "INSERT INTO LibElem (libraryid, elemid) VALUES (3, 6)",
-		//~ "INSERT INTO LibElem (libraryid, elemid) VALUES (4, 7)",
-		//~ "INSERT INTO LibElem (libraryid, elemid) VALUES (4, 8)",
-		//~ "INSERT INTO LibraryLst (liblsttitle, userlog) VALUES ('utilisation', 'LogUtilisateur1')",
-		//~ "INSERT INTO LibLink (libraryid, librarylstid) VALUES (1, 1)",
-		//~ "INSERT INTO LibLink (libraryid, librarylstid) VALUES (2, 1)",
-		//~ "INSERT INTO LibLink (libraryid, librarylstid) VALUES (3, 1)",
-		//~ "INSERT INTO LibLink (libraryid, librarylstid) VALUES (4, 1)"
-	//~ ];
+	//~ alert("initial insert");
 	insertSql = genInitSql();
 	var insertPromises = [];
 	for (var sqlReq in insertSql){
 		insertPromises.push(new Promise(function(){
 			//alert("sql: " + insertSql[sqlReq]);
-			document.db.executeSql( insertSql[sqlReq], null, function(res){
+			window.db.executeSql( insertSql[sqlReq], null, function(res){
 				//alert(insertSql[sqlReq] + " finish succes");
 				resolve(res);
 			}, function(err, err2){
@@ -141,7 +73,7 @@ function initialInsert(){
 	}
 	return Promise.all(insertSql).then(
 		function(val){
-			//alert("Insert initial data ok");
+			//~ alert("Insert initial data ok");
 		},
 		function(err){
 			alert("Insert initial data Fail!!: " + JSON.stringify(err, null, 4));
@@ -150,24 +82,28 @@ function initialInsert(){
 }
 
 function initialSelect(){
-	//alert(JSON.stringify(selectLanguage("", window.appData.language, function(objLst){ /* alert("language: " + JSON.stringify(objLst, null, 4)); resolve(objLst); */ })));
-	//alert(JSON.stringify(window.appData.elements));
+	//~ alert("initial select");
+	//~ selectElemAssociation("", window.appData.elemAssociation, null).then(function(){alert("testPromises")});
 	var selectPromises = [
-		selectLanguage( "" , window.appData.language, function(objLst){ resolve(objLst);}),
-		selectLibraryLst("", window.appData.libraryLst, function(objLst){ resolve(objLst);}),
-		selectLibrary("", window.appData.library, function(objLst){ resolve(objLst);}),
-		selectElemAssociation("", window.appData.elemAssociation, function(objLst){ resolve(objLst);}),
-		selectText("", window.appData.text, function(objLst){ resolve(objLst);}),
-		selectElements("", window.appData.elements, function(objLst){ resolve(objLst);}),
-		selectSound("", window.appData.sound, function(objLst){ resolve(objLst);})
+		selectLanguage( "" , window.appData.language, null),
+		selectLibraryLst("", window.appData.libraryLst, null),
+		selectLibrary("", window.appData.library, null),
+		selectText("", window.appData.text, null),
+		selectElements("", window.appData.elements, null),
+		selectSound("", window.appData.sound, null),
+		selectElemAssociation("", window.appData.elemAssociation, null)
 	];
+	//~ alert("initial select after tab");
 
-	var selectPromiseALL =  Promise.all(selectPromises).then(function(value){
-		//alert("begin of selectPromiseALL " + JSON.stringify(value, null, 4));
+	var selectPromiseALL = Promise.all(selectPromises).then(function(value){
+		alert("Prout");
+		//~ alert("begin of selectPromiseALL " + JSON.stringify(value, null, 4));
+		//resolve(true);
 	}, function(err1, err2){
+		alert("Prout2");
 		alert("Error selectPromiseALL!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));
 	}).catch(function(err1, err2){alert("Error Catch1!!!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));});
-	//alert("end initiialSelect");
+	//~ alert("end initiialSelect");
 	return selectPromiseALL; //Promise.resolve(selectPromiseALL);
 }
 
@@ -179,7 +115,7 @@ function initDb(callback){
 	createTableSql = [
 	"DROP TABLE IF EXISTS Context",
 	"DROP TABLE IF EXISTS ElemAssociation",
-	"DROP TABLE IF EXISTS ElemSetings",
+	"DROP TABLE IF EXISTS Setings",
 	"DROP TABLE IF EXISTS Elements",
 	"DROP TABLE IF EXISTS Language",
 	"DROP TABLE IF EXISTS LerningStat",
@@ -187,6 +123,9 @@ function initDb(callback){
 	"DROP TABLE IF EXISTS LibraryLst",
 	"DROP TABLE IF EXISTS Sound",
 	"DROP TABLE IF EXISTS Text",
+	"DROP TABLE IF EXISTS ElemSetings",
+	"DROP TABLE IF EXISTS LibElem",
+	"DROP TABLE IF EXISTS LibLink",
 	"CREATE TABLE Context (contextid integer primary key AUTOINCREMENT,  time date, places text, activiti text, interlocutor text)",
 	"CREATE TABLE ElemAssociation (elemassoid integer primary key AUTOINCREMENT, elemlst text, date date, learning integer)",
 	"CREATE TABLE Setings (setingsid integer primary key AUTOINCREMENT, width integer, writing text, sound integer, lastchange date, pos integer)",
@@ -205,12 +144,10 @@ function initDb(callback){
 
 	var createTablePromises = [];
 	var initPromise;
-	//alert("1");
 	for (var sqlReq in createTableSql){
 		createTablePromises.push(new Promise(function(){
-			//alert("sql: " + createTableSql[sqlReq]);
-			document.db.executeSql( createTableSql[sqlReq], null, function(res){
-				//alert(createTableSql[sqlReq] + " finish");
+			//~ alert("sql: " + createTableSql[sqlReq]);
+			window.db.executeSql( createTableSql[sqlReq], null, function(res){
 				resolve(res);
 			},
 			function(err){
@@ -220,8 +157,8 @@ function initDb(callback){
 	}
 
 	if(sqlReq = createTableSql.length){
-		//alert("test100");
-		initPromise = Promise.all(createTableSql).then(
+		//~ alert("test100");
+		return Promise.all(createTableSql).then(
 			initialInsert,
 			function(err){
 				alert("Error Create Table: " + JSON.stringify(err, null, 4));
@@ -232,6 +169,7 @@ function initDb(callback){
 				alert("Error select!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));
 			}
 		).then(function(){
+			//~ alert("test");
 			if (callback){
 				callback();
 			}
@@ -240,7 +178,7 @@ function initDb(callback){
 			//~ for(var table in tableLst){
 				//~ dropSqliteTable(tableLst[table]);
 			//~ }
-		});
+		}).catch(function(){alert("Caca bordel de merde!!!!!!!");});
 	}
 };
 
@@ -257,7 +195,7 @@ function myExecSqliteSQL(sql, okcb, errcb) {
 	 * */
 	return new Promise(function(){
 		//alert("sql: " + createTableSql[sqlReq]);
-		document.db.transaction(function(tx) {
+		window.db.transaction(function(tx) {
 			 tx.executeSql(sql, null, okcb, errcb);
 		}, function(){alert("Error transaction init");});
 	});
@@ -274,14 +212,14 @@ function myObjExecSqliteSQL(sql, values, okcb, errcb) {
 	 
        return new Promise(function(){
                //alert("sql: " + createTableSql[sqlReq]);
-                document.db.transaction(function(tx) {
+                window.db.transaction(function(tx) {
                         tx.executeSql(sql, values, okcb, errcb);
                }, function(){alert("Error transaction init");});
        });
 
 	//~ return new Promise(function(resolve, reject){
 		//~ alert("sql: " + createTableSql[sqlReq]);
-		//~ document.db.transaction(function(tx) {
+		//~ window.db.transaction(function(tx) {
 			 //~ tx.executeSql(sql, values, function(val){alert("ok");resolve(val); okcb(val);}, function(err){reject(err); errcb(val);});
 		//~ }, function(err1, err2){alert("Error transaction init: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));});
 	//~ }, function(err){alert("Error myObjExecSqliteSQL Create promise: " + JSON.stringify(err, null, 4));});
@@ -318,13 +256,13 @@ function deleteInSqliteTable (db, tableName, condition){
 
 function selectRecords(fn, sql) {
 
-	//alert("Begin Selection ( " + sql +" )");
+	//~ alert("Begin Selection ( " + sql +" )");
 	var selectRecPromise = new Promise(function(){
-		document.db.transaction(function(tx) {
+		window.db.transaction(function(tx) {
 			return tx.executeSql(sql, [], fn, function(e){alert("Erreur Selection ( " + sql +" ): " + JSON.stringify(e, null, 4));});
 		});
 	}, function(err){alert("error reading: " + JSON.stringify(err, null, 4));});
-	//alert("selectRecPromise: " + JSON.stringify(selectRecPromise.then(), null, 4));
+	//~ alert("selectRecPromise: " + JSON.stringify(selectRecPromise.then(), null, 4));
 	return selectRecPromise.then(alert, alert);
 };
 

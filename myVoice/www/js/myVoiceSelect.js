@@ -17,53 +17,26 @@
  * */
 
 function selectParser(objectLst, id, rs, cb){
-	switch (id) {
-		case "contextid":
-			myObject = myVoiceContext;
-		case "elemassoid":
-			myObject = myVoiceElemAssociation;
-		case "setingsid":
-			myObject = myVoiceSetings;
-		case "elemid":
-			myObject = myVoiceElem;
-		case "languageid":
-			myObject = myVoiceLanguage;
-		case "lerningstatid":
-			myObject = myVoiceLerningStat;
-		case "libraryid":
-			myObject = myVoiceLibrary;
-		case "librarylstid":
-			myObject = myVoiceLibraryLst;
-		case "soundid":
-			myObject = myVoiceSound;
-		case "elemsetingsid":
-			myObject = myVoiceElemSetings;
-		case "libelemid":
-			myObject = myVoiceLibElem;
-		case "liblinkid":
-			myObject = myVoiceLibLink;
-		case "textid":
-			myObject = myVoiceText;
-		default :
-			myObject = Object;
-	}
 	try{
-		for (var i = 0; i < rs.rows.length; i++) {
-			objectLst[rs.rows.item(i)[id]] = new myVoiceLanguage();
-			//window.appData.language[rs.rows.item(i)[id]] = new myVoiceLanguage();
-			for (var propName in rs.rows.item(i)) {
-				//if(id == "languageid") alert(propName + ": " + rs.rows.item(i)[propName]);
-				//window.appData.language[rs.rows.item(i)[id]][propName] = rs.rows.item(i)[propName];
-				objectLst[rs.rows.item(i)[id]][propName] = rs.rows.item(i)[propName];
+		if(rs.rows.length == 0){
+			alert("No Data Selected");
+			objectLst = null;
+		} else {
+			for (var i = 0; i < rs.rows.length; i++) {
+				objectLst[rs.rows.item(i)[id]] = rs.rows.item(i);
 			}
+			//~ alert(JSON.stringify(objectLst, null, 4));
 		}
 	} catch (e) {
-		alert(JSON.stringify(e, null, 4));
+		alert("Error selectParser: " + JSON.stringify(e, null, 4));
 		return false;
 	} finally {
-		if (typeof(cb) == Function){
+		//~ alert("befor cb");
+		if (cb){
+			//~ alert("in cb");
 			cb(objectLst);
 		}
+		//~ alert("after cb" + JSON.stringify(objectLst, null, 4));
 		return true;
 	}
 }
@@ -79,7 +52,7 @@ function selectContext(sql, objectLst, cb){
 				return resolve(objectLst);
 			} else {
 				alert("rejected");
-				reject("error in callback");
+				return reject("error in callback");
 			}
 		}, "SELECT * FROM Context " + sql + " ORDER by contextid");
 	}, function(){alert("Select fail");});
@@ -87,7 +60,7 @@ function selectContext(sql, objectLst, cb){
 
 function selectElemAssociation(sql, objectLst, cb){
 	var render = function(tx, rs) {
-		return selectParser(objectLst, "elemassoidid", rs, cb);
+		return selectParser(objectLst, "elemassoid", rs, cb);
 	};
 	if(sql == undefined) sql = "";
 	return new Promise(function(resolve, reject){

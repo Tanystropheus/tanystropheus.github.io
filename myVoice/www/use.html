@@ -17,6 +17,7 @@
         <script type="text/javascript" src="js/myVoiceSetings.js"></script>
         <script type="text/javascript" src="js/myVoiceOauth.js"></script>
         <script type="text/javascript" src="js/GenSql.js"></script>
+        <script type="text/javascript" src="js/interActBack.js"></script>
         <script type="text/javascript" src="js/plugins/LaunchMyApp.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <title>Ma Voix</title>
@@ -99,7 +100,8 @@
         <div data-role="page" id="settingpage">
             <div data-role="header">
                 <h1>Paramétrage</h1>
-                <a href="#popupSave" data-rel="popup" data-position-to="window" class="ui-btn ui-btn-inline ui-corner-all" id="button_param" data-transition="pop" onclick=oauthClientToken() >co</a>
+                <a data-position-to="window" class="ui-btn ui-btn-inline ui-corner-all" id="button_param" data-transition="pop" onclick=oauthClientToken() >co</a>
+                <a data-position-to="window" class="ui-btn ui-btn-right ui-icon-gear ui-btn-icon-right ui-btn-inline ui-corner-all" id="button_send" data-transition="pop" onclick=sendToInteract() >SendData</a>
             </div>
 
              <div data-role="main" class="ui-content">

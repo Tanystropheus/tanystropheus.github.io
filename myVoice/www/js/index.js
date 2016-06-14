@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-// dbName = "TMPDataBase";
+//~ dbName = "TMPDataBase";
 
 var app = {
 	// Application Constructor
@@ -25,16 +25,13 @@ var app = {
 		window.appData = {
 			interfaces_setings: {},
 			language: {},
-			tag: {},
 			libraryLst: {},
 			library: {},
 			user: {},
-			globElemAssociation: {},
 			elemAssociation: {},
 			text: {},
 			elements: {},
 			elemStat: {},
-			globElemStat: {},
 			sound: {}
 		};
 	},
@@ -44,9 +41,10 @@ var app = {
 	},
 
 	onDeviceReady: function() {
-		app.receivedEvent('deviceready');
+		//~ app.receivedEvent('deviceready');
 		//alert("Device Ready");
 		window.open = cordova.InAppBrowser.open;
+		//~ console.log = function(val1){alert("console.log: " + val1);};
 		if (!window.localStorage.getItem("Interfaces_Setings")){
 			window.appData.interfaces_setings = {
 				backgroundColor: "",
@@ -74,9 +72,19 @@ var app = {
 		} else {
 			window.appData.interfaces_setings = JSON.parse(window.localStorage.getItem("Interfaces_Setings"));
 		}
-		//genLogForm();
 		return openDb().then(function(){
-				return initDb(function(objLst){ genSetingForm(document.getElementById("setingArea"));/*alert("appData:" + JSON.stringify(appData, null, 4));*/ });
+			//alert("After open DB");
+				if(!window.localStorage.getItem("notFirstStart")){
+					//~ alert("First start");
+					return initDb(function(objLst){
+						genSetingForm(document.getElementById("setingArea"));
+						alert("appData:" + JSON.stringify(window.appData, null, 4));
+						window.localStorage.setItem("notFirstStart", 1 );
+					});
+				} else {
+					//~ alert("not First Start");
+					return initialSelect().then(function(){alert("appData:" + JSON.stringify(window.appData, null, 4))});
+				}
 			}, function(err, err2){
 				alert("openDb Fail: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
 			}
@@ -84,14 +92,13 @@ var app = {
 		//createSqliteTable(db, 'SimpsonFamily', 'id integer primary key, nom text');
 	},
 	receivedEvent: function(id) {
-/*		var parentElement = document.getElementById(id);
-		var listeningElement = parentElement.querySelector('.listening');
-		var receivedElement = parentElement.querySelector('.received');
+		//~ var parentElement = document.getElementById(id);
+		//~ var listeningElement = parentElement.querySelector('.listening');
+		//~ var receivedElement = parentElement.querySelector('.received');
+		//~ listeningElement.setAttribute('style', 'display:none;');
+		//~ receivedElement.setAttribute('style', 'display:block;');
 
-		listeningElement.setAttribute('style', 'display:none;');
-		receivedElement.setAttribute('style', 'display:block;');*/
-
-		console.log('Received Event: ' + id);
+		//~ console.log('Received Event: ' + id);
 	},
 
 	onError: function(error) {
