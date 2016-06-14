@@ -24,7 +24,7 @@ var time_precision = 0;// 2h
 	nb_sentence	=>	nombre de phrase par conversation
 	time_unite 	=>	temp moyen entre deux phrase.
 */
-function	Discussion()
+function	Discussion(time, nb_sentence,time_unite)
 {
 	this.history = [];
 	this.time;
@@ -118,7 +118,7 @@ function	globale_senar_1()
 
 }
 
-
+//	precision: 30  plage: 0.5
 
 function	generate_coef(value, precision, plage)
 {
@@ -133,6 +133,88 @@ function	generate_coef(value, precision, plage)
 	result += value;
 	return (result);
 }
+
+
+function	do_i_increm_number(nb)
+{
+	var ref = Math.random();
+
+	if (nb == 0)
+		return (false);
+	if (ref <= (1 / nb))
+		return (true);
+	else
+		return (false);
+}
+
+		// tab_discution[length] = new Discussion();
+function	increm_nb_sentence(discutaille)
+{
+	// var length = tab_discution.length;
+
+	if (do_i_increm_number(discutaille.nb_sentence))
+	{
+		discutaille.nb_sentence++;
+		//(time, nb_sentence,time_unite)
+	}
+}
+
+function	do_i_actual_time_unite(nb)
+{
+	if (nb == 0)
+		return (false);
+	if (ref <= (3 / nb))
+		return (true);
+	else
+		return (false);
+}
+
+function	actual_time_unite(discutaille)
+{
+	// var length = tab_discution.length;
+
+	if (do_i_actual_time_unite(discutaille.nb_sentence))
+	{
+		discutaille.time_unite *= 0.95;
+		//(time, nb_sentence,time_unite)
+	}
+}
+
+function	new_sentence()
+{
+	
+}
+function	complette_one()
+{
+
+}
+function 	mix_tow()
+{
+	
+}
+/*
+(une chance)/(nb_sentence^2)
+*/
+
+
+
+
+
+
+
+
+
+
+
+//===========================================================================================================================================
+//===========================================================================================================================================
+//===========================================================================================================================================
+//===========================================================================================================================================
+//===========================================================================================================================================
+
+
+
+
 
 
 // function blala()

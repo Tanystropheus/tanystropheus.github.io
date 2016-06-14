@@ -188,7 +188,7 @@ function	complette_one()
 {
 
 }
-function 	mix_tow)()
+function 	mix_tow()
 {
 	
 }

@@ -10,8 +10,11 @@
 
 //*
 /*variable globale*/
-var img;
+var img_histo;
+var pt_txt_histo;
 var group_hist;
+
+var img;
 var pt_txt;
 var group_pie;
 
@@ -37,8 +40,6 @@ function draw_the_grid(min, max, nb_line, group, pt_tl, pt_br)
         p2.x = pt_br.x;
         p2.y =  pt_br.y - (y * coef);
 
-
-
         path.add(p1);
         path.add(p2);
         path.strokeColor = 'black';
@@ -50,15 +51,15 @@ function draw_the_grid(min, max, nb_line, group, pt_tl, pt_br)
         group.addChild(path);
 
        	var test = (pt_br.y - (y * coef));
-        if (test < 31)
-        {
-        	console.log("==========================================");
-        	console.log("y:"+test);
-        	console.log("max:"+max);
-        	console.log(pt_br);
-        	console.log("==========================================");
+  //       if (test < 31)
+  //       {
+  //       	console.log("==========================================");
+  //       	console.log("y:"+test);
+  //       	console.log("max:"+max);
+  //       	console.log(pt_br);
+  //       	console.log("==========================================");
 
-		}
+		// }
 
         y += delta_val;
         // console.log(p1);
@@ -69,30 +70,30 @@ function draw_the_grid(min, max, nb_line, group, pt_tl, pt_br)
     view.draw();
 }
 
-function get_minmax(tab, name)
-{
-    var min = tab[0][name];
-    var max = tab[0][name];
-	for (var x in tab)
-	{
-        if (tab[x][name] > max)
-            max = tab[x][name];
-        if (tab[x][name] < min)
-            min = tab[x][name];
-    }
-        return ([min, max]);
-}
+// function get_minmax(tab, name)
+// {
+//     var min = tab[0][name];
+//     var max = tab[0][name];
+// 	for (var x in tab)
+// 	{
+//         if (tab[x][name] > max)
+//             max = tab[x][name];
+//         if (tab[x][name] < min)
+//             min = tab[x][name];
+//     }
+//         return ([min, max]);
+// }
 
-function get_min(tab, name)
-{
-    var min = tab[0][name];
-	for (var x in tab)
-	{
-        if (tab[x] != undefined &&  tab[x][name] < min)
-            min = tab[x][name];
-    }
-        return (min);
-}
+// function get_min(tab, name)
+// {
+//     var min = tab[0][name];
+// 	for (var x in tab)
+// 	{
+//         if (tab[x] != undefined &&  tab[x][name] < min)
+//             min = tab[x][name];
+//     }
+//         return (min);
+// }
 
 function get_max(tab, name)
 {
@@ -109,26 +110,26 @@ function get_max(tab, name)
 
 function display_img_histo(event)
 {
-	if (img == undefined)
-		img = new Raster();
-	if (pt_txt == undefined)
-		pt_txt = new PointText();
+	if (img_histo == undefined)
+		img_histo = new Raster();
+	if (pt_txt_histo == undefined)
+		pt_txt_histo = new PointText();
 
-	img.source = all_elem[this.data]['elemurl'];
-	img.position = this.position;
-	img.strokeBounds = 'black';
-	img.style = {strokeColor: 'black',
+	img_histo.source = all_elem[this.data]['elemurl'];
+	img_histo.position = this.position;
+	img_histo.strokeBounds = 'black';
+	img_histo.style = {strokeColor: 'black',
     strokeWidth: 5};
 
-	if (img.scaling.x < 0.99)
-		img.scale(img.size.width / all_elem[this.data]['width']);
-	img.scale(all_elem[this.data]['width'] / img.size.width);
+	if (img_histo.scaling.x < 0.99)
+		img_histo.scale(img_histo.size.width / all_elem[this.data]['width']);
+	img_histo.scale(all_elem[this.data]['width'] / img_histo.size.width);
 	// console.log('ON est laaaa');
-	// console.log(img);
-	img.position.y = this.segments[0].point.y + img.width * img.scaling.y / 2 + 10;
-	pt_txt.position.y = img.position.y + img.width * img.scaling.y / 2 + 10;
-	pt_txt.position.x = img.position.x;
-	pt_txt.content = all_elem[this.data]['taglst'];
+	// console.log(img_histo);
+	img_histo.position.y = this.segments[0].point.y + img_histo.width * img_histo.scaling.y / 2 + 10;
+	pt_txt_histo.position.y = img_histo.position.y + img_histo.width * img_histo.scaling.y / 2 + 10;
+	pt_txt_histo.position.x = img_histo.position.x;
+	pt_txt_histo.content = all_elem[this.data]['taglst'];
 }
 
 function draw_histogram(elem_stat)
