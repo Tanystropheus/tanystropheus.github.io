@@ -46,7 +46,7 @@ function	defined_coef(nb_time)
 	for (var i = 0; i < nb_time; i++)
 	{
 		// result += (Math.random());
-		tmp = Math.random() * Math.random() + 0.25;
+		tmp = Math.random() * Math.random();
 		result += (tmp);
 		// result += (tmp * tmp * tmp * tmp);
 	}

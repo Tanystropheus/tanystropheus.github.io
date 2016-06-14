@@ -41,7 +41,12 @@ orgniser les donner
     function    f2()
     {
         // mix_all_test();
-        globale_senar_1();
+        // globale_senar_1();
+        // var tab = [0, 5, 4, 7, 1, 2, 1, 2, 3, 4, 34, 5, 9, 7, 6, 11, 10, 3, 4, 1, 6, 7, 9, 7, 10, 5, 13, 11];
+        // get_median(tab);
+        var tab = test_aleatoir();
+        console.log(tab);
+        draw_tabl_stat(tab);
     }
 
 
@@ -96,6 +101,11 @@ function myVoiceGlobaleSentence(globaLsentenceId, listElemId, listTime) {
         //    console.log(memory);
         }
 
+
+        // function f2()
+        // {
+        //     test_aleatoir();
+        // }
 
         // function f2()
         // {
