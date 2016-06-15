@@ -26,22 +26,26 @@ function updateSucces(){
 function openDb(okcb, failcb) {
 	var dbName = "myVoice";
 	var promese = new Promise(function(resolve, reject){
-		window.db = window.sqlitePlugin.openDatabase(
-			{
-				name: dbName,
-				key: 'your-password-here',
-				iosDatabaseLocation: 'Library/LocalDatabase'
-				//androidDatabaseImplementation: 2,
-				//androidLockWorkaround: 1,
-				//location: 2
-			}, 
-			function(value){
-				if(resolve) return resolve(value);
-			},
-			function(err){
-				if(reject) return reject(err);
-			}
-		);
+		if (window.cordova.platformId != "browser") {
+			window.db = window.sqlitePlugin.openDatabase(
+				{
+					name: dbName,
+					key: 'your-password-here',
+					iosDatabaseLocation: 'Library/LocalDatabase'
+					//androidDatabaseImplementation: 2,
+					//androidLockWorkaround: 1,
+					//location: 2
+				}, 
+				function(value){
+					if(resolve) return resolve(value);
+				},
+				function(err){
+					if(reject) return reject(err);
+				}
+			);
+		}else{
+			db = window.openDatabase("myVoice.db", '1', 'my', 1024 * 1024 * 100); // browser
+		}
 	});
 	return promese.then(
 		function(msg){
@@ -56,34 +60,44 @@ function openDb(okcb, failcb) {
 };
 
 function initialInsert(){
-	//~ alert("initial insert");
-	insertSql = genInitSql();
+	alert("Begin wating for initialInsert");
+	//~ return genInitSql();
+	var insertSql = genInitSql();
 	var insertPromises = [];
 	for (var sqlReq in insertSql){
-		insertPromises.push(new Promise(function(){
-			//alert("sql: " + insertSql[sqlReq]);
-			window.db.executeSql( insertSql[sqlReq], null, function(res){
-				//alert(insertSql[sqlReq] + " finish succes");
-				resolve(res);
-			}, function(err, err2){
-				alert(insertSql[sqlReq] + " finish Error: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
-				return reject(err);
-			});
-		}));
+		//~ alert(JSON.stringify(sqlReq));
+		return insertSql[sqlReq];//.then(function(val){alert("test1: " + JSON.stringify(val, null, 4));}, function(err, err2){alert("test2 error: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));},function(val){alert("test3 pending: " + JSON.stringify(val, null, 4));});
+		//~ insertPromises.push(new Promise(function(){
+			//~ //alert("sql: " + insertSql[sqlReq]);
+			//~ window.db.executeSql( insertSql[sqlReq], null, function(res){
+				//~ //alert(insertSql[sqlReq] + " finish succes");
+				//~ resolve(res);
+			//~ }, function(err, err2){
+				//~ alert(insertSql[sqlReq] + " finish Error: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
+				//~ return reject(err);
+			//~ });
+		//~ }));
 	}
-	return Promise.all(insertSql).then(
-		function(val){
-			//~ alert("Insert initial data ok");
-		},
-		function(err){
-			alert("Insert initial data Fail!!: " + JSON.stringify(err, null, 4));
+	insertPromises = insertSql;//genInitSql();
+	//~ alert(JSON.stringify(insertPromises, null, 4));
+	return new Promise(
+		function(resolve, reject){
+			Promise.all(insertPromises).then(
+				function(val){
+					//alert("Insert initial data ok" + JSON.STringify(val, null, 4));
+					if(resolve) return resolve("initial insert ok");
+				},
+				function(err, err2){
+					alert("Insert initial data Fail!!: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
+					if(reject) return reject("initial insert Fail");
+				}
+			)
 		}
 	);
 }
 
 function initialSelect(){
-	//~ alert("initial select");
-	//~ selectElemAssociation("", window.appData.elemAssociation, null).then(function(){alert("testPromises")});
+	//~ alert("Begin wating for initialSelect");
 	var selectPromises = [
 		selectLanguage( "" , window.appData.language, null),
 		selectLibraryLst("", window.appData.libraryLst, null),
@@ -93,18 +107,14 @@ function initialSelect(){
 		selectSound("", window.appData.sound, null),
 		selectElemAssociation("", window.appData.elemAssociation, null)
 	];
-	//~ alert("initial select after tab");
 
 	var selectPromiseALL = Promise.all(selectPromises).then(function(value){
-		alert("Prout");
-		//~ alert("begin of selectPromiseALL " + JSON.stringify(value, null, 4));
-		//resolve(true);
+		//~ alert("Initial Select data ok" + JSON.stringify(value, null, 4));
+		alert(JSON.stringify(window.appData, null, 4));
 	}, function(err1, err2){
-		alert("Prout2");
 		alert("Error selectPromiseALL!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));
 	}).catch(function(err1, err2){alert("Error Catch1!!!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));});
-	//~ alert("end initiialSelect");
-	return selectPromiseALL; //Promise.resolve(selectPromiseALL);
+	return selectPromiseALL;
 }
 
 function initDb(callback){
@@ -145,20 +155,21 @@ function initDb(callback){
 	var createTablePromises = [];
 	var initPromise;
 	for (var sqlReq in createTableSql){
-		createTablePromises.push(new Promise(function(){
+		//~ alert("sqlReq: " + sqlReq + " createTableSql[sqlReq]: " + createTableSql[sqlReq])
+		createTablePromises.push(new Promise(function(resolve, reject){
 			//~ alert("sql: " + createTableSql[sqlReq]);
 			window.db.executeSql( createTableSql[sqlReq], null, function(res){
-				resolve(res);
+				return resolve(res);
 			},
 			function(err){
 				reject(err);
 			});
 		}));
 	}
+	initialInsert().then(function(){alert("ok test fin Insert");initialSelect().then(function(a){alert("ok test fin initial Select: " + a);})}, function(err){alert("fail test fin: " + err);});
 
 	if(sqlReq = createTableSql.length){
-		//~ alert("test100");
-		return Promise.all(createTableSql).then(
+		return Promise.all(createTableSql)/*.then(
 			initialInsert,
 			function(err){
 				alert("Error Create Table: " + JSON.stringify(err, null, 4));
@@ -166,11 +177,12 @@ function initDb(callback){
 		).then(
 			initialSelect,
 			function(err1, err2){
-				alert("Error select!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));
+				alert("Error Insert!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));
 			}
 		).then(function(){
 			//~ alert("test");
 			if (callback){
+				//~ alert("init cb");
 				callback();
 			}
 			//~ var tableLst = [ "Language", "Tag", "LibraryLst", "Library", "User", "GlobElemAssociation", "ElemAssociation", "Text", "Elements", "ElemStat", "GlobElemStat", "Sound", "LerningStat", "Context"];
@@ -178,7 +190,7 @@ function initDb(callback){
 			//~ for(var table in tableLst){
 				//~ dropSqliteTable(tableLst[table]);
 			//~ }
-		}).catch(function(){alert("Caca bordel de merde!!!!!!!");});
+		}).catch(function(){alert("Caca bordel de merde!!!!!!!");});*/
 	}
 };
 

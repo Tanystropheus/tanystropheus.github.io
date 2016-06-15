@@ -43,8 +43,8 @@ var app = {
 	onDeviceReady: function() {
 		//~ app.receivedEvent('deviceready');
 		//alert("Device Ready");
+		//~ console.log = function(val){alert(val)};
 		window.open = cordova.InAppBrowser.open;
-		//~ console.log = function(val1){alert("console.log: " + val1);};
 		if (!window.localStorage.getItem("Interfaces_Setings")){
 			window.appData.interfaces_setings = {
 				backgroundColor: "",
@@ -73,23 +73,21 @@ var app = {
 			window.appData.interfaces_setings = JSON.parse(window.localStorage.getItem("Interfaces_Setings"));
 		}
 		return openDb().then(function(){
-			//alert("After open DB");
-				if(!window.localStorage.getItem("notFirstStart")){
-					//~ alert("First start");
-					return initDb(function(objLst){
-						genSetingForm(document.getElementById("setingArea"));
-						alert("appData:" + JSON.stringify(window.appData, null, 4));
-						window.localStorage.setItem("notFirstStart", 1 );
-					});
-				} else {
-					//~ alert("not First Start");
-					return initialSelect().then(function(){alert("appData:" + JSON.stringify(window.appData, null, 4))});
-				}
-			}, function(err, err2){
-				alert("openDb Fail: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
+			//~ alert("After open DB");
+			if(!window.localStorage.getItem("notFirstStart")){
+				//~ alert("First start");
+				return initDb(function(objLst){
+					//~ genSetingForm(document.getElementById("setingArea"));
+					alert("appData: " + JSON.stringify(window.appData, null, 4));
+					window.localStorage.setItem("notFirstStart", 1 );
+				});
+			} else {
+				alert("not First Start");
+				return initialSelect().then(function(){alert("appData:" + JSON.stringify(window.appData, null, 4))});
 			}
-		);
-		//createSqliteTable(db, 'SimpsonFamily', 'id integer primary key, nom text');
+		}, function(err, err2){
+			alert("openDb Fail: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
+		});
 	},
 	receivedEvent: function(id) {
 		//~ var parentElement = document.getElementById(id);
