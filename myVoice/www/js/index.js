@@ -82,7 +82,7 @@ var app = {
 					window.localStorage.setItem("notFirstStart", 1 );
 				});
 			} else {
-				alert("not First Start");
+				//~ alert("not First Start");
 				return initialSelect().then(function(){alert("appData:" + JSON.stringify(window.appData, null, 4))});
 			}
 		}, function(err, err2){

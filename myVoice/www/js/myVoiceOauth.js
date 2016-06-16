@@ -1,5 +1,5 @@
 window.api = "https://pasteur-oauth2.herokuapp.com";
-//window.api = "http://requestb.in/1ly308n1";
+//~ window.api = "http://requestb.in/1bcca031";
 
 function getClientId(){
 	return "b17595e9d55257fa6cdb6538deaa7f273eb76b8559c1d76524ea0b35d98cb7cd";

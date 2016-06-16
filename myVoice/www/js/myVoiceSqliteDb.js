@@ -60,7 +60,7 @@ function openDb(okcb, failcb) {
 };
 
 function initialInsert(){
-	alert("Begin wating for initialInsert");
+	//~ alert("Begin wating for initialInsert");
 	//~ return genInitSql();
 	var insertSql = genInitSql();
 	var insertPromises = [];
@@ -108,12 +108,12 @@ function initialSelect(){
 		selectElemAssociation("", window.appData.elemAssociation, null)
 	];
 
-	var selectPromiseALL = Promise.all(selectPromises).then(function(value){
+	var selectPromiseALL = Promise.all(selectPromises);/*.then(function(value){
 		//~ alert("Initial Select data ok" + JSON.stringify(value, null, 4));
-		alert(JSON.stringify(window.appData, null, 4));
+		//~ alert(JSON.stringify(window.appData, null, 4));
 	}, function(err1, err2){
 		alert("Error selectPromiseALL!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));
-	}).catch(function(err1, err2){alert("Error Catch1!!!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));});
+	}).catch(function(err1, err2){alert("Error Catch1!!!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));})*/;
 	return selectPromiseALL;
 }
 
@@ -166,10 +166,10 @@ function initDb(callback){
 			});
 		}));
 	}
-	initialInsert().then(function(){alert("ok test fin Insert");initialSelect().then(function(a){alert("ok test fin initial Select: " + a);})}, function(err){alert("fail test fin: " + err);});
+	//~ initialInsert().then(function(){alert("ok test fin Insert");initialSelect().then(function(a){alert("ok test fin initial Select: " + a);})}, function(err){alert("fail test fin: " + err);});
 
 	if(sqlReq = createTableSql.length){
-		return Promise.all(createTableSql)/*.then(
+		return Promise.all(createTableSql).then(
 			initialInsert,
 			function(err){
 				alert("Error Create Table: " + JSON.stringify(err, null, 4));
@@ -190,7 +190,7 @@ function initDb(callback){
 			//~ for(var table in tableLst){
 				//~ dropSqliteTable(tableLst[table]);
 			//~ }
-		}).catch(function(){alert("Caca bordel de merde!!!!!!!");});*/
+		}).catch(function(){alert("Caca bordel de merde!!!!!!!");});
 	}
 };
 

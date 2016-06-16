@@ -62,7 +62,7 @@ function backEndSend(token, dataLst){
 				dataType: "application/json",
 				crossDomain: true,
 				data:{client_id: getClientId(), client_secret: getClientSecret(), user_token: token, data: data},
-				url: "http://requestb.in/1ly308n1/api/v1/datasets", //window.api + "/api/v1/datasets",
+				url: window.api + "/api/v1/datasets",
 				success: function(data) {
 					//alert("begin suces: " + JSON.stringify(data, null, 4));
 					alert("Envoi des données réusie " + JSON.stringify(data));
@@ -90,10 +90,10 @@ function backEndGet(){
 			dataType: "application/json",
 			crossDomain: true,
 			data:{user_token: token, client_id: getClientId(), client_secret: getClientSecret()},
-			url: window.api + "/datasets/action_users",
+			url: "http://requestb.in/1ly308n1",//window.api + "/datasets/action_users",
 			success: function(data) {
 				//alert("begin suces: " + JSON.stringify(data, null, 4));
-				alert("Envoi des données réusie " + JSON.stringify(data));
+				alert("Reception des données réusie " + JSON.stringify(data));
 			},
 			error: function(data, status, status2){
 				//alert("ERROR: " + data);
