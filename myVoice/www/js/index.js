@@ -41,6 +41,7 @@ var app = {
 	},
 
 	onDeviceReady: function() {
+		window.localStorage.setItem("waitInternetCo", 0);
 		//~ app.receivedEvent('deviceready');
 		//alert("Device Ready");
 		//~ console.log = function(val){alert(val)};
@@ -78,12 +79,15 @@ var app = {
 				//~ alert("First start");
 				return initDb(function(objLst){
 					//~ genSetingForm(document.getElementById("setingArea"));
-					alert("appData: " + JSON.stringify(window.appData, null, 4));
+					//~ alert("appData: " + JSON.stringify(window.appData, null, 4));
 					window.localStorage.setItem("notFirstStart", 1 );
 				});
 			} else {
 				//~ alert("not First Start");
-				return initialSelect().then(function(){alert("appData:" + JSON.stringify(window.appData, null, 4))});
+				return initialSelect().then(function(){
+					//~ alert("appData:" + JSON.stringify(window.appData, null, 4))
+					setInterval(function(){checkConnection(function(){alert("replace callback by sending data");})}, 60000 * 60);
+				});
 			}
 		}, function(err, err2){
 			alert("openDb Fail: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
