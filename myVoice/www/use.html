@@ -19,8 +19,18 @@
 		<script type="text/javascript" src="js/GenSql.js"></script>
 		<script type="text/javascript" src="js/networkFunc.js"></script>
 		<script type="text/javascript" src="js/interActBack.js"></script>
-		<script type="text/javascript" src="js/plugins/LaunchMyApp.js"></script>
+		<script type="text/javascript" src="js/myVoiceInterface.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
+		<script>
+			function checkUrl(){
+				var code = /\?code=(.+)$/.exec(window.location.href)[1];
+				if (code){
+					alert(window.location.href);
+					interActLogin(code);
+				}
+			}
+			//~ checkUrl();
+		</script>
 		<title>Ma Voix</title>
 	</head>
 
@@ -36,7 +46,7 @@
 			<div data-role="main" class="ui-content">
 				<!-- Onglets -->
 				<div data-role="tabs" class="tabs">
-					<div data-role="navbar" class="onglet">
+					<div data-role="navbar" class="onglet" id="ongletNav">
 						<ul>
 							<li><a href="#act" id="actions" class="ui-btn-active ui-btn-inline topCornersOnly">Demandes</a></li>
 							<li><a href="#obj" id="objects" class="ui-btn-inline topCornersOnly">Aliment</a></li>
@@ -47,7 +57,6 @@
 					<!-- Zone des éléments -->
 					<div id="act">
 						<div class="elementArea">
-							<!-- Organisation des éléments -->
 							<ul id="sortable-el" class="connectedSortable">
 								<li class="element">jardin
 									<ul>
@@ -64,7 +73,7 @@
 									</ul>
 								</li>
 							</ul>
-						</div>		
+						</div>
 					</div>
 					<div id="obj">
 						<div class="elementArea">
@@ -114,7 +123,11 @@
 								<option value="arrive">MA</option>
 							</select>
 							<div id="setingArea"></div>
-							<button onclick=oauthClientToken()>co</button>
+							<form action="https://pasteur-oauth2.herokuapp.com/auth/interact_oauth/authorize" method="post" >
+								<input type = "hidden" name = "client_id" value=b17595e9d55257fa6cdb6538deaa7f273eb76b8559c1d76524ea0b35d98cb7cd >
+								<input type = "hidden" name = "client_secret" value=dbf84c10b2873a0ee2034b5839faba0a5a0d53233440b46684478f92e8ae8805 >
+								<button type = "submit" >Se connecter as interact</button>
+							</form>
 							<button onclick=backEndGet()>getData</button>
 							<button onclick=sendToInteract()>SendData</button>
 							<a data-position-to="window" class="ui-btn ui-btn-inline" id="button_param" data-transition="pop" onclick=oauthClientToken() >co</a>

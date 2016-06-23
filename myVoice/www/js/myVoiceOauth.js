@@ -16,53 +16,74 @@ if (typeof String.prototype.startsWith != 'function') {
 }
 
 function oauthClientToken(){
-	//alert("begin oauth");
-	var ref = window.open(window.api + '/auth/interact_oauth/authorize?client_id=' + getClientId() + '&client_secret=' + getClientSecret(), '_blank', 'location=no');
-	ref.addEventListener('loadstart', function(e) {
-				//~ alert("toto");
-				var url = e.url;
-				var code = /\?code=(.+)$/.exec(url)[1];
-				var error = /\?error=(.+)$/.exec(url);
-				if (code || error) {
-					ref.close();
-				}
-
-				if (code) {
-					//alert("code: " + JSON.stringify(code, null, 4));
-					interActLogin(code);
-				} else if (error) {
-					//The user denied access to the app
-					deferred.reject({
-						error: error[1]
-					});
-					alert(JSON.stringify(error[1], null, 4));
-				}
-			});
-		//ref.addEventListener('loadstop', function(e) {alert(e);});
-		ref.addEventListener('loaderror', function(e) {alert(JSON.stringify(e, null, 4));
-				var url = e.url;
-				var code = /\?code=(.+)$/.exec(url)[1];
-				var error = /\?error=(.+)$/.exec(url);
-				if (code || error) {
-					ref.close();
-				}
-				if (code) {
-					interActLogin(code);
-				} else if (error) {
-					//The user denied access to the app
-					deferred.reject({
-						error: error[1]
-					});
-					alert(JSON.stringify(error[1], null, 4));
-				}
-			});
+	//~ alert("begin oauth");
+	window.open('interactlogin.html' ,'_self', 'location=no');
+	/*
+	$.ajax({ 
+		type: "POST",
+		dataType: "application/json",
+		Access-Control-Allow-Origin: '*',  
+		Access-Control-Allow-Methods: 'GET, PUT, POST, DELETE, OPTIONS',
+		Access-Control-Allow-Headers: 'Content-Type, Content-Range, Content-Disposition, Content-Description',
+		//~ dataType: "text",
+		//~ url: 'http://requestb.in/185uo1r1',
+		url: window.api + '/auth/interact_oauth/authorize',
+		crossDomain: true,
+		data: {auth: {client_id: getClientId(), client_secret: getClientSecret()}, url: window.api + '/auth/interact_oauth/authorize'},
+		success: function(data)
+		{
+			alert(JSON.stringify(data, null, 4));
+			var newWindow = window.open("", '_blank', 'location=no');
+			newWindow.document.write(data);
+			// data = PDF binary
+			// I want to do something with this
+		},error: function(data, data2) { alert("error: " + JSON.stringify(data, null, 4) + "error2: " + JSON.stringify(data2, null, 4)); }
+	});
+	* */
+	//~ var ref = window.open(window.api + '/auth/interact_oauth/authorize?client_id=' + getClientId() + '&client_secret=' + getClientSecret(), '_blank', 'location=no');
+	//~ ref.addEventListener('loadstart', function(e) {
+				//~ var url = e.url;
+				//~ var code = /\?code=(.+)$/.exec(url)[1];
+				//~ var error = /\?error=(.+)$/.exec(url);
+				//~ if (code || error) {
+					//~ ref.close();
+				//~ }
+//~ 
+				//~ if (code) {
+					//~ //alert("code: " + JSON.stringify(code, null, 4));
+					//~ interActLogin(code);
+				//~ } else if (error) {
+					//~ //The user denied access to the app
+					//~ deferred.reject({
+						//~ error: error[1]
+					//~ });
+					//~ alert(JSON.stringify(error[1], null, 4));
+				//~ }
+			//~ });
+		//~ ref.addEventListener('loaderror', function(e) {alert(JSON.stringify(e, null, 4));
+				//~ var url = e.url;
+				//~ var code = /\?code=(.+)$/.exec(url)[1];
+				//~ var error = /\?error=(.+)$/.exec(url);
+				//~ if (code || error) {
+					//~ ref.close();
+				//~ }
+				//~ if (code) {
+					//~ interActLogin(code);
+				//~ } else if (error) {
+					//~ //The user denied access to the app
+					//~ deferred.reject({
+						//~ error: error[1]
+					//~ });
+					//~ alert(JSON.stringify(error[1], null, 4));
+				//~ }
+			//~ });
 	};
 
 function interActLogin(authorization_code){
 	//~ alert("begin interActLogin!! code: " + authorization_code);
 	$.ajax({
-		type: "GET",
-		dataType: "json",
+		type: "POST",
+		dataType: "application/json",
 		crossDomain: true,
 		data:{client_id: getClientId(), client_secret: getClientSecret(), grant_type: "authorization_code", code: authorization_code},
 		url: window.api + "/auth/interact_oauth/access_token",

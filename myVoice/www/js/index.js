@@ -27,6 +27,7 @@ var app = {
 			language: {},
 			libraryLst: {},
 			library: {},
+			libelem: {},
 			user: {},
 			elemAssociation: {},
 			text: {},
@@ -79,13 +80,14 @@ var app = {
 				//~ alert("First start");
 				return initDb(function(objLst){
 					//~ genSetingForm(document.getElementById("setingArea"));
-					//~ alert("appData: " + JSON.stringify(window.appData, null, 4));
+					alert("appData: " + JSON.stringify(window.appData, null, 4));
 					window.localStorage.setItem("notFirstStart", 1 );
 				});
 			} else {
 				//~ alert("not First Start");
 				return initialSelect().then(function(){
-					//~ alert("appData:" + JSON.stringify(window.appData, null, 4))
+					alert("appData:" + JSON.stringify(window.appData, null, 4))
+					//genTab(window.appData.library, document.getElementById("ongletNav"), window.appData.text);
 					setInterval(function(){checkConnection(function(){alert("replace callback by sending data");})}, 60000 * 60);
 				});
 			}

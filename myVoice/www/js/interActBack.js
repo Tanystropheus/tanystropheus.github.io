@@ -29,7 +29,7 @@ function sendToInteract(){
 			selectElemAssociation("WHERE elemassoid>=" + (maxElemAssoidSend + 1 ).toString(), data, null).then(
 				function(cbData){
 					if(!isEmpty(cbData)){
-						window.localStorage.setItem("maxElemAssoidSend", backEndSend(token, data).toString());
+						window.localStorage.setItem("maxElemAssoidSend", backEndSend(token, cbData).toString());
 						//~ alert("Data: " + JSON.stringify(cbData, null, 4) + " Token: " + JSON.stringify(token, null, 4));
 					}
 					backEndSend(token, cbData);
@@ -62,7 +62,7 @@ function backEndSend(token, dataLst){
 				dataType: "application/json",
 				crossDomain: true,
 				data:{client_id: getClientId(), client_secret: getClientSecret(), user_token: token, data: data},
-				url: window.api + "/api/v1/datasets",
+				url: window.api + "/api/v1/data",
 				success: function(data) {
 					//alert("begin suces: " + JSON.stringify(data, null, 4));
 					alert("Envoi des données réusie " + JSON.stringify(data));
@@ -90,7 +90,7 @@ function backEndGet(){
 			dataType: "application/json",
 			crossDomain: true,
 			data:{user_token: token, client_id: getClientId(), client_secret: getClientSecret()},
-			url: "http://requestb.in/1ly308n1",//window.api + "/datasets/action_users",
+			url: window.api + "/api/v1/datasets/user_actions",
 			success: function(data) {
 				//alert("begin suces: " + JSON.stringify(data, null, 4));
 				alert("Reception des données réusie " + JSON.stringify(data));

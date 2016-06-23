@@ -99,12 +99,13 @@ function initialInsert(){
 function initialSelect(){
 	//~ alert("Begin wating for initialSelect");
 	var selectPromises = [
+		selectLibElem("", window.appData.libelem, null),
 		selectLanguage( "" , window.appData.language, null),
-		selectLibraryLst("", window.appData.libraryLst, null),
-		selectLibrary("", window.appData.library, null),
-		selectText("", window.appData.text, null),
-		selectElements("", window.appData.elements, null),
-		selectSound("", window.appData.sound, null),
+		selectLibraryLst('WHERE liblsttitle="Utilisation"', window.appData.libraryLst, null),
+		selectLibrary('WHERE libraryid IN (SELECT libraryid FROM LibLink WHERE librarylstid=(SELECT librarylstid FROM LibraryLst WHERE liblsttitle="Utilisation"))', window.appData.library, null),
+		selectElements('WHERE elemid IN (SELECT elemid FROM LibElem WHERE libraryid IN (SELECT libraryid FROM LibLink WHERE librarylstid=(SELECT librarylstid FROM LibraryLst WHERE liblsttitle="Utilisation")))', window.appData.elements, null),
+		selectText('WHERE textid IN (SELECT textid FROM Elements WHERE elemid IN (SELECT elemid FROM LibElem WHERE libraryid IN (SELECT libraryid FROM LibLink WHERE librarylstid=(SELECT librarylstid FROM LibraryLst WHERE liblsttitle="Utilisation"))))', window.appData.text, null),
+		selectSound('WHERE soundid IN (SELECT soundid FROM Elements WHERE elemid IN (SELECT elemid FROM LibElem WHERE libraryid IN (SELECT libraryid FROM LibLink WHERE librarylstid=(SELECT librarylstid FROM LibraryLst WHERE liblsttitle="Utilisation"))))', window.appData.sound, null),
 		selectElemAssociation("", window.appData.elemAssociation, null)
 	];
 
