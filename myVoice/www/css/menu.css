@@ -1,0 +1,22 @@
+#libraries_field_user, #libraries_field_admin {
+width:100%;
+height:100%;
+}
+#libraries_field_user li, #libraries_field_admin li{
+width:20%;
+height:100%;
+float:left;
+text-align: center;
+display: table;
+}
+
+#libraries_field_user li h1, #libraries_field_admin li h1{
+display: table-cell;
+vertical-align: middle;
+font-size: 28px;
+}
+
+#libraries_field_user li:nth-child(n+6), #libraries_field_admin li:nth-child(n+6){
+visibility: hidden;
+width:0;
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ma Voix</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            * {padding:0; margin:0;}
+            body {position:relative;}
+            div, span {float:left;}
+            ul {list-style:none;}
+        </style>
+        <link rel="stylesheet" type="text/css" href="css/menu.css">
+        <!-- JQUERY -->
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/jquery-ui-1.11.4.min.js"></script>
+	<script src="js/jquery.ui.touch-punch.min.js"></script>
+        <script>
+            $(document).bind('mobileinit',function(){
+                $.mobile.changePage.defaults.changeHash = false;
+                $.mobile.hashListeningEnabled = false;
+                $.mobile.pushStateEnabled = false;
+            });
+	</script>
+        <!-- CORDOVA -->
+        <script src="cordova.js"></script>
+        <!-- BDD -->
+	<script type="text/javascript" src="js/myVoiceInsert.js"></script>
+	<script type="text/javascript" src="js/myVoiceSelect.js"></script>
+	<script type="text/javascript" src="js/myVoiceUpdate.js"></script>
+	<script type="text/javascript" src="js/myVoiceSqliteDb.js"></script>
+	<script type="text/javascript" src="js/myVoiceElements.js"></script>
+	<script type="text/javascript" src="js/myVoiceSetings.js"></script>
+	<script type="text/javascript" src="js/myVoiceOauth.js"></script>
+	<script type="text/javascript" src="js/GenSql.js"></script>
+	<script type="text/javascript" src="js/networkFunc.js"></script>
+	<script type="text/javascript" src="js/interActBack.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+        <!-- START APP -->
+        <script type="text/javascript" src="js/mode.js"></script>
+        <script type="text/javascript" src="tools.js"></script>
+        <script type="text/javascript">
+            function start_app(){
+            $("#mode_user").height(jQuery(window).height());
+            $("#mode_user").width(jQuery(window).width());
+            $("#mode_admin").height(jQuery(window).height());
+            $("#mode_admin").width(jQuery(window).width());
+            $("#mode_parametre").height(jQuery(window).height());
+            $("#mode_parametre").width(jQuery(window).width());
+            $("#mode_photo").height(jQuery(window).height());
+            $("#mode_photo").width(jQuery(window).width());
+            $("#mode_statistique").height(jQuery(window).height());
+            $("#mode_statistique").width(jQuery(window).width());
+            $("#mode_popup").height(jQuery(window).height());
+            $("#mode_popup").width(jQuery(window).width());
+            mode_user();
+            mode_admin();
+            mode_photo();
+            mode_statistique();
+            set_vue("user");
+        }
+        </script>
+        <!-- DEBUG -->
+        <style>
+            #mode_user {background-color:blue;}
+            #mode_admin {background-color:orange;}
+            #mode_parametre {background-color:yellow;}
+            #mode_photo {background-color:grey;}
+            #mode_statistique {background-color:green;}
+            #mode_popup {background-color:pink;}
+            #user_left {background-color:darkseagreen}
+            #user_middle {background-color:steelblue}
+            #user_right {background-color:darkblue}
+        </style>
+    </head>
+    <body onload="start_app();">
+        <div id="mode_user" style="z-index:10; position:absolute; top:0; left:0; visibility:hidden;"></div>
+        <div id="mode_admin" style="z-index:11;position:absolute; top:0; left:0; visibility:hidden;"></div>
+        <div id="mode_parametre" style="z-index:12; position:absolute; top:0; left:0; visibility:hidden;"></div>
+        <div id="mode_photo" style="z-index:13; position:absolute; top:0; left:0; visibility:hidden;"></div>
+        <div id="mode_statistique" style="z-index:14; position:absolute; top:0; left:0; visibility:hidden;"></div>
+        <div id="mode_popup" style="z-index:15; position:absolute; top:0; left:0; visibility:hidden;"></div>
+    </body>

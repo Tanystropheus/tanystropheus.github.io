@@ -7,9 +7,31 @@
         "files": {}
     },
     "installed_plugins": {
+        "cordova-plugin-http": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
         "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-sqlcipher-adapter": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "es6-promise-plugin": {
             "PACKAGE_NAME": "com.interact.myvoice"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        }
+    }
 }
