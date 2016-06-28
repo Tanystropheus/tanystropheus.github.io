@@ -9,10 +9,16 @@
             body {position:relative;}
             div, span {float:left;}
             ul {list-style:none;}
+            @media (min-width: 858px) {h1 {font-size:28px;}}
+            @media (min-width: 780px) {h1 {font-size:26px;}}
+            @media (min-width: 702px) {h1 {font-size:24px;}}
+            @media (min-width: 724px) {h1 {font-size:22px;}}
+            @media (max-width: 623px) {h1 {font-size:20px;}}
         </style>
         <link rel="stylesheet" type="text/css" href="css/menu.css">
         <!-- JQUERY -->
         <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/jquery.mobile-1.4.5.min.js"></script>
         <script src="js/jquery-ui-1.11.4.min.js"></script>
 	<script src="js/jquery.ui.touch-punch.min.js"></script>
         <script>
@@ -62,6 +68,10 @@
         </script>
         <!-- DEBUG -->
         <style>
+            button {background-color:white}
+            .ctop {background-color:white}
+            .cheader, .ccontent {background-color:rgb(58, 147, 124)}
+            .cfooter {background-color:rgb(43, 92, 108)}
             #mode_user {background-color:blue;}
             #mode_admin {background-color:orange;}
             #mode_parametre {background-color:yellow;}

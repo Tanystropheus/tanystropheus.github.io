@@ -3,17 +3,19 @@ width:100%;
 height:100%;
 }
 #libraries_field_user li, #libraries_field_admin li{
-width:20%;
+width:16%;
 height:100%;
+margin: 2%;
 float:left;
 text-align: center;
 display: table;
+background-color: rgb(251,240,165);
 }
 
 #libraries_field_user li h1, #libraries_field_admin li h1{
 display: table-cell;
 vertical-align: middle;
-font-size: 28px;
+color:rgb(132,100,46);
 }
 
 #libraries_field_user li:nth-child(n+6), #libraries_field_admin li:nth-child(n+6){
