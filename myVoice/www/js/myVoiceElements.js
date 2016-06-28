@@ -43,6 +43,7 @@ function myVoiceLerningStat(contextid, elemassoid, good) {
 function myVoiceLibrary(libTitle, lstelemid) {
 	this.libraryid = null;
 	this.libtitle = libTitle;
+	this.color = '#ccccb3';
 };
 
 function myVoiceLibraryLst(liblsttitle, userlog) {

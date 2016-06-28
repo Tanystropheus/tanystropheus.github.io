@@ -82,8 +82,8 @@ function insertLerningStat(elem, okfunc, failfunc){
 };
 
 function insertLibrary(elem, okfunc, failfunc){
-	myObjExecSqliteSQL("INSERT INTO Library (libtitle) VALUES (?)", 
-	[elem.libtitle], okfunc, failfunc);
+	myObjExecSqliteSQL("INSERT INTO Library (libtitle, color) VALUES (?, ?)", 
+	[elem.libtitle, elem.color], okfunc, failfunc);
 	return true;
 };
 

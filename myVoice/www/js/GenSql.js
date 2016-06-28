@@ -68,8 +68,8 @@ function genInitSql(){
 	}
 
 	for(var i = 0; i < libName.length; i++){
-		Librarysqlreq += "INSERT INTO Library (libtitle) VALUES (\"" + libName[i] + "\");\n";
-		sql = "INSERT INTO Library (libtitle) VALUES (\"" + libName[i] + "\")";
+		Librarysqlreq += "INSERT INTO Library (libtitle, color) VALUES (\"" + libName[i] + "\", \"#ccccb3\");\n";
+		sql = "INSERT INTO Library (libtitle, color) VALUES (\"" + libName[i] + "\", \"#ccccb3\")";
 		promiseTab.push(new Promise(function(resolve, reject){
 			//alert("sql: " + insertSql[sqlReq]);
 			window.db.executeSql( sql, null, function(res){
