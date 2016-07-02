@@ -54,6 +54,8 @@ var app = {
 				writingsize: 15,
 				writinglogo: "URL",
 				writingcolor: "",
+				sendIntervalUnit: 1000, // 1 => ms, 1000 => s, 60000 => min, 3600000 => h 
+				sendInterval: 10, // 1 => 1 * sendIntervalUnit, 60 => 60 * sendIntervalUnit ....
 				tabPos: 1,
 				speakAreaPos: 1,
 				speakAreaColor: "",
@@ -75,21 +77,27 @@ var app = {
 			window.appData.interfaces_setings = JSON.parse(window.localStorage.getItem("Interfaces_Setings"));
 		}
 		return openDb().then(function(){
-			//~ alert("After open DB");
 			if(!window.localStorage.getItem("notFirstStart")){
 				//~ alert("First start");
 				return initDb(function(objLst){
 					//~ genSetingForm(document.getElementById("setingArea"));
 					//~ alert("appData: " + JSON.stringify(window.appData, null, 4));
-					//~ genTab(window.appData.library, document.getElementById("ongletNav"), window.appData.text);
 					window.localStorage.setItem("notFirstStart", 1 );
+					setInterval(function(){
+							checkConnection(function(){alert("replace callback by sending data");})
+						},
+						window.appData.interfaces_setings.sendInterval * window.appData.interfaces_setings.sendIntervalUnit);
 				});
 			} else {
 				//~ alert("not First Start");
 				return initialSelect().then(function(){
 					//~ alert("appData:" + JSON.stringify(window.appData, null, 4));
+					genSetingForm(document.getElementById("setingArea"));
 					//~ genTab(window.appData.library, document.getElementById("ongletNav"), window.appData.text);
-					setInterval(function(){checkConnection(function(){alert("replace callback by sending data");})}, 60000 * 60);
+					setInterval(function(){
+							checkConnection(function(){alert("replace callback by sending data");})
+						},
+						window.appData.interfaces_setings.sendInterval * window.appData.interfaces_setings.sendIntervalUnit);
 				});
 			}
 		}, function(err, err2){

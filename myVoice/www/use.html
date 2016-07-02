@@ -22,13 +22,13 @@
 		<script type="text/javascript" src="js/myVoiceInterface.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
 		<script>
-			function checkUrl(){
-				var code = /\?code=(.+)$/.exec(window.location.href)[1];
-				if (code){
-					alert(window.location.href);
-					interActLogin(code);
-				}
-			}
+			//~ function checkUrl(){
+				//~ var code = /\?code=(.+)$/.exec(window.location.href)[1];
+				//~ if (code){
+					//~ alert(window.location.href);
+					//~ interActLogin(code);
+				//~ }
+			//~ }
 			//~ checkUrl();
 		</script>
 		<title>Ma Voix</title>
@@ -131,9 +131,7 @@
 							<button onclick=backEndGet()>getData</button>
 							<button onclick=sendToInteract()>SendData</button>
 							<a data-position-to="window" class="ui-btn ui-btn-inline" id="button_param" data-transition="pop" onclick=oauthClientToken() >co</a>
-							<a data-position-to="window" class="ui-btn ui-btn-inline" id="button_getdata" data-transition="pop" onclick=backEndGet() >getData</a>
-							<a data-position-to="window" class="ui-btn ui-btn-inline" id="button_send" data-transition="pop" onclick=sendToInteract() >SendData</a>
-
+							<a data-position-to="window" class="ui-btn ui-btn-inline" id="button_param" data-transition="pop" onclick=TestFunc() >TEST</a>
 						</div>
 					</fieldset>
 				</p>

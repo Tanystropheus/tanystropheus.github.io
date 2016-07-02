@@ -140,7 +140,7 @@ function initDb(callback){
 	"CREATE TABLE Context (contextid integer primary key AUTOINCREMENT,  time date, places text, activiti text, interlocutor text)",
 	"CREATE TABLE ElemAssociation (elemassoid integer primary key AUTOINCREMENT, elemlst text, date date, learning integer)",
 	"CREATE TABLE Setings (setingsid integer primary key AUTOINCREMENT, width integer, writing text, sound integer, lastchange date, pos integer)",
-	"CREATE TABLE Elements (elemid integer primary key AUTOINCREMENT, elemurl text, soundid integer, textid integer, state integer, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid))",
+	"CREATE TABLE Elements (elemid integer primary key AUTOINCREMENT, elemurl text UNIQUE, soundid integer, textid integer, state integer, FOREIGN KEY(textid) REFERENCES Text(textid), FOREIGN KEY(soundid) REFERENCES Sound(soundid))",
 	"CREATE TABLE Language (languageid integer primary key AUTOINCREMENT, langname text)",
 	"CREATE TABLE LerningStat (lerningstatid integer primary key AUTOINCREMENT, contextid integer, elemassoid integer, good integer, FOREIGN KEY(contextid) REFERENCES Context(contextid), FOREIGN KEY(elemassoid) REFERENCES ElemAssociation(elemassoid))",
 	"CREATE TABLE Library (libraryid integer primary key AUTOINCREMENT, libtitle text, color text)",

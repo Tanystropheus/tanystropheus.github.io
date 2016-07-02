@@ -1,12 +1,14 @@
-window.api = "https://pasteur-oauth2.herokuapp.com";
+//window.api = "https://pasteur-oauth2.herokuapp.com";
+window.api =  "https://api.nova.interact.objectivemoon.io/docs";
+window.loginapi = "https://arya.interact.objectivemoon.io";
 //~ window.api = "http://requestb.in/1bcca031";
 
 function getClientId(){
-	return "b17595e9d55257fa6cdb6538deaa7f273eb76b8559c1d76524ea0b35d98cb7cd";
+	return "571a53401e4886f36bc9b2dc3b9b22b4536e5ab51f22767eea9f7f365a849315";
 }
 
 function getClientSecret(){
-	return "dbf84c10b2873a0ee2034b5839faba0a5a0d53233440b46684478f92e8ae8805";
+	return "8c3ffc75868965db692bea0a70790b3085c253b680c61f91d8de4b3a93e4c0a9";
 }
 
 if (typeof String.prototype.startsWith != 'function') {
@@ -17,7 +19,7 @@ if (typeof String.prototype.startsWith != 'function') {
 
 function oauthClientToken(){
 	//~ alert("begin oauth");
-	window.open('interactlogin.html' ,'_self', 'location=no');
+	//~ window.open('interactlogin.html' ,'_self', 'location=no');
 	/*
 	$.ajax({ 
 		type: "POST",
@@ -33,62 +35,66 @@ function oauthClientToken(){
 		success: function(data)
 		{
 			alert(JSON.stringify(data, null, 4));
-			var newWindow = window.open("", '_blank', 'location=no');
-			newWindow.document.write(data);
+			//var newWindow = window.open("", '_blank', 'location=no');
+			//newWindow.document.write(data);
 			// data = PDF binary
 			// I want to do something with this
 		},error: function(data, data2) { alert("error: " + JSON.stringify(data, null, 4) + "error2: " + JSON.stringify(data2, null, 4)); }
 	});
 	* */
-	//~ var ref = window.open(window.api + '/auth/interact_oauth/authorize?client_id=' + getClientId() + '&client_secret=' + getClientSecret(), '_blank', 'location=no');
-	//~ ref.addEventListener('loadstart', function(e) {
-				//~ var url = e.url;
-				//~ var code = /\?code=(.+)$/.exec(url)[1];
-				//~ var error = /\?error=(.+)$/.exec(url);
-				//~ if (code || error) {
-					//~ ref.close();
-				//~ }
+	var ref = window.open(window.loginapi + '/users/sign_in?client_id=' + getClientId(), '_blank', 'location=no');
+	ref.addEventListener('loadstart', function(e) {
+		var url = e.url;
+		var code = /\?code=(.+)$/.exec(url)[1];
+		var error = /\?error=(.+)$/.exec(url);
+		if (code || error) {
+			ref.close();
+		}
 //~ 
-				//~ if (code) {
-					//~ //alert("code: " + JSON.stringify(code, null, 4));
-					//~ interActLogin(code);
-				//~ } else if (error) {
-					//~ //The user denied access to the app
-					//~ deferred.reject({
-						//~ error: error[1]
-					//~ });
-					//~ alert(JSON.stringify(error[1], null, 4));
-				//~ }
-			//~ });
-		//~ ref.addEventListener('loaderror', function(e) {alert(JSON.stringify(e, null, 4));
-				//~ var url = e.url;
-				//~ var code = /\?code=(.+)$/.exec(url)[1];
-				//~ var error = /\?error=(.+)$/.exec(url);
-				//~ if (code || error) {
-					//~ ref.close();
-				//~ }
-				//~ if (code) {
-					//~ interActLogin(code);
-				//~ } else if (error) {
-					//~ //The user denied access to the app
-					//~ deferred.reject({
-						//~ error: error[1]
-					//~ });
-					//~ alert(JSON.stringify(error[1], null, 4));
-				//~ }
-			//~ });
-	};
+		if (code) {
+			//alert("code: " + JSON.stringify(code, null, 4));
+			alert("OK: code=> " + code);
+			interActLogin(code);
+		} else if (error) {
+			//The user denied access to the app
+			deferred.reject({
+				error: error[1]
+			});
+			alert(JSON.stringify(error[1], null, 4));
+		}
+	});
+	ref.addEventListener('loaderror', function(e) {alert(JSON.stringify(e, null, 4));
+		var url = e.url;
+		var code = /\?code=(.+)$/.exec(url)[1];
+		var error = /\?error=(.+)$/.exec(url);
+		if (code || error) {
+			ref.close();
+		}
+		if (code) {
+			alert("err: code=> " + code);
+			interActLogin(code);
+		} else if (error) {
+			//The user denied access to the app
+			deferred.reject({
+				error: error[1]
+			});
+			alert(JSON.stringify(error[1], null, 4));
+		}
+	});
+};
 
 function interActLogin(authorization_code){
 	//~ alert("begin interActLogin!! code: " + authorization_code);
 	$.ajax({
 		type: "POST",
-		dataType: "application/json",
+		dataType: "text",
 		crossDomain: true,
-		data:{client_id: getClientId(), client_secret: getClientSecret(), grant_type: "authorization_code", code: authorization_code},
-		url: window.api + "/auth/interact_oauth/access_token",
+		data:{auth:{client_id: getClientId(), client_secret: getClientSecret(), code: authorization_code}, url: window.loginapi + "/auth/interact_oauth/access_token"},//grant_type: "authorization_code", code: authorization_code},
+		url: window.loginapi + "/auth/interact_oauth/access_token",
+		//~ url: "http://requestb.in/zfigx9zf", 
 		success: function(data) {
-			//alert("begin suces: " + JSON.stringify(data, null, 4));
+			data = JSON.parse(data);
+			alert("begin suces: " + JSON.stringify(data, null, 4));
 			//data = JSON.parse(data, null, 4);
 			if (data.uid) window.localStorage.setItem("uid", data.uid);
 			if (data.token) setUserToken(data.token);

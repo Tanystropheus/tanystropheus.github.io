@@ -261,3 +261,12 @@ function selectText(sql, objectLst, cb){
 		}, "SELECT * FROM Text " + sql + " ORDER by textid");
 	}, function(){alert("Select fail");});
 };
+
+
+function TestFunc(){
+	var tab, promis;
+
+	tab = {};
+	promis = selectElements('WHERE elemid IN (SELECT elemid FROM LibElem WHERE libraryid IN (SELECT libraryid FROM LibLink WHERE librarylstid=(SELECT librarylstid FROM LibraryLst WHERE liblsttitle="Utilisation")))', tab, null);
+	promis.then(function(){alert(JSON.stringify(tab, null, 4));}, function(e){alert("error: " + JSON.stringify(e, null, 4));})
+}

@@ -17,10 +17,10 @@ function genInitSql(){
 		"abricot", "croissant", "gâteaux", "œufs à la poêle", " paquet de chips", "viande", "banane", "fraise", " glace", "orange", "pomme de terre", "yaourt", "bonbon", "fromage", "kiwi", " pain", "pomme", "chocolat", "fruits", " légumes", "paquet de biscuits", "rondelle d'orange",
 		"chat", "chien", "poisson",
 		"Coca-Cola", "eau", "jus de pomme", "jus de raisin", "jus d'orange", "lait au cacao", "lait",
-		"balançoire", "ballon", "patins", "toboggan", "trampoline", " vélo", "balançoire", "parc", "raquette", "trampoline", "trottinette",
-		"avion", "camion de pompiers", "dessins animés", "gommettes", "marionettes", "toupies", "ballon", "camions", "dinosaures", "jouer le piano", "peinture", "voiture", "bulles de savon", "console", "feutres", " livre", "peinture rupestre", "bulles de savon", "cubes empilables", "garage", "marionettes", " télévision",
-		"allumer", "chatouiller", "donner", "éteindre", "manger", "rouler", "sortir", "tourner", "allumer", "courir", "donner un bisou", "fermer", "ouvrir", "sauter", "souffler", "boire", "courir", "donner un bisou", "fermer", "ouvrir", "sauter", "tirer", "chatouiller", "donner", "éteindre", "glisser", "pousser", "sortir", "tirer",
-		"casquette", "chaussure de sport", "chaussures", "écharpe", "veste", "chapeau", "chaussure", "chaussures", "imperméable", "veste.png",
+		"balançoire", "balançoire", "ballon", "patins", "toboggan", "trampoline", "trampoline", " vélo", "parc", "raquette", "trottinette",
+		"avion", "camion de pompiers", "dessins animés", "gommettes", "marionettes", "toupies", "ballon", "camions", "dinosaures", "jouer le piano", "peinture", "voiture", "bulles de savon", "bulles de savon", "console", "feutres", " livre", "peinture rupestre", "cubes empilables", "garage", "marionettes", " télévision",
+		"allumer", "allumer", "boire", "chatouiller", "chatouiller", "courir", "courir", "donner", "donner", "donner un bisou", "donner un bisou", "éteindre", "éteindre", "fermer", "fermer", "glisser", "manger", "ouvrir", "ouvrir", "pousser", "rouler", "sauter", "sauter", "sortir", "sortir", "souffler", "tirer", "tirer", "tourner",
+		"casquette", "chapeau", "chaussure", "chaussure de sport", "chaussures", "chaussures", "écharpe", "imperméable", "veste", "veste", 
 		];
 
 	Textsqlreq = "";
@@ -114,7 +114,7 @@ function genInitSql(){
 		}));
 
 		Elementssqlreq += "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/" + text[i].replace(new RegExp(' ', 'g'), '').replace(new RegExp("'", 'g'), '').toLowerCase() + ".png', 1, " + (i+1) + ", 0);\n";
-		sql = "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/" + text[i].replace(new RegExp(' ', 'g'), '').replace(new RegExp("'", 'g'), '').toLowerCase() + ".png', 1, " + (i+1) + ", 0)";
+		sql = "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/" + (i + 1)/*text[i].replace(new RegExp(' ', 'g'), '').replace(new RegExp("'", 'g'), '').toLowerCase()*/ + ".png', 1, " + (i+1) + ", 0)";
 		promiseTab.push(new Promise(function(resolve, reject){
 			//alert("sql: " + insertSql[sqlReq]);
 			window.db.executeSql( sql, null, function(res){
@@ -195,19 +195,19 @@ function genInitSql(){
 	}).catch(function(err){alert("errir ELLEMASSO INSERT: " + JSON.stringify(err, null, 4))}));
 
 	//~ promiseTab = []
-	sql = Languagesqlreq + Textsqlreq + Soundsqlreq + LibraryLstsqlreq + Elementssqlreq + Setingssqlreq + ElemSetingssqlreq + Librarysqlreq + LibElemsqlreq + LibLinksqlreq;
-	//console.log(sql.replace(new RegExp('\n', 'g'), ''));
-	promiseTab.push(new Promise(function(resolve, reject){
-		//alert("sql: " + insertSql[sqlReq]);
-		//~ alert(sql.replace(new RegExp('\n', 'g'), ''));
-		window.db.executeSql( sql.replace(new RegExp('\n', 'g'), ''), null, function(res){
-			//~ alert(sql + " finish succes " + Date.now().toString() + " res: " + JSON.stringify(res, null, 4));
-			return resolve(res);
-		}, function(err, err2){
-			alert(JSON.stringify(sql, null, 4) + " finish Error: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
-			reject("Rejected " + err);
-		});
-	}).catch(function(err){alert("errir ELLEMASSO INSERT: " + JSON.stringify(err, null, 4))}));
+	//~ sql = Languagesqlreq + Textsqlreq + Soundsqlreq + LibraryLstsqlreq + Elementssqlreq + Setingssqlreq + ElemSetingssqlreq + Librarysqlreq + LibElemsqlreq + LibLinksqlreq;
+	//~ //console.log(sql.replace(new RegExp('\n', 'g'), ''));
+	//~ promiseTab.push(new Promise(function(resolve, reject){
+		//~ //alert("sql: " + insertSql[sqlReq]);
+		//alert(sql.replace(new RegExp('\n', 'g'), ''));
+		//~ window.db.executeSql( sql.replace(new RegExp('\n', 'g'), ''), null, function(res){
+			//alert(sql + " finish succes " + Date.now().toString() + " res: " + JSON.stringify(res, null, 4));
+			//~ return resolve(res);
+		//~ }, function(err, err2){
+			//~ alert(JSON.stringify(sql, null, 4) + " finish Error: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
+			//~ reject("Rejected " + err);
+		//~ });
+	//~ }).catch(function(err){alert("errir ELLEMASSO INSERT: " + JSON.stringify(err, null, 4))}));
 
 	//console.log(sqlreq);
 	var tab;

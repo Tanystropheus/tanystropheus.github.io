@@ -17,33 +17,29 @@ function isEmpty(obj) { //http://stackoverflow.com/questions/4994201/is-object-e
 
 function sendToInteract(){
 	var token;
-	alert("begin sendToInteract");
+	var cbFunc = function(cbData){
+		var tabData = [];
+		if(!isEmpty(cbData)){
+			//~ alert("not empty " + Object.keys(cbData).length);
+			for (var i = 0; i < cbData.length /*Object.keys(cbData).length*/; i++) {
+				//~ alert("cbData: " + JSON.stringify(cbData[i+1], null, 4) + " i: " + i);
+				tabData[i] = cbData[i+1];
+			}
+			//~ alert("Data: " + JSON.stringify(tabData, null, 4) + " Token: " + JSON.stringify(token, null, 4));
+			backEndSend(token, tabData);
+			//~ window.localStorage.setItem("maxElemAssoidSend", backEndSend(token, tabData).toString());
+		}
+	};
+
 	token = getUserToken();
 	if(token){
-		//~ alert("sendToInteract, have Token");
 		var data = {};
 		maxElemAssoidSend = parseInt(window.localStorage.getItem("maxElemAssoidSend"), 10);
-		alert("maxElemAssoidSend: " + maxElemAssoidSend.toString());
+		//~ alert("maxElemAssoidSend: " + maxElemAssoidSend.toString());
 		if(maxElemAssoidSend){
-			alert("maxElemAssoidSend: " + maxElemAssoidSend.toString());
-			selectElemAssociation("WHERE elemassoid>=" + (maxElemAssoidSend + 1 ).toString(), data, null).then(
-				function(cbData){
-					if(!isEmpty(cbData)){
-						window.localStorage.setItem("maxElemAssoidSend", backEndSend(token, cbData).toString());
-						//~ alert("Data: " + JSON.stringify(cbData, null, 4) + " Token: " + JSON.stringify(token, null, 4));
-					}
-					backEndSend(token, cbData);
-				}
-			);
+			selectElemAssociation("WHERE elemassoid>=" + (maxElemAssoidSend + 1 ).toString(), data, null).then(cbFunc);
 		} else {
-			//alert("no last send");
-			selectElemAssociation("WHERE elemassoid>=1", data, null).then(function(cbData){
-				if(!isEmpty(cbData)){
-					window.localStorage.setItem("maxElemAssoidSend", backEndSend(token, data).toString());
-					//~ alert("Data: " + JSON.stringify(data, null, 4) + " Token: " + JSON.stringify(token, null, 4));
-				}
-			});
-			//backEndSend(token, data);
+			selectElemAssociation("WHERE elemassoid>=1", data, null).then(cbFunc);
 		}
 	}
 	else {
@@ -51,29 +47,31 @@ function sendToInteract(){
 	}
 }
 
-function backEndSend(token, dataLst){
-	alert(JSON.stringify(dataLst, null, 4));
-	if(!isEmpty(dataLst)){
-		for (var i in dataLst) {
-			var data = {"ElemAssociation": dataLst[i]};
-			//~ //alert(JSON.stringify(data, null, 4));
-			$.ajax({
-				type: "POST",
-				dataType: "application/json",
-				crossDomain: true,
-				data:{client_id: getClientId(), client_secret: getClientSecret(), user_token: token, data: data},
-				url: window.api + "/api/v1/data",
-				success: function(data) {
-					//alert("begin suces: " + JSON.stringify(data, null, 4));
-					alert("Envoi des données réusie " + JSON.stringify(data));
-					return i;
-				},
-				error: function(data, status, status2, status3) {
-					//alert("ERROR: " + data);
-					alert("Erreur lors de l'envoi des données: " + JSON.stringify(data, null, 4) + " erreur 2: " + JSON.stringify(status, null, 4) + "erreur 3: " + JSON.stringify(status2, null, 4) + " erreur 4: " + JSON.stringify(status3, null, 4));
-				}
-			});
-		}
+function backEndSend(token, data){
+	var last;
+	alert(JSON.stringify(data, null, 4));
+	if(!isEmpty(data)){
+		//~ //alert(JSON.stringify(data, null, 4));
+		last = data[data.length - 1].elemassoid;
+		$.ajax({
+			type: "POST",
+			//~ dataType: "application/json",
+			dataType: "text",
+			crossDomain: true,
+			data:{client_id: getClientId(), client_secret: getClientSecret(), user_token: token, data: data},
+			//~ url: window.api + "/api/v1/data",
+			url: "http://requestb.in/zfigx9zf",
+			success: function(data) {
+				//alert("begin suces: " + JSON.stringify(data, null, 4));
+				alert("Envoi des données réusie " + JSON.stringify(data));
+				alert("return: " + last);
+				return last;
+			},
+			error: function(data, status, status2, status3) {
+				//alert("ERROR: " + data);
+				alert("Erreur lors de l'envoi des données: " + JSON.stringify(data, null, 4) + " erreur 2: " + JSON.stringify(status, null, 4) + "erreur 3: " + JSON.stringify(status2, null, 4) + " erreur 4: " + JSON.stringify(status3, null, 4));
+			}
+		});
 		//alert("Ajax request should be done!!");
 		//return i;
 	} else{
