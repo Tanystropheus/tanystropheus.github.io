@@ -1,0 +1,48 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-http": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-media-capture": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-sqlcipher-adapter": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        },
+        "es6-promise-plugin": {
+            "PACKAGE_NAME": "com.interact.myvoice"
+        }
+    },
+    "dependent_plugins": {}
+}

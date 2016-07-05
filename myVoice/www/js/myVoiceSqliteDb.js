@@ -25,6 +25,7 @@ function updateSucces(){
 
 function openDb(okcb, failcb) {
 	var dbName = "myVoice";
+	//~ alert("Begin openDb");
 	var promese = new Promise(function(resolve, reject){
 		if (window.cordova.platformId != "browser") {
 			window.db = window.sqlitePlugin.openDatabase(
@@ -46,7 +47,7 @@ function openDb(okcb, failcb) {
 		}else{
 			db = window.openDatabase("myVoice.db", '1', 'my', 1024 * 1024 * 100); // browser
 		}
-	});
+	}, function(){alert("SOUCIS!!")});
 	return promese.then(
 		function(msg){
 			if(typeof(okcb) == Function) okcb(msg);
@@ -60,7 +61,7 @@ function openDb(okcb, failcb) {
 };
 
 function initialInsert(){
-	//~ alert("Begin wating for initialInsert");
+	alert("Begin wating for initialInsert");
 	//~ return genInitSql();
 	var insertSql = genInitSql();
 	var insertPromises = [];
@@ -84,7 +85,7 @@ function initialInsert(){
 		function(resolve, reject){
 			Promise.all(insertPromises).then(
 				function(val){
-					//alert("Insert initial data ok" + JSON.STringify(val, null, 4));
+					alert("Insert initial data ok" + JSON.STringify(val, null, 4));
 					if(resolve) return resolve("initial insert ok");
 				},
 				function(err, err2){
@@ -101,11 +102,11 @@ function initialSelect(){
 	var selectPromises = [
 		selectLibElem("", window.appData.libelem, null),
 		selectLanguage( "" , window.appData.language, null),
-		selectLibraryLst('WHERE liblsttitle="Utilisation"', window.appData.libraryLst, null),
-		selectLibrary('WHERE libraryid IN (SELECT libraryid FROM LibLink WHERE librarylstid=(SELECT librarylstid FROM LibraryLst WHERE liblsttitle="Utilisation"))', window.appData.library, null),
-		selectElements('WHERE elemid IN (SELECT elemid FROM LibElem WHERE libraryid IN (SELECT libraryid FROM LibLink WHERE librarylstid=(SELECT librarylstid FROM LibraryLst WHERE liblsttitle="Utilisation")))', window.appData.elements, null),
-		selectText('WHERE textid IN (SELECT textid FROM Elements WHERE elemid IN (SELECT elemid FROM LibElem WHERE libraryid IN (SELECT libraryid FROM LibLink WHERE librarylstid=(SELECT librarylstid FROM LibraryLst WHERE liblsttitle="Utilisation"))))', window.appData.text, null),
-		selectSound('WHERE soundid IN (SELECT soundid FROM Elements WHERE elemid IN (SELECT elemid FROM LibElem WHERE libraryid IN (SELECT libraryid FROM LibLink WHERE librarylstid=(SELECT librarylstid FROM LibraryLst WHERE liblsttitle="Utilisation"))))', window.appData.sound, null),
+		selectLibraryLst("", window.appData.libraryLst, null),
+		selectLibrary("", window.appData.library, null),
+		selectElements("", window.appData.elements, null),
+		selectText("", window.appData.text, null),
+		selectSound("", window.appData.sound, null),
 		selectElemAssociation("", window.appData.elemAssociation, null)
 	];
 
@@ -181,7 +182,7 @@ function initDb(callback){
 				alert("Error Insert!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));
 			}
 		).then(function(){
-			//~ alert("test");
+			alert("Befor initDb CB");
 			if (callback){
 				//~ alert("init cb");
 				callback();

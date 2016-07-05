@@ -20,7 +20,7 @@ function myVoiceSetings(width, writing, sound, lastchange) {
 	this.lastchange = lastchange;
 };
 
-function myVoiceElem(elemurl, soundid, textid, state) {
+function myVoiceElem(elemUrl, soundId, textId, state) {
 	this.elemid = null;
 	this.elemurl = elemUrl;
 	this.soundid = soundId;
@@ -40,7 +40,7 @@ function myVoiceLerningStat(contextid, elemassoid, good) {
 	this.good = good;
 };
 
-function myVoiceLibrary(libTitle, lstelemid) {
+function myVoiceLibrary(libTitle) {
 	this.libraryid = null;
 	this.libtitle = libTitle;
 	this.color = '#ccccb3';

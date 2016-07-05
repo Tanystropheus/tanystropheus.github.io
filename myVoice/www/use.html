@@ -19,8 +19,16 @@
 		<script type="text/javascript" src="js/GenSql.js"></script>
 		<script type="text/javascript" src="js/networkFunc.js"></script>
 		<script type="text/javascript" src="js/interActBack.js"></script>
-		<script type="text/javascript" src="js/myVoiceInterface.js"></script>
+		<script type="text/javascript" src="js/delClass.js"></script>
+		<script type="text/javascript" src="js/delFile.js"></script>
+		<script type="text/javascript" src="js/insertFile.js"></script>
+		<script type="text/javascript" src="js/modifyClass.js"></script>
+		<script type="text/javascript" src="js/modifyFile.js"></script>
+
+
 		<script type="text/javascript" src="js/index.js"></script>
+		
+		
 		<script>
 			//~ function checkUrl(){
 				//~ var code = /\?code=(.+)$/.exec(window.location.href)[1];
@@ -131,7 +139,14 @@
 							<button onclick=backEndGet()>getData</button>
 							<button onclick=sendToInteract()>SendData</button>
 							<a data-position-to="window" class="ui-btn ui-btn-inline" id="button_param" data-transition="pop" onclick=oauthClientToken() >co</a>
-							<a data-position-to="window" class="ui-btn ui-btn-inline" id="button_param" data-transition="pop" onclick=TestFunc() >TEST</a>
+							<a data-position-to="window" class="ui-btn ui-btn-inline" data-transition="pop" onclick=TestFunc() >TEST</a>
+							<a data-position-to="window" class="ui-btn ui-btn-inline" data-transition="pop" onClick=capturePhoto() >capturePhoto</a>
+							<a data-position-to="window" class="ui-btn ui-btn-inline" data-transition="pop" onclick=captureAudio() >captureAudio</a>
+							<a data-position-to="window" class="ui-btn ui-btn-inline" data-transition="pop" onclick=createName() >createName</a>
+							<a data-position-to="window" class="ui-btn ui-btn-inline" data-transition="pop" onclick=getPhoto() >getPhoto</a>
+							<a data-position-to="window" class="ui-btn ui-btn-inline" data-transition="pop" onclick=insertBdd() >insertBdd</a>
+							<a data-position-to="window" class="ui-btn ui-btn-inline" data-transition="pop" onclick=testAfficheFunc() >testAfficheFunc</a>
+							<script> function testAfficheFunc(){alert(JSON.stringify(capturePhoto));}</script>
 						</div>
 					</fieldset>
 				</p>
