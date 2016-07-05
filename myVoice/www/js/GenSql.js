@@ -3,20 +3,24 @@ function genInitSql(){
 	LanguageName = ["Français"];
 
 	LibraryLstName = ["Utilisation", "Aprentisage"];
-	nblibmin = [1, 6];
-	nblibmax = [6, 6];
+	nblibmin = [1, 9];
+	nblibmax = [9, 9];
 
-	libName = ["Verbes", "Aliments", "Adjectifs", "Boissons", "Jouets d'intérieur", "Jeux d'extérieur"];
-	libSizemin = [1, 18, 39, 51, 60, 82];
-	libSizemax = [17, 38, 50, 59, 81, 90];
+	libName = ["Activites", "Adjectifs", "Aliments", "Animaux", "Boissons", "Jeux d'exterieurs", "Jouets d'interieur", "Verbes", "Vetements"];
+	//libName = ["Verbes", "Aliments", "Adjectifs", "Boissons", "Jouets d'intérieur", "Jeux d'extérieur"];
+	libSizemin = [1, 9, 28, 51, 55, 63, 75, 98, 128];
+	libSizemax = [8, 27, 50, 54, 62, 74, 97, 127, 138];
 
-
-	text = ["Manger", "Boire", "Courir", "Sauter", "Tourner", "Tirer", "Pousser", "Donner", "Chatouiller", "Souffler", "Secouer", "Sortir", "Suivre", "Fermer", "Rouler", "Glisser", "Allumer", //"Faire un câlin", "Faire un bisou",
-		"Pain", "Gâteau", "Bonbon", "Chips", "Fruits", "Pâtes", "Pomme de terre", "Viande", "Légumes", "Fromage", "Yaourt", "Glace", "Barquette à la fraise,", "Prince", "Finger", "Pomme", "Raisin", "Orange", "Fraise", "Carottes", "Haricots verts",
-		"Bleu", "Blanc", "Rouge", "Vert", "Grand", "Petit", "Moyen", "1", "2", "3", "4", "5",
-		"eau", "jus de pomme", "jus d'orange", "jus de raisin", "oasis", "coca", "perrier", "lait", "thé",
-		"bulles", "toupie", "voiture", "garage", "livre", "télé", "ipad", "wii", "wii sport", "wii dance", "dessins animés", "Cars", "Nemo", "Reine des Neiges", "Dora", "la maison de Mickey", "piano d'enfant", "marionnettes", "gommettes", "feutres", "peinture", "ballon de baudruche",
-		"ballon", "balançoire", "toboggan", "trampoline", "vélo", "trottinette", "roller", "raquette", "structure de parc"
+	text = [
+		"chanter", "écouter de la musique", "galipette", "ordinateur portable", "dessin", "football", "lire1", "se promener2",
+		"0", "2", "4", "6", "8", "blanc", " jaune", "noir", "rouge", "1", "3", "5", "7", "9", "bleu", "moyen", "orange", "vert",
+		"abricot", "croissant", "gâteaux", "œufs à la poêle", " paquet de chips", "viande", "banane", "fraise", " glace", "orange", "pomme de terre", "yaourt", "bonbon", "fromage", "kiwi", " pain", "pomme", "chocolat", "fruits", " légumes", "paquet de biscuits", "rondelle d'orange",
+		"chat", "chien", "poisson",
+		"Coca-Cola", "eau", "jus de pomme", "jus de raisin", "jus d'orange", "lait au cacao", "lait",
+		"balançoire", "balançoire", "ballon", "patins", "toboggan", "trampoline", "trampoline", " vélo", "parc", "raquette", "trottinette",
+		"avion", "camion de pompiers", "dessins animés", "gommettes", "marionettes", "toupies", "ballon", "camions", "dinosaures", "jouer le piano", "peinture", "voiture", "bulles de savon", "bulles de savon", "console", "feutres", " livre", "peinture rupestre", "cubes empilables", "garage", "marionettes", " télévision",
+		"allumer", "allumer", "boire", "chatouiller", "chatouiller", "courir", "courir", "donner", "donner", "donner un bisou", "donner un bisou", "éteindre", "éteindre", "fermer", "fermer", "glisser", "manger", "ouvrir", "ouvrir", "pousser", "rouler", "sauter", "sauter", "sortir", "sortir", "souffler", "tirer", "tirer", "tourner",
+		"casquette", "chapeau", "chaussure", "chaussure de sport", "chaussures", "chaussures", "écharpe", "imperméable", "veste", "veste", 
 		];
 
 	Textsqlreq = "";
@@ -64,8 +68,8 @@ function genInitSql(){
 	}
 
 	for(var i = 0; i < libName.length; i++){
-		Librarysqlreq += "INSERT INTO Library (libtitle) VALUES (\"" + libName[i] + "\");\n";
-		sql = "INSERT INTO Library (libtitle) VALUES (\"" + libName[i] + "\")";
+		Librarysqlreq += "INSERT INTO Library (libtitle, color) VALUES (\"" + libName[i] + "\", \"#ccccb3\");\n";
+		sql = "INSERT INTO Library (libtitle, color) VALUES (\"" + libName[i] + "\", \"#ccccb3\")";
 		promiseTab.push(new Promise(function(resolve, reject){
 			//alert("sql: " + insertSql[sqlReq]);
 			window.db.executeSql( sql, null, function(res){
@@ -110,7 +114,7 @@ function genInitSql(){
 		}));
 
 		Elementssqlreq += "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/" + text[i].replace(new RegExp(' ', 'g'), '').replace(new RegExp("'", 'g'), '').toLowerCase() + ".png', 1, " + (i+1) + ", 0);\n";
-		sql = "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/" + text[i].replace(new RegExp(' ', 'g'), '').replace(new RegExp("'", 'g'), '').toLowerCase() + ".png', 1, " + (i+1) + ", 0)";
+		sql = "INSERT INTO Elements (elemurl, soundid, textid, state) VALUES ('img/" + (i + 1)/*text[i].replace(new RegExp(' ', 'g'), '').replace(new RegExp("'", 'g'), '').toLowerCase()*/ + ".png', 1, " + (i+1) + ", 0)";
 		promiseTab.push(new Promise(function(resolve, reject){
 			//alert("sql: " + insertSql[sqlReq]);
 			window.db.executeSql( sql, null, function(res){
@@ -190,19 +194,20 @@ function genInitSql(){
 		});
 	}).catch(function(err){alert("errir ELLEMASSO INSERT: " + JSON.stringify(err, null, 4))}));
 
-	promiseTab = []
-	sql = Languagesqlreq + Textsqlreq + Soundsqlreq + LibraryLstsqlreq + Elementssqlreq + Setingssqlreq + ElemSetingssqlreq + Librarysqlreq + LibElemsqlreq + LibLinksqlreq;
-	promiseTab.push(new Promise(function(resolve, reject){
-		//alert("sql: " + insertSql[sqlReq]);
-		//~ alert(sql.replace(new RegExp('\n', 'g'), ''));
-		window.db.executeSql( sql.replace(new RegExp('\n', 'g'), ''), null, function(res){
-			//~ alert(sql + " finish succes " + Date.now().toString() + " res: " + JSON.stringify(res, null, 4));
-			return resolve(res);
-		}, function(err, err2){
-			alert(JSON.stringify(sql, null, 4) + " finish Error: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
-			reject("Rejected " + err);
-		});
-	}).catch(function(err){alert("errir ELLEMASSO INSERT: " + JSON.stringify(err, null, 4))}));
+	//~ promiseTab = []
+	//~ sql = Languagesqlreq + Textsqlreq + Soundsqlreq + LibraryLstsqlreq + Elementssqlreq + Setingssqlreq + ElemSetingssqlreq + Librarysqlreq + LibElemsqlreq + LibLinksqlreq;
+	//~ //console.log(sql.replace(new RegExp('\n', 'g'), ''));
+	//~ promiseTab.push(new Promise(function(resolve, reject){
+		//~ //alert("sql: " + insertSql[sqlReq]);
+		//alert(sql.replace(new RegExp('\n', 'g'), ''));
+		//~ window.db.executeSql( sql.replace(new RegExp('\n', 'g'), ''), null, function(res){
+			//alert(sql + " finish succes " + Date.now().toString() + " res: " + JSON.stringify(res, null, 4));
+			//~ return resolve(res);
+		//~ }, function(err, err2){
+			//~ alert(JSON.stringify(sql, null, 4) + " finish Error: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
+			//~ reject("Rejected " + err);
+		//~ });
+	//~ }).catch(function(err){alert("errir ELLEMASSO INSERT: " + JSON.stringify(err, null, 4))}));
 
 	//console.log(sqlreq);
 	var tab;

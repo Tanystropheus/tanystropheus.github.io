@@ -1,75 +1,114 @@
-function defilement_droite(base, id, type){
-    var first = "#" + base + "_0";
-    var last = $(id).children(type).length - 1;
-    last = (last < 0) ? 0 : last;
-    last =  "#" + base + "_" + last;
-    $(last).after($(first));
+var data = {};
+
+function defilement_droite(base, id, type){   
+    for(var all in $("#libraries_field_user").children("li"))
+        alert("cc");
 }
 function defilement_gauche(base, id, type){
-    var first = "#" + base + "_0";
-    var last = $(id).children(type).length - 1;
-    last = (last < 0) ? 0 : last;
-    last =  "#" + base + "_" + last;
-    $(first).before($(last));
+
 }
 function reorganisation_tab(direction)
 {
-    if (direction === 0)
-        defilement_droite('tab', '#libraries_field_user','li');
-    else
-        defilement_gauche('tab', '#libraries_field_user','li');
-    var str = "";
-    var name;
-    var nb = $("#libraries_field_user").children("li").length;
-    for (i = 0; i <= nb - 1; i++)
-    {
-        str = document.getElementById("libraries_field_user").childNodes[i].id;
-        name = $("#"+str).attr("name");
-        document.getElementById(str).id = "tmp_tab_" + i;
-        name = $("#tmp_tab_" + i).attr("name");
+    var t = new Array();
+    var tmp = new Array();
+    var n = 0;
+    var str = new Array();
+    for(var i = 0; i < $("#libraries_field_user").children("li").length; i++){
+        if($("#libraries_field_user").children("li")[i].id !== "pass_A" && $("#libraries_field_user").children("li")[i].id !== "pass_B"){
+            t[n] = $("#libraries_field_user").children("li")[i];
+            n++;
+        }
     }
-    for (i = 0; i <= nb - 1; i++)
-    {
-        document.getElementById("tmp_tab_"+i).id = "tab_" + i;
-        name = $("#tab_" + i).attr("name");
+    str[0] = $("#libraries_field_user").children("li")[0];
+    str[1] = $("#libraries_field_user").children("li")[6];
+    $(".tab_menu").remove();
+    console.log(t);
+    tmp[0] = t[t.length - 1];
+    n = 1;
+    for (var i = 0; i < t.length - 1; i++){
+    tmp[n] = t[i];
+       n++;
     }
+    $("#libraries_field_user").append(str[0]);
+    n = 1;
+    for (var all in tmp){
+        $("#libraries_field_user").append(tmp[all]);
+        $("#"+tmp[all].id).data('categorie', data["#"+tmp[all].id]);
+        n++;
+        if (n === 6){
+            $("#libraries_field_user").append(str[1]);
+            n++;
+        }
+    }
+    console.log(tmp);/*
+    n = 0;
+    for (var i = 1; i < tmp.length; i++){
+    t[n] = tmp[i];
+       n++;
+    }
+    t[tmp.length - 1] = tmp[0];
+    console.log(t);*/
 }
-function reorganisation_tab_admin(direction)
+function show_active_tab(id, who)
 {
-    if (direction === 0)
-        defilement_droite('taba', '#libraries_field_admin','li');
-    else
-        defilement_gauche('taba', '#libraries_field_admin','li');
-    var str = "";
-    var name;
-    var nb = $("#libraries_field_admin").children("li").length;
-    for (i = 0; i <= nb - 1; i++)
+    var id_tab = who === "user" ? "#tab_" : "#taba_";
+    selected_tab = $("#"+id.getAttribute("id")).data("categorie");
+    nb = $("#libraries_field_"+who).children("li").length;
+    for (i = 1; i <= nb; i++)
     {
-        str = document.getElementById("libraries_field_admin").childNodes[i].id;
-        name = $("#"+str).attr("name");
-        document.getElementById(str).id = "tmp_taba_" + i;
-        name = $("#tmp_taba_" + i).attr("name");
+        if (selected_tab.libtitle === $(id_tab+i).attr("name")){
+            $(id_tab+i).css("background-color", active_tab_color);
+            $(id_tab+i+" h1").css("color", selected_tab_color);
+        }
+        else
+        {
+            $(id_tab+i).css("background-color", selected_tab_color);
+            $(id_tab+i+" h1").css("color", active_tab_color);
+        }
     }
-    for (i = 0; i <= nb - 1; i++)
-    {
-        document.getElementById("tmp_taba_"+i).id = "taba_" + i;
-        name = $("#taba_" + i).attr("name");
-    }
-}
-function show_libraries_nav(item){
-    var html_str_user = ""; /*chaine contenant du code html*/
-    var html_str_admin = "<li id='taba_0' name='bdd_images' onclick='show_active_tab(this);'><h1>Galerie</h1></li>"; 
-    var nb = 0;
-    for(var i in item){
-        html_str_user = html_str_user + "<li id='tab_"+ nb +"' name='"+ item[i].libtitle +"' onclick='show_active_tab(this);'><h1>" + item[i].libtitle + "</h1></li>";
-        html_str_admin = html_str_admin + "<li id='taba_"+ (nb + 1) +"' name='"+ item[i].libtitle +"' onclick='show_active_tab(this);'><h1>" + item[i].libtitle + "</h1></li>";
+    select_grid(selected_tab);
+    set_grid(1,"user");
+};
+function get_lib(){
+    var nb = 1;
+    var mg;
+    for(var i in window.appData.library){
+        if (nb < 6){
+            $("#tab_"+nb).attr("name", window.appData.library[i].libtitle);
+            $("#tab_"+nb).append("<h1>" + window.appData.library[i].libtitle + "</h1>");
+        }
+        else{
+            alert("how");
+            $("#libraries_field_user").append("<li class='tab_menu' id='tab_" + nb + "' name='" + window.appData.library[i].libtitle + "' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'><h1>" + window.appData.library[i].libtitle + "</h1></li>");
+        }
         nb++;
-    }; /*Pour chaque élément, ajoute un élément nommé dans une liste*/
-    document.getElementById("user_header").innerHTML = "<ul id='libraries_field_user'></ul>";
-    document.getElementById("libraries_field_user").innerHTML = html_str_user;
-    document.getElementById("admin_header").innerHTML = "<ul id='libraries_field_admin'></ul>";
-    document.getElementById("libraries_field_admin").innerHTML = html_str_admin;
-    for(var i in item){
-        $("#tab_"+i).data('categorie', item[i]);
+    }
+    mg = Math.floor(jQuery(window).width() * 0.5 / 100);
+    $("#libraries_field_user li").css("margin", mg);
+    nb = 1;
+        for(var i in window.appData.library){
+        $("#tab_"+nb).data('categorie', window.appData.library[i]);
+        data["#tab_"+nb] = window.appData.library[i];
+        nb++;
     }
 };
+
+function get_img(lib)
+{
+    alert("B");
+    libimg = new Array();
+    var i = 0;
+    for (var id in window.appData.libElem){
+        if (window.appData.libElem[id].libraryid === lib.libraryid){
+            libimg[i] = window.appData.libElem[id].elemid;
+            i++;
+        }       
+    }
+    i = 0;
+    for (var id in window.appData.elements){
+        if (window.appData.elements[id].elemid === libimg[i]){
+            libimg[i] = window.appData.elements[id];
+            i++;
+        }
+    }
+}

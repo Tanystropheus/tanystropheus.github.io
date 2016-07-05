@@ -32,7 +32,8 @@ var app = {
 			text: {},
 			elements: {},
 			elemStat: {},
-			sound: {}
+			sound: {},
+                        libElem: {}
 		};
 	},
 
@@ -80,12 +81,15 @@ var app = {
 				return initDb(function(objLst){
 					//~ genSetingForm(document.getElementById("setingArea"));
 					//~ alert("appData: " + JSON.stringify(window.appData, null, 4));
+                                        alert("first");
+                                        start_app();
 					window.localStorage.setItem("notFirstStart", 1 );
 				});
 			} else {
 				//~ alert("not First Start");
 				return initialSelect().then(function(){
-					alert("appData:" + JSON.stringify(window.appData, null, 4))
+					//alert("appData:" + JSON.stringify(window.appData, null, 4))
+                                        alert("other");
                                         start_app();
 					setInterval(function(){checkConnection(function(){alert("replace callback by sending data");})}, 60000 * 60);
 				});

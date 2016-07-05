@@ -43,10 +43,12 @@
 	<script type="text/javascript" src="js/interActBack.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
         <!-- START APP -->
+        <script type="text/javascript" src="globale.js"></script>
         <script type="text/javascript" src="js/mode.js"></script>
         <script type="text/javascript" src="tools.js"></script>
+        <script type="text/javascript" src="grid.js"></script>
         <script type="text/javascript">
-            function start_app(){
+            function start_app(){  
             $("#mode_user").height(jQuery(window).height());
             $("#mode_user").width(jQuery(window).width());
             $("#mode_admin").height(jQuery(window).height());
@@ -64,23 +66,14 @@
             mode_photo();
             mode_statistique();
             set_vue("user");
+            hgrid_max = Math.floor(jQuery("#user_content").height() / 205) - 1;
+            wgrid_max = Math.floor(jQuery("#user_content").width() / 205) - 1;
         }
         </script>
         <!-- DEBUG -->
         <style>
-            button {background-color:white}
-            .ctop {background-color:white}
-            .cheader, .ccontent {background-color:rgb(58, 147, 124)}
-            .cfooter {background-color:rgb(43, 92, 108)}
-            #mode_user {background-color:blue;}
-            #mode_admin {background-color:orange;}
-            #mode_parametre {background-color:yellow;}
-            #mode_photo {background-color:grey;}
-            #mode_statistique {background-color:green;}
-            #mode_popup {background-color:pink;}
-            #user_left {background-color:darkseagreen}
-            #user_middle {background-color:steelblue}
-            #user_right {background-color:darkblue}
+            .bg_top {background-color: rgb(58, 147, 124);}
+            .bg_bot {background-color:rgb(43, 92, 108); text-align: center;}
         </style>
     </head>
     <body onload="start_app();">
