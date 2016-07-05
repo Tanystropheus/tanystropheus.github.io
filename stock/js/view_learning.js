@@ -1,1 +1,0 @@
-var open_learning = "alert(\"APPRENTISSAGE\");";

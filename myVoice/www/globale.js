@@ -22,4 +22,4 @@ var voice_max;
 // COULEURS
 var selected_tab_color = "rgb(251,240,165)";
 var active_tab_color = "rgb(132,100,46)";
-var ALL_CATEGORIES;
+var htmldata_lib = {};

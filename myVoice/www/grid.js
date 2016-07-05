@@ -1,4 +1,3 @@
-//
 function select_grid(library){
     get_img(library);
     var img_text;

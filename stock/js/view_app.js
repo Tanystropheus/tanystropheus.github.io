@@ -1,1 +1,0 @@
-var open_app = "alert(\"OUVRE LAPPLICATION\");";

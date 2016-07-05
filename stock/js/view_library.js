@@ -1,1 +1,0 @@
-var open_library = "alert(\"CLASSEUR\");";

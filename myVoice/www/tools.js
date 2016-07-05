@@ -1,12 +1,4 @@
-var data = {};
 
-function defilement_droite(base, id, type){   
-    for(var all in $("#libraries_field_user").children("li"))
-        alert("cc");
-}
-function defilement_gauche(base, id, type){
-
-}
 function reorganisation_tab(direction)
 {
     var t = new Array();
@@ -22,7 +14,6 @@ function reorganisation_tab(direction)
     str[0] = $("#libraries_field_user").children("li")[0];
     str[1] = $("#libraries_field_user").children("li")[6];
     $(".tab_menu").remove();
-    console.log(t);
     tmp[0] = t[t.length - 1];
     n = 1;
     for (var i = 0; i < t.length - 1; i++){
@@ -33,21 +24,13 @@ function reorganisation_tab(direction)
     n = 1;
     for (var all in tmp){
         $("#libraries_field_user").append(tmp[all]);
-        $("#"+tmp[all].id).data('categorie', data["#"+tmp[all].id]);
+        $("#"+tmp[all].id).data('categorie', htmldata_lib["#"+tmp[all].id]);
         n++;
         if (n === 6){
             $("#libraries_field_user").append(str[1]);
             n++;
         }
     }
-    console.log(tmp);/*
-    n = 0;
-    for (var i = 1; i < tmp.length; i++){
-    t[n] = tmp[i];
-       n++;
-    }
-    t[tmp.length - 1] = tmp[0];
-    console.log(t);*/
 }
 function show_active_tab(id, who)
 {
@@ -88,14 +71,13 @@ function get_lib(){
     nb = 1;
         for(var i in window.appData.library){
         $("#tab_"+nb).data('categorie', window.appData.library[i]);
-        data["#tab_"+nb] = window.appData.library[i];
+        htmldata_lib["#tab_"+nb] = window.appData.library[i];
         nb++;
     }
 };
 
 function get_img(lib)
 {
-    alert("B");
     libimg = new Array();
     var i = 0;
     for (var id in window.appData.libElem){
