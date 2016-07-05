@@ -16,6 +16,27 @@
  * 		selectLanguage("WHERE champ=value", languageLst, callback).then(function(){alert("Fonction on succes");}, function(){alert("Fonction on error");});
  * */
 
+
+var assetURL = "http://192.168.43.132/";
+var store = cordova.file.dataDirectory;
+
+function downloadAsset(fileName, assetURL, cb) {
+	alert("begin DownloadAsset");
+	var fileTransfer = new FileTransfer();
+	alert("About to start transfer");
+	fileTransfer.download(assetURL, store + fileName, 
+		function(entry) {
+			alert("download Success!");
+		}, 
+		function(err) {
+			if (cb)
+				cb();
+			alert("Error: " + JSON.stringify(err));
+			console.dir(err);
+		}
+	);
+}
+
 function selectParser(objectLst, id, rs, cb){
 	try{
 		if(rs.rows.length == 0){
@@ -24,11 +45,17 @@ function selectParser(objectLst, id, rs, cb){
 		} else {
 			for (var i = 0; i < rs.rows.length; i++) {
 				objectLst[rs.rows.item(i)[id]] = rs.rows.item(i);
+				if (objectLst[rs.rows.item(i)[id]].elemid && objectLst[rs.rows.item(i)[id]].elemurl){
+					//~ alert(objectLst[rs.rows.item(i)[id]].elemurl);
+					window.resolveLocalFileSystemURL(store + objectLst[rs.rows.item(i)[id]].elemurl, function(){}, function(){
+						downloadAsset(objectLst[rs.rows.item(i)[id]].elemurl, assetURL + '/' + objectLst[rs.rows.item(i)[id]].elemurl);
+					});
+				}
 			}
 			//~ alert(JSON.stringify(objectLst, null, 4));
 		}
 	} catch (e) {
-		alert("Error selectParser: " + JSON.stringify(e, null, 4));
+		alert("Error selectParser: " + e);//JSON.stringify(e, null, 4));
 		return false;
 	} finally {
 		//~ alert("befor cb");

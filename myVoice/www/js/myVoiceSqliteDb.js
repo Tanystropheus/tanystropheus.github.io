@@ -24,6 +24,7 @@ function updateSucces(){
 /* ********************************************************************************************* */
 
 function openDb(okcb, failcb) {
+	//~ alert("Begin openDb");
 	var dbName = "myVoice";
 	var promese = new Promise(function(resolve, reject){
 		if (window.cordova.platformId != "browser") {
@@ -97,7 +98,7 @@ function initialInsert(){
 }
 
 function initialSelect(){
-	//~ alert("Begin wating for initialSelect");
+	alert("Begin wating for initialSelect");
 	var selectPromises = [
 		selectLibElem("", window.appData.libelem, null),
 		selectLanguage( "" , window.appData.language, null),
@@ -181,7 +182,7 @@ function initDb(callback){
 				alert("Error Insert!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));
 			}
 		).then(function(){
-			//~ alert("test");
+			alert("Befor initiDB CB");
 			if (callback){
 				//~ alert("init cb");
 				callback();
@@ -191,7 +192,7 @@ function initDb(callback){
 			//~ for(var table in tableLst){
 				//~ dropSqliteTable(tableLst[table]);
 			//~ }
-		}).catch(function(){alert("Caca bordel de merde!!!!!!!");});
+		}).catch(function(e){alert("Caca bordel de merde!!!!!!! " + e);});
 	}
 };
 

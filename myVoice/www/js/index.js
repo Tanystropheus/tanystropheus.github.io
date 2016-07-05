@@ -81,7 +81,7 @@ var app = {
 				//~ alert("First start");
 				return initDb(function(objLst){
 					//~ genSetingForm(document.getElementById("setingArea"));
-					//~ alert("appData: " + JSON.stringify(window.appData, null, 4));
+					alert("appData: " + JSON.stringify(window.appData, null, 4));
 					window.localStorage.setItem("notFirstStart", 1 );
 					setInterval(function(){
 							checkConnection(function(){alert("replace callback by sending data");})
@@ -89,11 +89,11 @@ var app = {
 						window.appData.interfaces_setings.sendInterval * window.appData.interfaces_setings.sendIntervalUnit);
 				});
 			} else {
-				//~ alert("not First Start");
+				alert("not First Start");
 				return initialSelect().then(function(){
-					//~ alert("appData:" + JSON.stringify(window.appData, null, 4));
+					alert("appData:" + JSON.stringify(window.appData, null, 4));
 					genSetingForm(document.getElementById("setingArea"));
-					//~ genTab(window.appData.library, document.getElementById("ongletNav"), window.appData.text);
+					genTab(window.appData.library, document.getElementById("ongletNav"), window.appData.text);
 					setInterval(function(){
 							checkConnection(function(){alert("replace callback by sending data");})
 						},
@@ -104,6 +104,7 @@ var app = {
 			alert("openDb Fail: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
 		});
 	},
+
 	receivedEvent: function(id) {
 		//~ var parentElement = document.getElementById(id);
 		//~ var listeningElement = parentElement.querySelector('.listening');
