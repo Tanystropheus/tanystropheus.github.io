@@ -54,6 +54,11 @@ function insertBdd(){
 	son = (null,  null, "1");
 	texte = (null, null, "1");
 }
+
+function myInsertBdd(){
+	alert("myInsertBdd");
+}
+
 function insertBdd1() {
 	var promis;
 	if (elem.soundid !== undefined) {
@@ -86,11 +91,15 @@ function selectPhoto(imageURI) {
 		alert("merci de choisir une photo");
 	}
 }
+
 function getPhoto(source) {
-	alert("get photo");
-  navigator.camera.getPicture(selectPhoto, fail, { quality: 10,
+	navigator.camera.getPicture(selectPhoto, fail, { quality: 10,
 	destinationType: destinationType.FILE_URI,
 	sourceType: source });
+}
+
+function myGetPhoto(){
+	alert("myGetPhoto()");
 }
 
 /* ************************************* PICK PHOTO ****************************************** */
@@ -110,9 +119,12 @@ function pickPhoto(imageData) {
 }
 
 function capturePhoto() {
-	alert("capture photo");
-	//~ navigator.camera.getPicture(pickPhoto, fail, { quality: 50,
-	//~ destinationType: destinationType.DATA_URL });
+	navigator.camera.getPicture(pickPhoto, fail, { quality: 50,
+	destinationType: destinationType.DATA_URL });
+}
+
+function myCapturePhoto(){
+	alert("myCapturePhoto()");
 }
 
 /* ********************************************************************************************* */
@@ -138,19 +150,24 @@ function captureSuccess2(tmp) {
 		alert(JSON.stringify(elem));
 }
 function captureAudio() {
-	alert("capture Audio");
 	navigator.device.capture.captureAudio(captureSuccess, fail);
 }
 
+function myCaptureAudio(){
+	alert("myCaptureAudio()");
+}
 /* ********************************************************************************************* */
 /* ************************************* FONCTIONS TEXT **************************************** */
 /* ********************************************************************************************* */
 
 function createName() {
-	alert("Create Name");
-	//~ texte.text = document.getElementById('name').value;
-	//~ promis = selectMax("SELECT MAX(textid) FROM Text", tmp);
-	//~ promis.then(function (tmp) {elem.textid = tmp + 1;});
+	texte.text = document.getElementById('name').value;
+	promis = selectMax("SELECT MAX(textid) FROM Text", tmp);
+	promis.then(function (tmp) {elem.textid = tmp + 1;});
+}
+
+function myCreateName(){
+	alert("myCreateName()");
 }
 /* ********************************************************************************************* */
 /* ******************************* MANIPULATION FICHIER **************************************** */
