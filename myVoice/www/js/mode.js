@@ -41,7 +41,7 @@ function mode_user(){
     $("#mode_user").append("<div class='bg_top' id='user_header' style='width:100%;'></div><div id='user_content' style='width:100%;'></div>");
     $("#user_header").css("height", "8%");
     $("#user_content").css("height", "92%");
-    $("#user_content").append("<div class='bg_top' id='user_galerie' style='width:100%;'></div><div class='bg_bot' id='user_voice' style='width:100%; text-align:center'></div>");
+    $("#user_content").append("</div><div class='bg_top' id='user_galerie' style='width:100%;'></div><div class='bg_bot' id='user_voice' style='width:100%; text-align:center'></div>");
     $("#user_galerie").height(jQuery("#user_content").height() - 205);
     $("#user_voice").height(205);
     $("#user_header").append("<ul id='libraries_field_user' ><li class='tab_menu' id='pass_A' style='width:1.5%; height:100%;' onclick='" +(pass_A)+ "'><h1><</h1></li><li class='tab_menu' id='tab_1' name='tab_1' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'></li><li class='tab_menu' id='tab_2' name='tab_2' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'></li><li class='tab_menu' id='tab_3' name='tab_3' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'></li><li class='tab_menu' id='tab_4' name='tab_4' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'></li><li class='tab_menu' id='tab_5' name='tab_5' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'></li><li class='tab_menu' id='pass_B' style='width:1.5%; height:100%;' onclick='" +(pass_B)+ "'><h1>></h1></li></ul>");
@@ -62,12 +62,31 @@ function mode_user(){
     get_lib();
 }
 function mode_admin(){
-    document.getElementById("mode_admin").innerHTML = "";
-    $("#mode_admin").append("<div id='admin_left' style='width:4%; height:100%;'></div><div id='admin_middle' style='width:92%; height:100%;'></div><div id='admin_right' style='width:4%; height:100%;'></div>");
-    $("#admin_left").append("<div class='ctop' style='width:100%; height:10%;'></div><div class='cheader' style='width:100%; height:10%;' onclick='reorganisation_tab_admin(1);'></div><div class='ccontent' style='width:100%; height:72%;'></div><div class='cfooter' style='width:100%; height:8%;'></div>");
-    $("#admin_middle").append("<div id='admin_top' class='ctop' style='width:100%; height:10%;'></div><div id='admin_header' class='cheader' style='width:100%; height:10%;'></div><div id='admin_content' class='ccontent' style='width:100%; height:72%;'></div><div id='admin_footer' class='cfooter' style='width:100%; height:8%;'></div>");
-    $("#admin_right").append("<div class='ctop' style='width:100%; height:10%;'></div><div class='cheader' style='width:100%; height:10%;' onclick='reorganisation_tab_admin(0);'></div><div class='ccontent' style='width:100%; height:72%;'></div><div class='cfooter' style='width:100%; height:8%;'></div>");
-    document.getElementById("admin_top").innerHTML = "<span style='display: inline-block; width:25%; height:100%; text-align:center;'><img style='margin-top:5%; width:70%; height:70%;' src='logo.png' onclick='" +"set_vue(\"user\")"+ "'/></span><span style='display: inline-block;width:25%; height:100%;'></span><span style='display: inline-block; width:25%; height:100%; text-align:center;'><button style='margin-top:5%; width:70%; height:70%;' onclick='" +"set_vue(\"photo\")"+ "'>NOUVELLES IMAGES</button></span><span style='display: inline-block; width:25%; height:100%; text-align:center;'><button style='margin-top:5%; width:70%; height:70%;' onclick='" +"set_vue(\"statistique\")"+ "'>STATISTIQUES</button></span>";
+    var html_str = "<div id='t' style='width:100%;'>";
+    var mg;
+    document.getElementById("mode_user").innerHTML = "";
+    $("#mode_user").append("<div class='bg_top' id='user_header' style='width:100%;'></div><div id='user_content' style='width:100%;'></div>");
+    $("#user_header").css("height", "8%");
+    $("#user_content").css("height", "92%");
+    $("#user_content").append("<div class='bg_top' id='user_galerie' style='width:100%;'></div><div class='bg_bot' id='user_voice' style='width:100%; text-align:center'></div>");
+    $("#user_galerie").height(jQuery("#user_content").height() - 205);
+    $("#user_voice").height(205);
+    $("#user_header").append("<ul id='libraries_field_user' ><li class='tab_menu' id='pass_A' style='width:1.5%; height:100%;' onclick='" +(pass_A)+ "'><h1><</h1></li><li class='tab_menu' id='tab_1' name='tab_1' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'></li><li class='tab_menu' id='tab_2' name='tab_2' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'></li><li class='tab_menu' id='tab_3' name='tab_3' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'></li><li class='tab_menu' id='tab_4' name='tab_4' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'></li><li class='tab_menu' id='tab_5' name='tab_5' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'></li><li class='tab_menu' id='pass_B' style='width:1.5%; height:100%;' onclick='" +(pass_B)+ "'><h1>></h1></li></ul>");
+    mg = Math.floor(jQuery(window).width() * 0.5 / 100);
+    $("#libraries_field_user li").css("margin", mg);
+    voice_max = Math.floor(jQuery("#user_voice").width() / 205) - 1;
+    mg = (jQuery("#user_voice").width() - (voice_max * 205)) / 2 - 1;
+    for (var i = 0; i < voice_max + 2; i++){
+        if (i === 0)
+            html_str = html_str + "<span style='width:" + mg + "px; height:205px;' onclick='" +(pass_C)+ "'></span>";
+        else if (i === voice_max + 2 - 1)
+            html_str = html_str + "<span style='width:" + mg + "px; height:205px;' onclick='" +(pass_D)+ "'></span>";
+        else
+            html_str = html_str + "<span style='width:205px; height:205px;'></span>";
+    }
+    html_str = html_str + "</div>";
+    $("#user_voice").append(html_str);
+    get_lib();
 }
 function mode_photo(){
     document.getElementById("mode_photo").innerHTML = "";

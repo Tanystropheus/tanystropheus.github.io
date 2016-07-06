@@ -1,3 +1,4 @@
+var data = {};
 
 function reorganisation_tab(direction)
 {
@@ -14,6 +15,7 @@ function reorganisation_tab(direction)
     str[0] = $("#libraries_field_user").children("li")[0];
     str[1] = $("#libraries_field_user").children("li")[6];
     $(".tab_menu").remove();
+    console.log(t);
     tmp[0] = t[t.length - 1];
     n = 1;
     for (var i = 0; i < t.length - 1; i++){
@@ -24,7 +26,7 @@ function reorganisation_tab(direction)
     n = 1;
     for (var all in tmp){
         $("#libraries_field_user").append(tmp[all]);
-        $("#"+tmp[all].id).data('categorie', htmldata_lib["#"+tmp[all].id]);
+        $("#"+tmp[all].id).data('categorie', data["#"+tmp[all].id]);
         n++;
         if (n === 6){
             $("#libraries_field_user").append(str[1]);
@@ -61,7 +63,6 @@ function get_lib(){
             $("#tab_"+nb).append("<h1>" + window.appData.library[i].libtitle + "</h1>");
         }
         else{
-            alert("how");
             $("#libraries_field_user").append("<li class='tab_menu' id='tab_" + nb + "' name='" + window.appData.library[i].libtitle + "' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'><h1>" + window.appData.library[i].libtitle + "</h1></li>");
         }
         nb++;
@@ -71,7 +72,7 @@ function get_lib(){
     nb = 1;
         for(var i in window.appData.library){
         $("#tab_"+nb).data('categorie', window.appData.library[i]);
-        htmldata_lib["#tab_"+nb] = window.appData.library[i];
+        data["#tab_"+nb] = window.appData.library[i];
         nb++;
     }
 };

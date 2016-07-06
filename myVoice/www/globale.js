@@ -22,4 +22,7 @@ var voice_max;
 // COULEURS
 var selected_tab_color = "rgb(251,240,165)";
 var active_tab_color = "rgb(132,100,46)";
-var htmldata_lib = {};
+// NOMBRE DE LIGNES D'IMAGES MAXIMUM POUR L'ECRAN
+var hgrid_choice = 2;
+// NOMBRE DE COLONNES D'IMAGES MAXIMUM POUR L'ECRAN
+var wgrid_choice = 2;
