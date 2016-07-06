@@ -8,8 +8,8 @@ function genInitSql(){
 
 	libName = ["Activites", "Adjectifs", "Aliments", "Animaux", "Boissons", "Jeux d'exterieurs", "Jouets d'interieur", "Verbes", "Vetements"];
 	//libName = ["Verbes", "Aliments", "Adjectifs", "Boissons", "Jouets d'intérieur", "Jeux d'extérieur"];
-	libSizemin = [1, 9, 28, 51, 55, 63, 75, 98, 128];
-	libSizemax = [8, 27, 50, 54, 62, 74, 97, 127, 138];
+	libSizemin = [1, 9, 27, 49, 52, 59, 75, 92, 121];
+	libSizemax = [8, 26, 48, 51, 58, 69, 91, 120, 131];
 
 	text = [
 		"chanter", "écouter de la musique", "galipette", "ordinateur portable", "dessin", "football", "lire1", "se promener2",

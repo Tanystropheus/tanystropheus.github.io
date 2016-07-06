@@ -42,10 +42,22 @@ var app = {
 	},
 
 	onDeviceReady: function() {
+		//~ console.log = function (a1, a2, a3, a4){
+			//~ alert("a1: " + JSON.stringify(a1, null, 4) + " a2: " + JSON.stringify(a2, null, 4) + " a3: " + JSON.stringify(a3, null, 4) + " a4: " + JSON.stringify(a4, null, 4));
+		//~ }
+
 		window.localStorage.setItem("waitInternetCo", 0);
 		//~ app.receivedEvent('deviceready');
 		//alert("Device Ready");
 		//~ console.log = function(val){alert(val)};
+		
+		var pictureSource = navigator.camera.PictureSourceType;
+		//~ alert(JSON.stringify(pictureSource));
+
+		var destinationType = navigator.camera.DestinationType;
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null);
+
+		
 		window.open = cordova.InAppBrowser.open;
 		if (!window.localStorage.getItem("Interfaces_Setings")){
 			window.appData.interfaces_setings = {
@@ -55,7 +67,7 @@ var app = {
 				writinglogo: "URL",
 				writingcolor: "",
 				sendIntervalUnit: 1000, // 1 => ms, 1000 => s, 60000 => min, 3600000 => h 
-				sendInterval: 10, // 1 => 1 * sendIntervalUnit, 60 => 60 * sendIntervalUnit ....
+				sendInterval: 1000, // 1 => 1 * sendIntervalUnit, 60 => 60 * sendIntervalUnit ....
 				tabPos: 1,
 				speakAreaPos: 1,
 				speakAreaColor: "",
@@ -78,7 +90,7 @@ var app = {
 		}
 		return openDb().then(function(){
 			if(!window.localStorage.getItem("notFirstStart")){
-				//~ alert("First start");
+				alert("First start");
 				return initDb(function(objLst){
 					//~ genSetingForm(document.getElementById("setingArea"));
 					alert("appData: " + JSON.stringify(window.appData, null, 4));
