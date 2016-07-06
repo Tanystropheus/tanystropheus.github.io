@@ -19,10 +19,10 @@ var hgrid_max;
 var wgrid_max;
 // NOMBRE D'IMAGES MAXIMUM POUR L'ECRAN DANS LA VOIX
 var voice_max;
+// NOMBRE DE LIGNES D'IMAGES CHOISI PAR LES PARENTS
+var hgrid_choice = 2;
+// NOMBRE DE COLONNES D'IMAGES CHOISI PAR LES PARENTS
+var wgrid_choice = 2;
 // COULEURS
 var selected_tab_color = "rgb(251,240,165)";
 var active_tab_color = "rgb(132,100,46)";
-// NOMBRE DE LIGNES D'IMAGES MAXIMUM POUR L'ECRAN
-var hgrid_choice = 2;
-// NOMBRE DE COLONNES D'IMAGES MAXIMUM POUR L'ECRAN
-var wgrid_choice = 2;

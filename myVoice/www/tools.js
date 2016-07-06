@@ -1,11 +1,10 @@
 var data = {};
 
-function reorganisation_tab(direction)
-{
-    var t = new Array();
-    var tmp = new Array();
+function reorganisation_tab(direction){
+    var t = [];
+    var tmp = [];
     var n = 0;
-    var str = new Array();
+    var str = [];
     for(var i = 0; i < $("#libraries_field_user").children("li").length; i++){
         if($("#libraries_field_user").children("li")[i].id !== "pass_A" && $("#libraries_field_user").children("li")[i].id !== "pass_B"){
             t[n] = $("#libraries_field_user").children("li")[i];
@@ -15,7 +14,6 @@ function reorganisation_tab(direction)
     str[0] = $("#libraries_field_user").children("li")[0];
     str[1] = $("#libraries_field_user").children("li")[6];
     $(".tab_menu").remove();
-    console.log(t);
     tmp[0] = t[t.length - 1];
     n = 1;
     for (var i = 0; i < t.length - 1; i++){
@@ -34,8 +32,7 @@ function reorganisation_tab(direction)
         }
     }
 }
-function show_active_tab(id, who)
-{
+function show_active_tab(id, who){
     var id_tab = who === "user" ? "#tab_" : "#taba_";
     selected_tab = $("#"+id.getAttribute("id")).data("categorie");
     nb = $("#libraries_field_"+who).children("li").length;
@@ -45,8 +42,7 @@ function show_active_tab(id, who)
             $(id_tab+i).css("background-color", active_tab_color);
             $(id_tab+i+" h1").css("color", selected_tab_color);
         }
-        else
-        {
+        else{
             $(id_tab+i).css("background-color", selected_tab_color);
             $(id_tab+i+" h1").css("color", active_tab_color);
         }
@@ -77,9 +73,8 @@ function get_lib(){
     }
 };
 
-function get_img(lib)
-{
-    libimg = new Array();
+function get_img(lib){
+    libimg = [];
     var i = 0;
     for (var id in window.appData.libElem){
         if (window.appData.libElem[id].libraryid === lib.libraryid){

@@ -1,15 +1,15 @@
 function select_grid(library){
     get_img(library);
     var img_text;
-    set_img = new Array();
+    set_img = [];
     for (var i = 0; i < libimg.length; i++){
         for (var id in window.appData.text){
             if (window.appData.text[id].textid === libimg[i].textid)
                 img_text = window.appData.text[id].text;
         }
-        set_img[i] = "<span style='height:189px; width:189px; border: 1px solid black;' class='"+library.libtitle+"_frame"+"'>"+
+        set_img[i] = "<span style='height:189px; width:189px;' class='"+library.libtitle+"_frame"+"'>"+
                     "<span style='height:189px; width:189px' class='"+library.libtitle+"_frame"+"'>"+
-                    "<img style='height:100%; width:100%' src='"+libimg[i].elemurl+"'/><p>"+ img_text +
+                    "<img style='height:100%; width:100%' src='"+libimg[i].elemurl+"'/><p>"+img_text+
                     "</p></span>"+
                     "</span>";
     }
@@ -24,52 +24,22 @@ function set_grid(mode, where){
     document.getElementById("user_galerie").innerHTML = "<div id='user_gr' style='height:100%;'></div>";
     h = Math.floor($("#"+where+"_galerie").height() * (100 / hgrid_choice - 2) / 100);
     w = Math.floor($("#"+where+"_galerie").width() * (100 / wgrid_choice - 2) / 100);
-    /*for (var irow = 0; irow < set_img.length; irow){
-        html_str = "<ul id='col_"+ col +"' style='float:left;'></ul>";
-        $("#"+where+"_galerie").append(html_str);
-        html_str = "";
-        for (var i = 0; i < hgrid_choice; i++){
-            html_str = html_str + "<li style='text-align:center;' id='row_"+ row +"'></li>";
-            row++;
-            irow++;
-        }
-        $("#col_"+col).append(html_str);
-        col++;
-    }*/
     for (var irow = 0; irow < set_img.length; irow){
-        html_str = "<ul id='col_"+ col +"' style='height:100%; width:" + w + "px;float:left;'></ul>";
+        html_str = "<ul id='col_"+col+"' style='height:100%; width:"+w+"px;float:left;'></ul>";
         $("#"+where+"_galerie").append(html_str);
         html_str = "";
         for (var i = 0; i < hgrid_choice; i++){
-            html_str = html_str + "<li style='height:"+h+"px; width:100%; text-align:center;' id='row_"+ row +"'></li>";
+            html_str = html_str + "<li style='height:"+h+"px; width:100%; text-align:center;' id='row_"+row+"'></li>";
             row++;
             irow++;
         }
         $("#col_"+col).append(html_str);
         col++;
     }
-    /*for (var all in set_img){
-        $("#row_"+all).append(set_img[all]);
-    }*/
     for (var i  = 0; i < wgrid_choice * hgrid_choice; i++){
         $("#row_"+i).append(set_img[i]);
     }
-    for (var i = 0; i < wgrid_choice; i++){
-        $("#col_"+i).css("width", w);
-        $("#col_"+i).css("height", $("#"+where+"_galerie").height());
-    }
-    for (var i = wgrid_choice; i < $("#user_galerie").children("ul").length; i++){
-        $("#col_"+i).css("width", 0);
-        $("#col_"+i).css("height", 0);
-        $("#col_"+i).css("visibility", "hidden");
-    }
     $("#user_galerie").append("<div id='user_gl' style='height:100%;'></div>");
-    $("#user_gr").css("background-color", "yellow");
-    $("#user_gl").css("background-color", "yellow");
-    $("#user_galerie").append("<div id='user_gl' style='height:100%;'></div>");
-    alert(Math.floor(jQuery("#user_content").width() - w * wgrid_choice) / 2);
     $("#user_gr").width(Math.floor(jQuery("#user_content").width() - w * (wgrid_choice)) / 2);
     $("#user_gl").width(Math.floor(jQuery("#user_content").width() - w * (wgrid_choice)) / 2);
-    $("#user_gr").css("background-color", "yellow");
-    $("#user_gl").css("background-color", "yellow");
 }
