@@ -136,10 +136,23 @@
 								<input type = "hidden" name = "client_secret" value=dbf84c10b2873a0ee2034b5839faba0a5a0d53233440b46684478f92e8ae8805 >
 								<button type = "submit" >Se connecter as interact</button>
 							</form>
+							<script>function titi() {    var lol1, lol2, lol3;
+    
+    lol1 = selectElements("", window.appData.elements);
+    lol1.then(function (){
+        lol2 = selectText("", window.appData.text);
+        lol2.then(function (){
+            lol3 = selectSound("", window.appData.sound);
+            lol3.then(function (){
+                alert(JSON.stringify(window.appData));
+            });
+        });
+    });
+}</script>
 							<button onclick=backEndGet()>getData</button>
 							<button onclick=sendToInteract()>SendData</button>
 							<a data-position-to="window" class="ui-btn ui-btn-inline" id="button_param" data-transition="pop" onclick=oauthClientToken() >co</a>
-							<a data-position-to="window" class="ui-btn ui-btn-inline" data-transition="pop" onclick=TestFunc() >TEST</a>
+							<a data-position-to="window" class="ui-btn ui-btn-inline" data-transition="pop" onclick=titi() >TEST</a>
 							<a data-position-to="window" class="ui-btn ui-btn-inline" data-transition="pop" onClick=myCapturePhoto() >capturePhoto</a>
 							<a data-position-to="window" class="ui-btn ui-btn-inline" data-transition="pop" onclick=myCaptureAudio() >captureAudio</a>
 							<a data-position-to="window" class="ui-btn ui-btn-inline" data-transition="pop" onclick=myCreateName() >createName</a>
