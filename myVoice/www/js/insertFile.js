@@ -81,8 +81,10 @@ function insertBdd1() {
 function selectPhoto(imageURI) {
   var myImage = document.getElementById('select');
   myImage.style.display = 'block';
+  myImage.width =  250;
+  //var myImage;
   myImage.src = imageURI;
-  if (myImage !== undefined) {
+  if (imageURI !== undefined) {
 	  	elem.elemurl = mvFile(imageURI);
 	  	elem.width = myImage.width;
 	  	alert(JSON.stringify(elem));
@@ -92,10 +94,10 @@ function selectPhoto(imageURI) {
 	}
 }
 
-function getPhoto(source) {
+function getPhoto() {
 	navigator.camera.getPicture(selectPhoto, fail, { quality: 10,
 	destinationType: destinationType.FILE_URI,
-	sourceType: source });
+	sourceType: Camera.PictureSourceType.PHOTOLIBRARY });
 }
 
 function myGetPhoto(){
@@ -105,8 +107,9 @@ function myGetPhoto(){
 /* ************************************* PICK PHOTO ****************************************** */
 
 function pickPhoto(imageData) {
-  var smallImage = document.getElementById('pick');
-  smallImage.style.display = 'block';
+  // var smallImage = document.getElementById('pick');
+  // smallImage.style.display = 'block';
+  var smallImage;
   smallImage.src = "data:image/jpeg;base64," + imageData;
   if (imageData !== undefined) {
 		  elem.elemurl = mvFile(smallImage.src);
@@ -119,6 +122,7 @@ function pickPhoto(imageData) {
 }
 
 function capturePhoto() {
+	alert("nique tamere");
 	navigator.camera.getPicture(pickPhoto, fail, { quality: 50,
 	destinationType: destinationType.DATA_URL });
 }
@@ -140,9 +144,6 @@ function captureSuccess(mediaFiles) {
 			captureSuccess2(tmp);},
 			function(){alert("PROBLEME BASE DE DONNEE");});
 	}
-	else {
-		alert("si vous souhaitez ajouter une bande son merci de l'enregistrer");
-	}
 }
 function captureSuccess2(tmp) {
 		elem.soundid = tmp + 1;
@@ -150,24 +151,23 @@ function captureSuccess2(tmp) {
 		alert(JSON.stringify(elem));
 }
 function captureAudio() {
-	navigator.device.capture.captureAudio(captureSuccess, fail);
+	navigator.device.capture.captureAudio(captureSuccess, failSound);
 }
 
-function myCaptureAudio(){
-	alert("myCaptureAudio()");
-}
+
 /* ********************************************************************************************* */
 /* ************************************* FONCTIONS TEXT **************************************** */
 /* ********************************************************************************************* */
 
 function createName() {
+	alert(document.getElementById('name'));
+	alert("kqwmqwe");
+	texte.text = "lwlw";
+
 	texte.text = document.getElementById('name').value;
+	alert(texte.text);
 	promis = selectMax("SELECT MAX(textid) FROM Text", tmp);
 	promis.then(function (tmp) {elem.textid = tmp + 1;});
-}
-
-function myCreateName(){
-	alert("myCreateName()");
 }
 /* ********************************************************************************************* */
 /* ******************************* MANIPULATION FICHIER **************************************** */
@@ -200,4 +200,25 @@ function win(file) {
 
 function fail(message) {
   alert('Failed because: ' + JSON.stringify(message));
+}
+function failSound(){
+	alert("si vous souhaitez ajouter une bande son merci de l'enregistrer");
+}
+
+
+
+function lepape() {
+
+	var lol1, lol2, lol3;
+
+	lol1 = selectElements("", window.appData.elements);
+	lol1.then(function (){
+		lol2 = selectText("", window.appData.text);
+		lol2.then(function (){
+			lol3 = selectSound("", window.appData.sound);
+			lol3.then(function (){
+				alert(JSON.stringify(window.appData.sound) + " " + JSON.stringify(window.appData.elements)  + " " + JSON.stringify(window.appData.text));
+			});
+		});
+	});
 }

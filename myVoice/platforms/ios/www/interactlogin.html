@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/myVoiceOauth.js"></script>
+	<script type="text/javascript" src="js/interActBack.js"></script>
+</head>
+<body>
+	<!--<script>
+		$.ajax({ 
+			type: "POST",
+			dataType: "application/json",
+			url: 'http://requestb.in/15lgl0h1',
+			//~ url: window.api + '/auth/interact_oauth/authorize',
+			//~ crossDomain: true,
+			data: {auth: {client_id: getClientId(), client_secret: getClientSecret()}, url: window.api + '/auth/interact_oauth/authorize'},
+			success: function(data)
+			{
+				alert(JSON.stringify(data, null, 4));
+				document.body.innerHTML = data;
+			},error: function(data, data2, data3, data4) { alert("error: " + JSON.stringify(data, null, 4) + "error2: " + JSON.stringify(data2, null, 4) + "error3: " + JSON.stringify(data3, null, 4) + "error4: " + JSON.stringify(data4, null, 4)); }
+		});
+	</script>-->
+	<form action="https://pasteur-oauth2.herokuapp.com/auth/interact_oauth/authorize" method="post" accept="json" type="json"  >
+		<input type = "hidden" name = "auth[client_id]" value=b17595e9d55257fa6cdb6538deaa7f273eb76b8559c1d76524ea0b35d98cb7cd >
+		<input type = "hidden" name = "auth[client_secret]" value=dbf84c10b2873a0ee2034b5839faba0a5a0d53233440b46684478f92e8ae8805 >
+		<button type = "submit" >Se connecter as interact</button>
+	</form>
+	
+</body>
+</html>
