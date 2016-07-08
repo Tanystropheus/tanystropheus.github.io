@@ -10,7 +10,9 @@
 var pictureSource;
 var destinationType;
 var entry;
-var tmp;
+var file;
+var fileTransfer;
+var tmp = {};
 
 /* ************************************* VARIABLE PRESET *************************************** */
 
@@ -21,53 +23,71 @@ var texte = new myVoiceText(null, "1");
 /* ************************************* FONCTIONS SQL ***************************************** */
 /* ********************************************************************************************* */
 
-function selectMax(sql, tmp, cb){
+function selectMax(sql1, sql2, objectLst, cb){
 	var render = function(tx, rs) {
-		if (rs.insertId !== undefined) {
-			tmp = rs.insertId;
-		}
-		else {
-			tmp = 0;
-		}
-		if (typeof cb !== undefined){
-			cb(tmp);
-		}
+		return selectParser(objectLst, sql1, rs, cb);
 	};
-	selectRecords(render, sql);
+	return new Promise(function(resolve, reject){
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT MAX " + sql1 + " FROM " + sql2);
+	}, function(){alert("Select fail");});
 }
+
 
 function insertBdd(){
 	alert("insert Bdd");
-	var promis;
-	promis = insertElements(elem);
-	promis.then(function (){
-		var promis1;
-	 	promis1 = insertText(texte);
-		promis1.then(function(){
-			insertBdd1();
-		});
-	});
+	alert(JSON.stringify(elem));
+	alert(JSON.stringify(son));
+	alert(JSON.stringify(texte));
+
+	insertText(texte);
 	if (elem.soundid !== undefined) {
 		insertSound(son);
 	}
-	elem = (null, null, null, null, "t");
-	son = (null,  null, "1");
-	texte = (null, null, "1");
+	insertElements(elem);
+	elem = new myVoiceElem(null, null, null, "t" );
+	texte = new myVoiceText(null, "1");
+	son = new myVoiceSound(null, "1");
 }
+
+// var promis;
+//
+// if (elem.soundid !== undefined) {
+// 	insertSound(son).then(function (){son = new myVoiceSound(null, "1");});
+// }
+// promis = insertText(texte);
+// promis.then(function (){
+// 	alert("lol");
+// 	var promis1;
+// 	promis1 = insertElements(elem);
+// 	promis1.then(function(){
+// 		elem = new myVoiceElem(null, null, null, "t" );
+// 		texte = new myVoiceText(null, "1");
+// 		alert("tamere");
+// 	});
+// });
+
 
 function myInsertBdd(){
 	alert("myInsertBdd");
 }
 
-function insertBdd1() {
-	var promis;
-	if (elem.soundid !== undefined) {
-		promis = insertSound(son);
-		promis.then(function (){son = (null,  null, "1");});
-	}
-	elem = (null, null, null, null, "t");
- 	texte = (null, null, "1");
-}
+// function insertBdd1() {
+// 	var promis;
+// 	if (elem.soundid !== undefined) {
+// 		promis = insertSound(son);
+// 		promis.then(function (){son = (null, "1");});
+// 	}
+// 	elem = (null, null, null, "t");
+//  	texte = (null, "1");
+// 	alert("tamere");
+// }
 
 
 
@@ -85,9 +105,15 @@ function selectPhoto(imageURI) {
   //var myImage;
   myImage.src = imageURI;
   if (imageURI !== undefined) {
-	  	elem.elemurl = mvFile(imageURI);
-	  	elem.width = myImage.width;
-	  	alert(JSON.stringify(elem));
+	  alert(JSON.stringify(imageURI));
+	  	mvFile(imageURI).then(
+			function(success) {
+				elem.elemurl = success.path;
+				alert(success.path);
+				elem.width = 189;
+				alert(JSON.stringify(elem));
+			}
+		);
 	}
 	else {
 		alert("merci de choisir une photo");
@@ -112,9 +138,13 @@ function pickPhoto(imageData) {
   var smallImage;
   smallImage.src = "data:image/jpeg;base64," + imageData;
   if (imageData !== undefined) {
-		  elem.elemurl = mvFile(smallImage.src);
-		  elem.width = smallImage.width;
-		  alert(JSON.stringify(elem));
+	  mvFile(smallImage.src).then(
+		  function(success) {
+			  elem.elemurl = success.path;
+			  alert(success.path);
+			  alert(JSON.stringify(elem));
+		  }
+	  );
 	}
 	else {
 		alert("merci de prendre une photo");
@@ -139,16 +169,30 @@ function captureSuccess(mediaFiles) {
 	var promis;
 
 	if (mediaFiles[0].fullPath !== undefined) {
-		promis = selectMax("SELECT MAX(soundid) FROM Sound", tmp);
+		promis = selectMax("(soundid)","Sound", tmp);
 		promis.then(function(){
-			captureSuccess2(tmp);},
-			function(){alert("PROBLEME BASE DE DONNEE");});
+			captureSuccess2(mediaFiles);},
+			function(){
+				alert("PROBLEME BASE DE DONNEE");
+				});
 	}
 }
-function captureSuccess2(tmp) {
-		elem.soundid = tmp + 1;
-		son.soundurl = mvFile("file://" + mediaFiles[0].fullPath);
-		alert(JSON.stringify(elem));
+function captureSuccess2(mediaFiles) {
+	if (tmp["undefined"]["MAX (soundid)"] === "" || tmp["undefined"]["MAX (soundid)"] === null) {
+		alert("Capture Succes undef");
+		elem.soundid = 1;
+	}
+	else {
+		alert("Capture Succes def");
+		elem.soundid = tmp["undefined"]["MAX (soundid)"] + 1;
+	}
+	mvFile("file://" + mediaFiles[0].fullPath).then(
+		function(success) {
+			son.soundurl = success.path;
+			alert(success.path);
+			alert(JSON.stringify(elem));
+		}
+	);
 }
 function captureAudio() {
 	navigator.device.capture.captureAudio(captureSuccess, failSound);
@@ -162,13 +206,26 @@ function captureAudio() {
 function createName() {
 	alert(document.getElementById('name'));
 	alert("kqwmqwe");
-	texte.text = "lwlw";
-
+	var promis;
 	texte.text = document.getElementById('name').value;
 	alert(texte.text);
-	promis = selectMax("SELECT MAX(textid) FROM Text", tmp);
-	promis.then(function (tmp) {elem.textid = tmp + 1;});
+	selectMax("(textid)","Text", tmp)
+	.then(function (tmp) {
+		alert("Promise test");
+		if (tmp["undefined"]["MAX (textid)"] === null || tmp["undefined"]["MAX (textid)"] === 0) {
+			alert("Create undef");
+			elem.textid = 1;
+		}
+		else {
+			alert("Create def");
+			alert(JSON.stringify(tmp));
+			alert(tmp["undefined"]["MAX (textid)"]);
+			//alert(tmp.textid);
+			elem.textid = tmp["undefined"]["MAX (textid)"] + 1;
+		}
+	});
 }
+
 /* ********************************************************************************************* */
 /* ******************************* MANIPULATION FICHIER **************************************** */
 /* ********************************************************************************************* */
@@ -178,18 +235,46 @@ function onRequestFileSystemSuccess(fileSystem) {
 	entry.getDirectory("DataBank", {create: true, exclusive: false}, win, fail);
 }
 
-function mvFile(file) {
-	var fileTransfer = new FileTransfer();
-	var t = file.substring(file.lastIndexOf("."));
-	var filePath = encodeURI(entry.toURL() + "DataBank/" + elem.elemid + t);
-	fileTransfer.download(file,filePath, win, fail, false, {
-		headers: {
-			"Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-		}
-	} );
-	return filePath;
+function mvFile(source) {
+	return new Promise(function(fulfill, reject) {
+		alert("dansd mv");
+		alert(JSON.stringify(source));
+		fileTransfer = new FileTransfer();
+		selectMax("(elemid)","Elements", tmp).then(function() {
+			alert("dansd mv:\n" + JSON.stringify(source));
+			var t = source.substring(source.lastIndexOf("."));
+			alert("apres t");
+			destination = encodeURI(entry.toURL() + "DataBank/" + (tmp["undefined"]["MAX (elemid)"] + 1) + t);
+			fileTransfer.download(
+				source,
+				destination,
+				function() { fulfill({ path: destination }); win(); },
+				function(msg) { reject({message: msg}); fail(msg); },
+				false,
+				{ headers: { "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA==" }
+			});
+		});
+	});
 }
 
+// function mvFile(file123) {
+// 	file = file123;
+// 	alert("dansd mv");
+// 	alert(JSON.stringify(file));
+// 	fileTransfer = new FileTransfer();
+// 	selectMax("(elemid)","Elements", tmp).then(function (){
+// 		alert("dansd mv");
+// 		alert(JSON.stringify(file));
+// 		var t = file.substring(file.lastIndexOf("."));
+// 		alert("apres t");
+// 		filePath = encodeURI(entry.toURL() + "DataBank/" + (tmp["undefined"]["MAX (elemid)"] + 1) + t);
+// 		fileTransfer.download(file,filePath,win, fail, false, {
+// 			headers: {
+// 				"Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+// 			}
+// 		});
+// 	});
+// }
 /* ********************************************************************************************* */
 /* ************************************* CALLBACK ********************************************** */
 /* ********************************************************************************************* */
@@ -210,14 +295,19 @@ function failSound(){
 function lepape() {
 
 	var lol1, lol2, lol3;
+var lol4 = {};
+var lol5= {};
+var lol6 = {};
 
-	lol1 = selectElements("", window.appData.elements);
+	lol1 = selectElements("", lol4);
 	lol1.then(function (){
-		lol2 = selectText("", window.appData.text);
+		alert(JSON.stringify(lol4));
+		lol2 = selectText("", lol5);
 		lol2.then(function (){
-			lol3 = selectSound("", window.appData.sound);
+			alert(JSON.stringify(lol5));
+			lol3 = selectSound("", lol6);
 			lol3.then(function (){
-				alert(JSON.stringify(window.appData.sound) + " " + JSON.stringify(window.appData.elements)  + " " + JSON.stringify(window.appData.text));
+				alert(JSON.stringify(lol6));
 			});
 		});
 	});

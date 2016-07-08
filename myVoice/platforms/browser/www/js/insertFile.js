@@ -21,23 +21,42 @@ var texte = new myVoiceText(null, "1");
 /* ************************************* FONCTIONS SQL ***************************************** */
 /* ********************************************************************************************* */
 
-function selectMax(sql, tmp, cb){
+function selectMax(sql1, sql2, objectLst, cb){
 	var render = function(tx, rs) {
-		if (rs.insertId !== undefined) {
-			tmp = rs.insertId;
-		}
-		else {
-			tmp = 0;
-		}
-		if (typeof cb !== undefined){
-			cb(tmp);
-		}
+		return selectParser(objectLst, sql1, rs, cb);
 	};
-	selectRecords(render, sql);
-}
+	return new Promise(function(resolve, reject){
+		return selectRecords(function(tx, rs) {
+			if (render(tx, rs)) {
+				return resolve(objectLst);
+			} else {
+				alert("rejected");
+				reject("error in callback");
+			}
+		}, "SELECT MAX " + sql1 + " FROM " + sql2);
+	}, function(){alert("Select fail");});
+};
+// function selectMax(sql, tmp, cb){
+// 	var render = function(tx, rs) {
+// 		if (rs.insertId !== undefined) {
+// 			tmp = rs.insertId;
+// 		}
+// 		else {
+// 			tmp = 1;
+// 		}
+// 		if (typeof cb !== undefined){
+// 			cb(tmp);
+// 		}
+// 	};
+// 	selectRecords(render, sql);
+// }
 
 function insertBdd(){
 	alert("insert Bdd");
+	alert(JSON.stringify(elem));
+	alert(JSON.stringify(son));
+	alert(JSON.stringify(texte));
+
 	var promis;
 	promis = insertElements(elem);
 	promis.then(function (){
@@ -139,14 +158,24 @@ function captureSuccess(mediaFiles) {
 	var promis;
 
 	if (mediaFiles[0].fullPath !== undefined) {
-		promis = selectMax("SELECT MAX(soundid) FROM Sound", tmp);
+		function selectMax(sql1, sql2, objectLst, cb){
+
+		promis = selectMax("soundid","Sound", tmp);
 		promis.then(function(){
 			captureSuccess2(tmp);},
 			function(){alert("PROBLEME BASE DE DONNEE");});
 	}
 }
 function captureSuccess2(tmp) {
+	if (tmp === "") {
+		alert("Capture Succes undef");
+		elem.soundid = 1;
+	}
+	else {
+		alert("Capture Succes def");
+
 		elem.soundid = tmp + 1;
+	}
 		son.soundurl = mvFile("file://" + mediaFiles[0].fullPath);
 		alert(JSON.stringify(elem));
 }
@@ -162,13 +191,24 @@ function captureAudio() {
 function createName() {
 	alert(document.getElementById('name'));
 	alert("kqwmqwe");
-	texte.text = "lwlw";
-
+	var promis;
 	texte.text = document.getElementById('name').value;
 	alert(texte.text);
-	promis = selectMax("SELECT MAX(textid) FROM Text", tmp);
-	promis.then(function (tmp) {elem.textid = tmp + 1;});
+	selectMax("textid","Text", tmp)
+	.then(function (tmp) {
+		alert("Promise test");
+		if (tmp === null) {
+			alert("Create undef");
+			elem.textid = 1;
+		}
+		else {
+			alert("Create def");
+
+			elem.textid = tmp + 1;
+		}
+	});
 }
+
 /* ********************************************************************************************* */
 /* ******************************* MANIPULATION FICHIER **************************************** */
 /* ********************************************************************************************* */
@@ -210,14 +250,16 @@ function failSound(){
 function lepape() {
 
 	var lol1, lol2, lol3;
-	
+
 	lol1 = selectElements("", window.appData.elements);
 	lol1.then(function (){
 		lol2 = selectText("", window.appData.text);
 		lol2.then(function (){
 			lol3 = selectSound("", window.appData.sound);
 			lol3.then(function (){
-				alert(JSON.stringify(window.appData));
+				alert(JSON.stringify(window.appData.sound) +
+				 " " + JSON.stringify(window.appData.elements) +
+				  " " + JSON.stringify(window.appData.text));
 			});
 		});
 	});
