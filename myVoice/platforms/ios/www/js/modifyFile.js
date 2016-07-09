@@ -31,13 +31,11 @@ function updateBdd(){
 	var tname = Elements;
 	var set = "width =" + tmpelem[0].width;
 	var cond = "elemid =" + tmpelem[0].elemid;
-	promis = updateInSqliteTable(tname, set, cond);
-	promis.then(function () {
-		tname = Text;
-		set = "text =" + tmptexte[0].text;
-		cond = "textid =" + tmpelem[0].textid;
-		updateInSqliteTable(tname, set, cond);
-	});
+	updateInSqliteTable(tname, set, cond);
+	tname = Text;
+	set = "text =" + tmptexte[0].text;
+	cond = "textid =" + tmpelem[0].textid;
+	updateInSqliteTable(tname, set, cond);
 }
 
 /* ********************************************************************************************* */
