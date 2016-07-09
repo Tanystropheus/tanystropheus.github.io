@@ -1,5 +1,3 @@
-var tmp = {};
-
 function insertLibBdd(libtit){
 	var promis;
 	var sql = "where libtitle =" + libtit;

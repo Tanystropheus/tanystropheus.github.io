@@ -35,7 +35,7 @@ function selectMax(sql1, sql2, objectLst, cb){
 				alert("rejected");
 				reject("error in callback");
 			}
-		}, "SELECT MAX (" + sql1 + ") FROM " + sql2);
+		}, "SELECT MAX " + sql1 + " FROM " + sql2);
 	}, function(){alert("Select fail");});
 }
 
@@ -169,7 +169,7 @@ function captureSuccess(mediaFiles) {
 	var promis;
 
 	if (mediaFiles[0].fullPath !== undefined) {
-		promis = selectMax("soundid","Sound", tmp);
+		promis = selectMax("(soundid)","Sound", tmp);
 		promis.then(function(){
 			captureSuccess2(mediaFiles);},
 			function(){
@@ -209,7 +209,7 @@ function createName() {
 	var promis;
 	texte.text = document.getElementById('name').value;
 	alert(texte.text);
-	selectMax("textid","Text", tmp)
+	selectMax("(textid)","Text", tmp)
 	.then(function (tmp) {
 		alert("Promise test");
 		if (tmp["undefined"]["MAX (textid)"] === null || tmp["undefined"]["MAX (textid)"] === 0) {
@@ -240,7 +240,7 @@ function mvFile(source) {
 		alert("dansd mv");
 		alert(JSON.stringify(source));
 		fileTransfer = new FileTransfer();
-		selectMax("elemid","Elements", tmp).then(function() {
+		selectMax("(elemid)","Elements", tmp).then(function() {
 			alert("dansd mv:\n" + JSON.stringify(source));
 			var t = source.substring(source.lastIndexOf("."));
 			alert("apres t");
