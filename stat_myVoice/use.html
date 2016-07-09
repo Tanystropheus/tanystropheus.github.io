@@ -1,0 +1,97 @@
+    <!DOCTYPE html>
+
+
+<html>
+    <head>
+        <!-- <meta http-equiv="Content-type" content="text/html; charset=UTF-8" /> -->
+
+        <script type="text/javascript" src="js/paper-full.js"></script>
+
+        <script type="text/javascript" src="js/curseur_double_point.js"></script>
+        <script type="text/javascript" src="js/grid.js"></script>
+        <script type="text/javascript" src="js/interface.js"></script>
+        <script type="text/javascript" src="js/myVoiceElements.js"></script>
+        <script type="text/javascript" src="js/onglet.js"></script>
+        <script type="text/javascript" src="js/senario.js"></script>
+        <script type="text/javascript" src="js/senario_update.js"></script>
+        <script type="text/javascript" src="js/histo_image.js"></script>
+        <script type="text/javascript" src="js/histogramme_obj.js"></script>
+        <script type="text/javascript" src="js/variable_globale.js"></script>
+
+        <title>Ma Voix</title>
+
+        <style type="text/css">
+            
+           canvas{
+                /*border-style: solid;*/
+                width:100%;
+                height: 100%
+            }
+            img.img_stat{
+                position: absolute;
+                top : 0px;
+                opacity: 0;
+                width: 30px;
+                height: 30px;
+                /*pointer-events: none;*/
+
+            }
+
+ 
+        </style>
+    </head>
+
+    <body>
+             <canvas id="myCanvas" style="width:100%; height:100%"></canvas>
+
+             <div id="image_stat" style="position:absolute ; top: 000px; width:100px; height:150px">
+                <div class="library_stat" id="img_persone" >
+                    <img id="0" class="img_stat" src="img/personnage/Batman.png" alt="Batman">
+                    <img id="1" class="img_stat" src="img/personnage/sorcier.png" alt="sorcier">
+                    <img id="2" class="img_stat" src="img/personnage/sultans.png" alt="sultan">
+                    <img id="3" class="img_stat" src="img/personnage/tueur.png" alt="tueur">
+                    <img id="4" class="img_stat" src="img/personnage/Le Petit Poucet.png" alt="Le Petit Poucet">
+                </div>
+
+                <div class="library_stat" id="img_action" >
+                    <img id="5" class="img_stat" src="img/action/to hop.png" alt="to hop">
+                    <img id="6" class="img_stat" src="img/action/to give.png" alt="to give">
+                    <img id="7" class="img_stat" src="img/action/to jump.png" alt="to jump">
+                    <img id="8" class="img_stat" src="img/action/to finish.png" alt="to finish">
+                    <img id="9" class="img_stat" src="img/action/to answer.png" alt="to answer">
+                    
+                </div>
+
+                <div class="library_stat" id="img_objet" >
+                
+                    <img id="10" class="img_stat" src="img/objet/salt.png" alt="salt">             
+                    <img id="11" class="img_stat" src="img/objet/stylo.png" alt="stylo">
+                    <img id="12" class="img_stat" src="img/objet/cahier.png" alt="cahier">
+                    <img id="13" class="img_stat" src="img/objet/feuilles.png" alt="feuilles">
+                    <img id="14" class="img_stat" src="img/objet/scotch.png" alt="scotch">
+                   
+                </div>
+
+               <div class="library_stat" id="img_adj" ">
+                    
+                    <img id="15" class="img_stat" src="img/adjectif/sale.png" alt="sale">
+                    <img id="16" class="img_stat" src="img/adjectif/sec.png" alt="sec">
+                    <img id="17" class="img_stat" src="img/adjectif/chaud.png" alt="chaud">
+                    <img id="19" class="img_stat" src="img/adjectif/vide.png" alt="vide">
+                    <img id="20" class="img_stat" src="img/adjectif/vieux.png" alt="vieux">
+                </div>
+
+
+                <div id="ressult">
+                    <script>
+                      //  alert("width:"+this.width);
+                    </script>
+                </div>
+                
+             </div>
+			 
+
+			   
+        </div>
+   </body>
+</html>
