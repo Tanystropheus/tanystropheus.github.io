@@ -1,16 +1,24 @@
-#libraries_field_user, #libraries_field_admin {
+#libraries_field_user, #libraries_field_admin, #libraries_field_photo {
 width:100%;
 height:100%;
 }
-#libraries_field_user li, #libraries_field_admin li{
+#libraries_field_user li, #libraries_field_admin li, #libraries_field_photo li{
 float:left;
 text-align: center;
 display: table;
 background-color: rgb(251,240,165);
 }
 
-#libraries_field_user li h1, #libraries_field_admin li h1{
+#libraries_field_user li h1, #libraries_field_admin li h1, #libraries_field_photo li h1{
 display: table-cell;
 vertical-align: middle;
 color:rgb(132,100,46);
+}
+
+#alert {
+display:inline-block;
+margin-top:35%;
+border:1px black solid;
+width:200px;
+height:200px;
 }

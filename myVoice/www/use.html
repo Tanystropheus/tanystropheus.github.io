@@ -44,6 +44,12 @@
 	<script type="text/javascript" src="js/networkFunc.js"></script>
 	<script type="text/javascript" src="js/interActBack.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
+        <!-- GESTION IMAGE -->
+        <script type="text/javascript" src="js/delClass.js"></script>
+	<script type="text/javascript" src="js/delFile.js"></script>
+	<script type="text/javascript" src="js/insertFile.js"></script>
+	<script type="text/javascript" src="js/modifyClass.js"></script>
+	<script type="text/javascript" src="js/modifyFile.js"></script>
         <!-- START APP -->
         <script type="text/javascript" src="globale.js"></script>
         <script type="text/javascript" src="js/mode.js"></script>
@@ -67,9 +73,9 @@
             mode_admin();
             mode_photo();
             mode_statistique();
-            set_vue("user");
+            set_vue("photo");
             hgrid_max = Math.floor(jQuery("#user_content").height() / 205) - 1;
-            wgrid_max = Math.floor(jQuery("#user_content").width() / 205) - 1;
+            wgrid_max = Math.floor(jQuery("#user_content").width() / 205) - 1;  
         }
         </script>
         <!-- DEBUG -->
@@ -85,5 +91,5 @@
         <div id="mode_parametre" style="z-index:12; position:absolute; top:0; left:0; visibility:hidden;"></div>
         <div id="mode_photo" style="z-index:13; position:absolute; top:0; left:0; visibility:hidden;"></div>
         <div id="mode_statistique" style="z-index:14; position:absolute; top:0; left:0; visibility:hidden;"></div>
-        <div id="mode_popup" style="z-index:15; position:absolute; top:0; left:0; visibility:hidden;"></div>
+        <div id="mode_popup" style="z-index:15; position:absolute; top:0; left:0; visibility:hidden; background-color: rgba(205,192,176,0.4); text-align:center;"></div>
     </body>

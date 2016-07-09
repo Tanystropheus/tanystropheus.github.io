@@ -15,7 +15,6 @@ function reorganisation_tab(direction)
     str[0] = $("#libraries_field_user").children("li")[0];
     str[1] = $("#libraries_field_user").children("li")[6];
     $(".tab_menu").remove();
-    console.log(t);
     tmp[0] = t[t.length - 1];
     n = 1;
     for (var i = 0; i < t.length - 1; i++){
@@ -129,4 +128,11 @@ function dd(event, ui){
     if (n === 0)
         $(this).html(tt);
     }
+}
+function popup(visibility, html){
+    if (visibility === "visible")
+        document.getElementById('alert').innerHTML = html;
+    else
+        document.getElementById('alert').innerHTML = "";
+    document.getElementById('mode_popup').style.visibility = visibility;
 }
