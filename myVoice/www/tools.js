@@ -1,5 +1,3 @@
-var data = {};
-
 function reorganisation_tab(direction)
 {
     var t = [];
@@ -25,7 +23,7 @@ function reorganisation_tab(direction)
     n = 1;
     for (var all in tmp){
         $("#libraries_field_user").append(tmp[all]);
-        $("#"+tmp[all].id).data('categorie', data["#"+tmp[all].id]);
+        $("#"+tmp[all].id).data('categorie', tab_data["#"+tmp[all].id]);
         n++;
         if (n === 6){
             $("#libraries_field_user").append(str[1]);
@@ -56,51 +54,10 @@ function show_active_tab(id, who)
         var name = "."+window.appData.library[i].libtitle+"_drag";
         $(name).draggable({helper: "clone", cursorAt: { top:50, left:100 }});
         var name = "."+window.appData.library[i].libtitle+"_drop";
-        $(name+" span").droppable({drop:dd});
+        $(name+" span").droppable({drop:voice_drop});
     }
 };
-function get_lib(){
-    var nb = 1;
-    var mg;
-    for(var i in window.appData.library){
-        if (nb < 6){
-            $("#tab_"+nb).attr("name", window.appData.library[i].libtitle);
-            $("#tab_"+nb).append("<h1>" + window.appData.library[i].libtitle + "</h1>");
-        }
-        else{
-            $("#libraries_field_user").append("<li class='tab_menu' id='tab_" + nb + "' name='" + window.appData.library[i].libtitle + "' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'><h1>" + window.appData.library[i].libtitle + "</h1></li>");
-        }
-        nb++;
-    }
-    mg = Math.floor(jQuery(window).width() * 0.5 / 100);
-    $("#libraries_field_user li").css("margin", mg);
-    nb = 1;
-        for(var i in window.appData.library){
-        $("#tab_"+nb).data('categorie', window.appData.library[i]);
-        data["#tab_"+nb] = window.appData.library[i];
-        nb++;
-    }
-};
-
-function get_img(lib)
-{
-    libimg = [];
-    var i = 0;
-    for (var id in window.appData.libElem){
-        if (window.appData.libElem[id].libraryid === lib.libraryid){
-            libimg[i] = window.appData.libElem[id].elemid;
-            i++;
-        }       
-    }
-    i = 0;
-    for (var id in window.appData.elements){
-        if (window.appData.elements[id].elemid === libimg[i]){
-            libimg[i] = window.appData.elements[id];
-            i++;
-        }
-    }
-}
-function dd(event, ui){
+function voice_drop(event, ui){
     var index_drag = $(ui.draggable).attr("id").substr(5,1);
     var a = $(ui.draggable).attr("id").substr(7);
     var index_drop = $(this).attr("id").substr(5,1);
@@ -128,11 +85,4 @@ function dd(event, ui){
     if (n === 0)
         $(this).html(tt);
     }
-}
-function popup(visibility, html){
-    if (visibility === "visible")
-        document.getElementById('alert').innerHTML = html;
-    else
-        document.getElementById('alert').innerHTML = "";
-    document.getElementById('mode_popup').style.visibility = visibility;
 }

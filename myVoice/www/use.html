@@ -14,6 +14,10 @@
             @media (min-width: 702px) {h1 {font-size:24px;}}
             @media (min-width: 724px) {h1 {font-size:22px;}}
             @media (max-width: 623px) {h1 {font-size:20px;}}
+            .bg_ban {background-color: white;}
+            .bg_top {background-color: rgb(58, 147, 124);}
+            .bg_bot {background-color:rgb(43, 92, 108); text-align: center;}
+            .img_stat, .library_stat{visibility:hidden; width:0; height:0;}
         </style>
         <link rel="stylesheet" type="text/css" href="css/menu.css">
         <!-- JQUERY -->
@@ -21,17 +25,12 @@
         <script src="js/jquery.mobile-1.4.5.min.js"></script>
         <script src="js/jquery-ui-1.11.4.min.js"></script>
 	<script src="js/jquery.ui.touch-punch.min.js"></script>
-        <!-- <script>
-            $(document).bind('mobileinit',function(){
-                $.mobile.changePage.defaults.changeHash = false;
-                $.mobile.hashListeningEnabled = false;
-                $.mobile.pushStateEnabled = false;
-            });
-	</script> -->
         <!-- CORDOVA -->
         <script src="cordova.js"></script>
-        <script src='spectrum.js'></script>
-        <link rel='stylesheet' href='spectrum.css' />
+        <script src="js/paper-full.js"></script>
+        <!-- SPECTRUM -->
+        <script src='js/spectrum.js'></script>
+        <link rel='stylesheet' href='css/spectrum.css' />
         <!-- BDD -->
 	<script type="text/javascript" src="js/myVoiceInsert.js"></script>
 	<script type="text/javascript" src="js/myVoiceSelect.js"></script>
@@ -50,46 +49,104 @@
 	<script type="text/javascript" src="js/insertFile.js"></script>
 	<script type="text/javascript" src="js/modifyClass.js"></script>
 	<script type="text/javascript" src="js/modifyFile.js"></script>
+        <script type="text/javascript" src="js/curseur_double_point.js"></script>
+        <script type="text/javascript" src="js/grid.js"></script>
+        <script type="text/javascript" src="js/interface.js"></script>
+        <script type="text/javascript" src="js/onglet.js"></script>
+        <script type="text/javascript" src="js/senario.js"></script>
+        <script type="text/javascript" src="js/senario_update.js"></script>
+        <script type="text/javascript" src="js/histo_image.js"></script>
+        <script type="text/javascript" src="js/histogramme_obj.js"></script>
+        <script type="text/javascript" src="js/variable_globale.js"></script>
         <!-- START APP -->
-        <script type="text/javascript" src="globale.js"></script>
-        <script type="text/javascript" src="js/mode.js"></script>
+        <script type="text/javascript" src="app/globale.js"></script>
+        <script type="text/javascript" src="app/mode.js"></script>
         <script type="text/javascript" src="tools.js"></script>
-        <script type="text/javascript" src="grid.js"></script>
+        <script type="text/javascript" src="app/grid.js"></script>
+        <script type="text/javascript" src="app/use.js"></script>
         <script type="text/javascript">
-            function start_app(){  
+            function start_app(){
+            /* Définie le mode plein ecran pour les différentes interfaces */
             $("#mode_user").height(jQuery(window).height());
             $("#mode_user").width(jQuery(window).width());
             $("#mode_admin").height(jQuery(window).height());
             $("#mode_admin").width(jQuery(window).width());
-            $("#mode_parametre").height(jQuery(window).height());
-            $("#mode_parametre").width(jQuery(window).width());
             $("#mode_photo").height(jQuery(window).height());
             $("#mode_photo").width(jQuery(window).width());
             $("#mode_statistique").height(jQuery(window).height());
             $("#mode_statistique").width(jQuery(window).width());
             $("#mode_popup").height(jQuery(window).height());
             $("#mode_popup").width(jQuery(window).width());
+            /* DEBUG */
             mode_user();
             mode_admin();
             mode_photo();
-            mode_statistique();
-            set_vue("photo");
+            //mode_statistique();
+            /* VUE PAR DEFAUT */
+            set_vue("admin");
+            /* Définie les variables MAX liée à la taille de l'écran */
+            hgrid_choice = 1;
+            wgrid_choice = 1;
+            voice_choice = 1;
+            voiceSelect();
             hgrid_max = Math.floor(jQuery("#user_content").height() / 205) - 1;
-            wgrid_max = Math.floor(jQuery("#user_content").width() / 205) - 1;  
+            wgrid_max = Math.floor(jQuery("#user_content").width() / 205) - 1;
+            voice_max = Math.floor(jQuery("#user_voice").width() / 205) - 2; //note : le "-2" permet d'ajouter un bouton pour valider de 205/205
         }
         </script>
-        <!-- DEBUG -->
-        <style>
-            .bg_ban {background-color: white;}
-            .bg_top {background-color: rgb(58, 147, 124);}
-            .bg_bot {background-color:rgb(43, 92, 108); text-align: center;}
-        </style>
     </head>
     <body onload="start_app();">
         <div id="mode_user" style="z-index:10; position:absolute; top:0; left:0; visibility:hidden;"></div>
         <div id="mode_admin" style="z-index:11;position:absolute; top:0; left:0; visibility:hidden;"></div>
-        <div id="mode_parametre" style="z-index:12; position:absolute; top:0; left:0; visibility:hidden;"></div>
         <div id="mode_photo" style="z-index:13; position:absolute; top:0; left:0; visibility:hidden;"></div>
-        <div id="mode_statistique" style="z-index:14; position:absolute; top:0; left:0; visibility:hidden;"></div>
+        <div id="mode_statistique" style="z-index:14; position:absolute; top:0; left:0; visibility:hidden;">
+            <div class='bg_ban' id='statistique_top' style='width:100%; height:12%;'></div>
+            <div class='bg_ban' id='statistique_header' style='width:100%; height:88%;'>
+                <canvas id='myCanvas' style='width:100%; height:100%;' onclick="toto();"></canvas>
+            </div>
+            <div id='statistique_content' style='width:100%;'></div>
+        </div>
         <div id="mode_popup" style="z-index:15; position:absolute; top:0; left:0; visibility:hidden; background-color: rgba(205,192,176,0.4); text-align:center;"></div>
+        <div id="image_stat" style="z-index:1; position:absolute; top:0; left:0; visibility:hidden; width:0; height:0;">
+                <div class="library_stat" id="img_persone" >
+                    <img id="0" class="img_stat" src="img/personnage/Batman.png" alt="Batman">
+                    <img id="1" class="img_stat" src="img/personnage/sorcier.png" alt="sorcier">
+                    <img id="2" class="img_stat" src="img/personnage/sultans.png" alt="sultan">
+                    <img id="3" class="img_stat" src="img/personnage/tueur.png" alt="tueur">
+                    <img id="4" class="img_stat" src="img/personnage/Le Petit Poucet.png" alt="Le Petit Poucet">
+                </div>
+                <div class="library_stat" id="img_action" >
+                    <img id="5" class="img_stat" src="img/action/to hop.png" alt="to hop">
+                    <img id="6" class="img_stat" src="img/action/to give.png" alt="to give">
+                    <img id="7" class="img_stat" src="img/action/to jump.png" alt="to jump">
+                    <img id="8" class="img_stat" src="img/action/to finish.png" alt="to finish">
+                    <img id="9" class="img_stat" src="img/action/to answer.png" alt="to answer">  
+                </div>
+                <div class="library_stat" id="img_objet" >
+                    <img id="10" class="img_stat" src="img/objet/salt.png" alt="salt">             
+                    <img id="11" class="img_stat" src="img/objet/stylo.png" alt="stylo">
+                    <img id="12" class="img_stat" src="img/objet/cahier.png" alt="cahier">
+                    <img id="13" class="img_stat" src="img/objet/feuilles.png" alt="feuilles">
+                    <img id="14" class="img_stat" src="img/objet/scotch.png" alt="scotch">
+                </div>
+               <div class="library_stat" id="img_adj">
+                    <img id="15" class="img_stat" src="img/adjectif/sale.png" alt="sale">
+                    <img id="16" class="img_stat" src="img/adjectif/sec.png" alt="sec">
+                    <img id="17" class="img_stat" src="img/adjectif/chaud.png" alt="chaud">
+                    <img id="19" class="img_stat" src="img/adjectif/vide.png" alt="vide">
+                    <img id="20" class="img_stat" src="img/adjectif/vieux.png" alt="vieux">
+                </div>  
+             </div>
+        <script type="text/javascript">
+        paper.install(window);
+        var init = 0;
+        function toto(){
+            if (init === 0){
+                paper.setup("myCanvas");
+                init = 1;
+                aleatoire();
+                my_stat();
+            }
+        }
+        </script>
     </body>
