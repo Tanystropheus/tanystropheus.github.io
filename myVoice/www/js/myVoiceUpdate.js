@@ -35,7 +35,7 @@ function updateLerningStat(elem){
 };
 
 function updateLibrary(elem){
-	myObjExecSqliteSQL("UPDATE Library SET libtitle='"+ elem.libtitle+ "' WHERE libraryid="+ elem.libraryid,
+	myObjExecSqliteSQL("UPDATE Library SET libtitle='"+ elem.libtitle+ "', color='"+ elem.color+ "' WHERE libraryid="+ elem.libraryid,
 	[], updateSucces() , function(err, err2){alert("elem update fail " + JSON.stringify(err, null, 4) + " "+JSON.stringify(err2, null, 4));});
 	return true;
 };

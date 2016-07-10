@@ -31,7 +31,10 @@ function set_vue(vue){
 }//                             ==>     PERMET D'AFFICHER UNE VUE ET DE CACHER TOUTES LES AUTRES
 function show_popup(visibility, html_str){
     if (visibility === "visible")
+		{
+			alert("alert: " + JSON.stringify($("#alert"), null, 4));
         $("#alert").html(html_str);
+		}
     else
         $("#alert").html("");
     $("#mode_popup").css("visibility", visibility);

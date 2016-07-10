@@ -38,6 +38,7 @@ function show_active_tab(id, who)
     nb = $("#libraries_field_"+who).children("li").length;
     for (i = 1; i <= nb; i++)
     {
+		selected_tab_color = window.appData.library[i].color;
         if (selected_tab.libtitle === $(id_tab+i).attr("name")){
             $(id_tab+i).css("background-color", active_tab_color);
             $(id_tab+i+" h1").css("color", selected_tab_color);

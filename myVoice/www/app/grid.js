@@ -3,14 +3,17 @@ function get_lib(){
     var nb = 1;
     var mg;
     for(var i in window.appData.library){
+		if(window.appData.library[i].color) 
+			$("#tab_"+nb).css("background-color", window.appData.library[i].color);
         if (nb < 6){
             $("#tab_"+nb).attr("name", window.appData.library[i].libtitle);
             $("#tab_"+nb).append("<h1>" + window.appData.library[i].libtitle + "</h1>");
         }
         else{
             $("#libraries_field_user").append("<li class='tab_menu' id='tab_" + nb + "' name='" + window.appData.library[i].libtitle +
-            "' style='width:18%; height:100%;' onclick='show_active_tab(this, \"user\");'><h1>" + window.appData.library[i].libtitle + "</h1></li>");
+            "' style='width:18%; height:100%;background-color:"+ window.appData.library[i].color +"' onclick='show_active_tab(this, \"user\");'><h1>" + window.appData.library[i].libtitle + "</h1></li>");
         }
+        window.libChecbox += "<label for='checkbox_"+window.appData.library[i].libraryid +"' class='ui-hidden-accessible'>checkbox_"+window.appData.library[i].libtitle +"</label><input type='checkbox' name='checkbox_"+window.appData.library[i].libtitle + "' id='checkbox_"+window.appData.library[i].libraryid +"' value='"+window.appData.library[i].libraryid +"' data-mini='true'>";
         nb++;
     }
     mg = Math.floor(jQuery(window).width() * 0.5 / 100);
@@ -21,6 +24,10 @@ function get_lib(){
         tab_data["#tab_"+nb] = window.appData.library[i];
         nb++;
     }
+    $('.tabA_menu').on("click", function(e){
+		openLibPopup(e);
+		}
+	);
 };//                             ==>     RECUPERE LES DONNES ASSOCIE A CHAQUE LI DU MENU
 function get_img(lib){
     libimg = [];
@@ -94,3 +101,47 @@ function set_grid(mode, where){
     $("#user_gr").width(Math.floor(jQuery("#user_content").width() - w * (wgrid_choice)) / 2);
     $("#user_gl").width(Math.floor(jQuery("#user_content").width() - w * (wgrid_choice)) / 2);
 }//                             ==>     PERMET D'AFFICHER LA GRILLE AVEC LES BONS PARAMETRES
+
+function openLibPopup(elem){
+	//~ var elem = $(selected_tab).data("categorie"); //$('#tab_' + selected_tab).data("categorie");
+	//~ alert("Elem: " + JSON.stringify(elem));
+	//~ alert(JSON.stringify(selected_tab, null, 4));
+	//~ alert(JSON.stringify(selected_tab.libraryid, null, 4));
+	//~ alert(selected_tab.data("categorie"));
+	var htmlPopup =  "<div style='width: 15%; height: 20%;margin-top: 10%;margin-left: 30%;background-color: rgb(205,192,176);'><div>" +
+		"<input type='text' name='popup_id' id='popup_id' style='visibility:hidden;'>" +
+		"<input type='text' name='titre' id='form_titre' ><input type='text' name='couleur' id='form_couleur' placeholder='Couleur'>\
+		<button class='bg_ban' style='margin-top:5%; width:70%; height:70%;' onclick='validateLibPopup()'>Valider</button>\
+		<script>" + 
+			"$('#form_couleur').spectrum({\
+			color: '"+ selected_tab.color +"'\
+			});" +
+		"</script>\
+	</div></div>";
+	//~ alert(htmlPopup);
+	$("#mode_popup").append(htmlPopup);
+	$("#popup_id").attr('value', selected_tab.libraryid);
+	$("#form_titre").attr('value', selected_tab.libtitle);
+	$("#mode_popup").css("visibility" , "visible");
+}
+
+function validateLibPopup(){
+	var formid = $('#popup_id').val();
+	var formtitre = $('#form_titre').val();
+	var formcolor = $('#form_couleur').spectrum("get").toRgbString();
+	var elem = $('#tabA_' + formid);
+	selected_tab.color = formcolor;
+	selected_tab.libtitle = formtitre;
+	selected_tab.libraryid = formid;
+	window.appData.library[formid].color = formcolor;
+	window.appData.library[formid].libtitle = formtitre;
+	window.appData.library[formid].libraryid = formid;
+	//~ alert('Test Close popup');
+	//~ alert(JSON.stringify(window.appData.library[formid], null, 4));
+	elem.css("background-color", formcolor);
+	updateLibrary(window.appData.library[formid]);
+	elem.html("<h1>"+formtitre+"</h1>");
+	//~ window.appData.library[i].libtitle = ('#form_titre').val();
+	clear_popup();
+	mode_admin();
+}

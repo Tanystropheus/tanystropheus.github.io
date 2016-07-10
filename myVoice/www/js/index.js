@@ -22,6 +22,7 @@ var app = {
 	// Application Constructor
 	initialize: function() {
 		this.bindEvents();
+		window.libChecbox = "";
 		window.appData = {
 			interfaces_setings: {},
 			language: {},
@@ -89,8 +90,8 @@ var app = {
 				//~ alert("not First Start");
 				return initialSelect().then(function(){
 					//alert("appData:" + JSON.stringify(window.appData, null, 4))
-                                        alert("other");
-                                        start_app();
+					//~ alert("other");
+					start_app();
 					setInterval(function(){checkConnection(function(){alert("replace callback by sending data");})}, 60000 * 60);
 				});
 			}
