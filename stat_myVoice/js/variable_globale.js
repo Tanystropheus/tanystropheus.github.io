@@ -48,6 +48,7 @@ paper.install(window);
 window.onload = function()
 {
     paper.setup('myCanvas');
+    // test_time_unite_rendu();
     aleatoire();
     my_stat();
 }
@@ -66,7 +67,15 @@ function    aleatoire()
 //	si l'id de la sentence est le meme qu'un precedent, on ecrase l'encienne phrase
 function 	add_one_sentence(sentence)
 {
-	all_phrase[sentence['sentenceId']] = sentence;
+    if (sentence['sentenceId'] != undefined)
+    {
+        all_phrase[sentence['sentenceId']] = sentence;
+    }
+    else
+    {
+        sentence['sentenceId'] = all_phrase.length;
+        all_phrase[all_phrase.length] = sentence;
+    }
 	actual_elem_stat(sentence);
 }
 
@@ -75,20 +84,45 @@ function	add_mutiple_sentence(sentence_tab)
 {
 	for (var x in sentence_tab)
 	{
-		all_phrase[sentence_tab[x]['sentenceId']] = sentence_tab[x];
+        if (sentence_tab[x]['sentenceId'] != undefined)
+        {
+            all_phrase[sentence_tab[x]['sentenceId']] = sentence_tab[x];
+        }
+        else
+        {
+            sentence_tab[x]['sentenceId'] = all_phrase.length;
+            all_phrase[all_phrase.length] = sentence_tab[x];
+        }
 		actual_elem_stat(sentence_tab[x]);
 	}
 }
 
 function	add_one_elem(elem)
 {
-	all_elem[elem['elemid']] = elem;
+    if (elem['elemid'] != undefined)
+    {
+       all_elem[elem['elemid']] = elem;
+    }
+    else
+    {
+        elem['elemid'] = all_elem.length;
+        all_elem[all_elem.length] = elem;
+    }
 }
 
 function	add_multiple_elem(elem_tab)
 {
 	for (var x in elem_tab)
 	{
+        if (elem_tab[x]['elemid'] != undefined)
+        {
+           all_elem[elem_tab[x]['elemid']] = elem_tab[x];
+        }
+        else
+        {
+            elem_tab[x]['elemid'] = all_elem.length;
+            all_elem[all_elem.length] = elem_tab[x];
+        }
 		all_elem[elem_tab[x]['elemid']] = elem_tab[x];
 	}
 }
