@@ -24,7 +24,7 @@ function draw_the_grid(min, max, nb_line, group, from, to)
         path.add(p2);
         path.strokeColor = 'black';
 
-        text.content = parseInt(y + min) + "." + parseInt(((y + min) % 1) * 10);
+        text.content = "" + parseInt(y + min);// + "." + parseInt(((y + min) % 1) * 10);
         text.position = new Point(from.x - 15, to.y - (y * coef));
         text.fillColor = 'grey';
         group.addChild(text);

@@ -11,7 +11,7 @@ function	find_begin(tab_val, val_begin)
 function	get_max_of_array(tab_value)
 {
 
-	var max = 1;
+	var max = 10;
 
 	for(var x = 0; x < tab_value.length; x++)
 	{
@@ -24,7 +24,7 @@ function	get_max_of_array(tab_value)
 function	update_sum()
 {
 
-	this.val_max = 1;
+	this.val_max = 10;
 
 	var max_tmp;
 
@@ -209,7 +209,7 @@ function	actual_activ_elem()
 	var delta_y = this.to.y - this.from.y;
 
 	var from = new Point(this.from.x, this.from.y + delta_y * this.coef_time);
-	var to = new Point(this.to.x, this.from.y + delta_y * this.coef_select);
+	var to = new Point(this.to.x, this.from.y + delta_y * this.coef_curs2 - this.margin);
 
 	delta_x = to.x - from.x;
 	delta_y = to.y - from.y;
@@ -609,8 +609,8 @@ function	Usage_history(from, to)
 	this.coef_line	= 0.5;
 	this.coef_time	= 0.6;
   	this.coef_curs1 = 0.7;
-  	this.coef_select = 0.8;
-  	this.coef_curs2 = 0.9;
+  	this.coef_curs2 = 0.8;
+  	this.coef_select = 0.9;
 
 	this.time_style_grid ={strokWidth: 1,  strocColor : new Color({hue: 0, saturation: 0.8, brightness: 0.3 ,alpha: 0.3})};
 //	function	Time_unite(get_next, style, unite)
@@ -623,7 +623,7 @@ function	Usage_history(from, to)
 	this.groups_line = [];												// Les group dans les quelle les ligne sont defini
 	this.group_grid						= new Group();
 	this.curseur_time_unite				= init_curseur(from, to, 0 , 1, this.coef_curs1 + this.margin, this.coef_select - this.margin, 1000 * 60 * 10, 1000 * 60 * 60 * 24 * 7, false, true, this, actualise_time_unite, this.tab_mult);										//	le curseur pour le time unite
-	this.curseur_time_interval			= init_curseur(from, to, 0, 1, this.coef_curs2 + this.margin, 1 - this.margin, globale_time_begin, globale_time_end, true, true, this, actualise_time_interval);				//	le curseur pour le time interval
+	this.curseur_time_interval			= init_curseur(from, to, 0, 1, this.coef_curs2 + this.margin, this.coef_select - this.margin, globale_time_begin, globale_time_end, true, true, this, actualise_time_interval);				//	le curseur pour le time interval
 
 this.curseur_time_interval.dady = this;
 
@@ -647,9 +647,9 @@ this.curseur_time_interval.dady = this;
 		];
 
 	this.tab_unit = [
-		new Unite_selector(new Point(from.x + 0.01 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.09 * this.delta_x, from.y + this.delta_y * this.coef_curs2), this.group_selector, this.curseur_time_interval, adapt_day,   "journee", 5),
-		new Unite_selector(new Point(from.x + 0.11 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.19 * this.delta_x, from.y + this.delta_y * this.coef_curs2), this.group_selector, this.curseur_time_interval, adapt_week,  "semaine", 5),
-		new Unite_selector(new Point(from.x + 0.21 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.29 * this.delta_x, from.y + this.delta_y * this.coef_curs2), this.group_selector, this.curseur_time_interval, adapt_month, "  mois  ", 5)
+		new Unite_selector(new Point(from.x + 0.01 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.09 * this.delta_x, from.y + this.delta_y * (1 - this.margin)), this.group_selector, this.curseur_time_interval, adapt_day,   "journee", 5),
+		new Unite_selector(new Point(from.x + 0.11 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.19 * this.delta_x, from.y + this.delta_y * (1 - this.margin)), this.group_selector, this.curseur_time_interval, adapt_week,  "semaine", 5),
+		new Unite_selector(new Point(from.x + 0.21 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.29 * this.delta_x, from.y + this.delta_y * (1 - this.margin)), this.group_selector, this.curseur_time_interval, adapt_month, "  mois  ", 5)
 	];
 
 // function	Prev_interval(from, to, group, curseur, parent);
@@ -658,8 +658,8 @@ this.curseur_time_interval.dady = this;
 
 
 
-	this.prev_interval = new Switch_interval(new Point(from.x + 0.81 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.89 * this.delta_x, from.y + this.delta_y * this.coef_curs2), this.group_selector, this.curseur_time_interval, this, false);
-	this.prev_interval = new Switch_interval(new Point(from.x + 0.91 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.99 * this.delta_x, from.y + this.delta_y * this.coef_curs2), this.group_selector, this.curseur_time_interval, this, true);
+	this.prev_interval = new Switch_interval(new Point(from.x + 0.81 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.89 * this.delta_x, from.y + this.delta_y * (1 - this.margin)), this.group_selector, this.curseur_time_interval, this, false);
+	this.prev_interval = new Switch_interval(new Point(from.x + 0.91 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.99 * this.delta_x, from.y + this.delta_y * (1 - this.margin)), this.group_selector, this.curseur_time_interval, this, true);
 	// switch_visible(this.group_selector);
 
 // this.group_selector.obj = this.unite_day;

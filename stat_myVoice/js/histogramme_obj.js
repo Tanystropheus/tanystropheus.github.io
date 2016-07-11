@@ -183,7 +183,7 @@ function	make_background(group, from, to, elemid, hat, color)
 
 		// console.log(all_elem[elemid]);
 		// var 
-		var coef = 0.6;
+		var coef = 0.7;
 		var nb_lettre_min = 5;
 
 
@@ -206,7 +206,7 @@ function	make_background(group, from, to, elemid, hat, color)
 
 
 		img.source = all_elem[elemid]['elemurl'];
-		img.position = new Point(from.x + delta_x / 2, from.y + (delta_y * coef_img) / 2 + marge);
+		img.position = new Point(from.x + delta_x / 2, from.y + (delta_y * coef_img + marge) / 2);
 		img.strokeBounds = 'black';
 		img.strokeWidth = '3';
 
