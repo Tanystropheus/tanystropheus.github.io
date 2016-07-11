@@ -209,7 +209,7 @@ function	actual_activ_elem()
 	var delta_y = this.to.y - this.from.y;
 
 	var from = new Point(this.from.x, this.from.y + delta_y * this.coef_time);
-	var to = new Point(this.to.x, this.from.y + delta_y * this.coef_curs2);
+	var to = new Point(this.to.x, this.from.y + delta_y * this.coef_select);
 
 	delta_x = to.x - from.x;
 	delta_y = to.y - from.y;
@@ -368,6 +368,7 @@ function	switch_visible(group)
 function switch_draw_histo()
 {
 		// il faudrai
+		switch_visible(this.group_selector);
 		switch_visible(this.group_grid);
 		switch_visible(this.group_logo_elem);
 		this.switch_visible_the_line();
@@ -545,11 +546,27 @@ function	init_curseur_time_interval(from, to, prct_beg_x, prct_end_x, prct_beg_y
 // 	// on les affiche
 // }
 
+
+function get_time_part(tab_mult, from, to, begin,  end, obj)
+{
+	var param_time = init_time_mode(1000 * 60, tab_mult);
+
+	// console.warn("param_time");
+	// console.warn(param_time);
+	obj.time_descriptor = param_time;
+	var all_tab = generate_time_tab(from, to, begin, end, param_time);
+	// destroy_double_value(all_tab);
+
+	return (all_tab);
+}
+
+
 function	Usage_history(from, to)
 {
 	this.from = from;															//	coin en haut a gauche
 	this.to = to;															//	coin en bas  a droite
-	
+	this.delta_x = to.x - from.x;	
+	this.delta_y = to.y - from.y;	
 
 	this.time_begin		= globale_time_begin;
 	this.time_end		= globale_time_end;
@@ -565,6 +582,8 @@ function	Usage_history(from, to)
 	this.group_uniteSum_value			= [];// les valeur par unite temporel											==> recalculer a chaque	grossevalue_update 		+ changenent unite de temps
 	this.group_path						= [];// les truc qu'on affiche a l'ecran ==> c'est {ce qu'on met en visible,}   ==> recalculer a chaque unitSum_update
 	this.group_logo_elem				= new Group();
+	this.group_selector					= new Group();
+
 
 	this.fill_gross_value 				= fill_gross_value_to_histo;
 	this.switch_activ_elem				= switch_activ_elem;
@@ -582,12 +601,15 @@ function	Usage_history(from, to)
 	Si on modifie la couche alpha des colonne, c'est pas grave si elle sont empiler et au dernier endroi. 
   * */
 
+  	// this.indice_selector	= 4;
+
   	this.activ_elem = [];
   	this.tab_mult	= [5, 3, 2, 2, 3, 2, 2, 2, 7];
 	this.margin		= 0.02;
-	this.coef_line	= 0.6;
-	this.coef_time	= 0.7;
-  	this.coef_curs1 = 0.8;
+	this.coef_line	= 0.5;
+	this.coef_time	= 0.6;
+  	this.coef_curs1 = 0.7;
+  	this.coef_select = 0.8;
   	this.coef_curs2 = 0.9;
 
 	this.time_style_grid ={strokWidth: 1,  strocColor : new Color({hue: 0, saturation: 0.8, brightness: 0.3 ,alpha: 0.3})};
@@ -596,12 +618,14 @@ function	Usage_history(from, to)
 	// 	{new Time_unite("10 minutes", this.time_style_grid, )}
 	// 	];
 
-	this.global_group;													//	group commun de tout les element graphique genre pour faire un delete
+
+	this.global_group					= new Group();													//	group commun de tout les element graphique genre pour faire un delete
 	this.groups_line = [];												// Les group dans les quelle les ligne sont defini
 	this.group_grid						= new Group();
-	this.curseur_time_unite				= init_curseur(from, to, 0 , 1, this.coef_curs1 + this.margin, this.coef_curs2 - this.margin, 1000 * 60 * 10, 1000 * 60 * 60 * 24 * 7, false, true, this, actualise_time_unite, this.tab_mult);										//	le curseur pour le time unite
+	this.curseur_time_unite				= init_curseur(from, to, 0 , 1, this.coef_curs1 + this.margin, this.coef_select - this.margin, 1000 * 60 * 10, 1000 * 60 * 60 * 24 * 7, false, true, this, actualise_time_unite, this.tab_mult);										//	le curseur pour le time unite
 	this.curseur_time_interval			= init_curseur(from, to, 0, 1, this.coef_curs2 + this.margin, 1 - this.margin, globale_time_begin, globale_time_end, true, true, this, actualise_time_interval);				//	le curseur pour le time interval
 
+this.curseur_time_interval.dady = this;
 
 	// draw_the_grid(this.val_min, this.val_max, this.nb_line, this.group_grid, this.from, new Point(this.to.x, this.to.y - 0.25 * (this.to.y - this.from.y)));
 
@@ -609,6 +633,37 @@ function	Usage_history(from, to)
 
 	this.switch_draw = switch_draw_histo;
 	this.time_part = get_time_part(this.tab_mult, this.from, this.to, this.time_begin, this.time_end, this);
+
+	// var all_tab = generate_time_tab(, begin, end, param_time);
+
+
+	this.indice_selector = undefined;
+
+	//	La On va cree le tableau de machin
+	this.tab_unit_switch = [
+		{prev: prev_day, 	next: next_day},		
+		{prev: prev_week, 	next: next_week},
+		{prev: the_prev_month, 	next: the_next_month}
+		];
+
+	this.tab_unit = [
+		new Unite_selector(new Point(from.x + 0.01 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.09 * this.delta_x, from.y + this.delta_y * this.coef_curs2), this.group_selector, this.curseur_time_interval, adapt_day,   "journee", 5),
+		new Unite_selector(new Point(from.x + 0.11 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.19 * this.delta_x, from.y + this.delta_y * this.coef_curs2), this.group_selector, this.curseur_time_interval, adapt_week,  "semaine", 5),
+		new Unite_selector(new Point(from.x + 0.21 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.29 * this.delta_x, from.y + this.delta_y * this.coef_curs2), this.group_selector, this.curseur_time_interval, adapt_month, "  mois  ", 5)
+	];
+
+// function	Prev_interval(from, to, group, curseur, parent);
+
+
+
+
+
+	this.prev_interval = new Switch_interval(new Point(from.x + 0.81 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.89 * this.delta_x, from.y + this.delta_y * this.coef_curs2), this.group_selector, this.curseur_time_interval, this, false);
+	this.prev_interval = new Switch_interval(new Point(from.x + 0.91 * this.delta_x, from.y + this.delta_y * (this.coef_select + this.margin)), new Point(from.x + 0.99 * this.delta_x, from.y + this.delta_y * this.coef_curs2), this.group_selector, this.curseur_time_interval, this, true);
+	// switch_visible(this.group_selector);
+
+// this.group_selector.obj = this.unite_day;
+
 	// console.log("histo finished");
 	// this.switch_activitie = switch_activ_elem;
 
@@ -618,20 +673,32 @@ function	Usage_history(from, to)
 	// this.actualise_hisory = actualise_hisory;
 }
 
+// function 	unselect_unite(tab)
+// {
+// 	for (var x in tab)
+// 	{
+// 		console.log(tab[x]);
+// 		tab[x].strokeWidth /= 2;
+// 		tab[x].shape.save_color = tab[x].shadowColor;
+// 		tab[x].shape.shadowColor = undefined;
+// 	}
+// }
 
-function get_time_part(tab_mult, from, to, begin,  end, obj)
+function 	select_path(path, color)
 {
-	var param_time = init_time_mode(1000 * 60, tab_mult);
 
-	// console.warn("param_time");
-	// console.warn(param_time);
-	obj.time_descriptor = param_time;
-	var all_tab = generate_time_tab(from, to, begin, end, param_time);
-	// destroy_double_value(all_tab);
-
-	return (all_tab);
+	path.shadowColor = (color != undefined)? color:'black';//this.strokeColor;
+	path.shadowBlur = 10;
+	path.strokeWidth *=2;
+	// path.strokeWidth *= 3;
 }
 
+ function 	unselect_path(path)
+ {
+ 	path.shadowColor = undefined;//(color != undefined)? color:'black';//this.strokeColor;
+	path.shadowBlur = 10;
+	path.strokeWidth /=2;
+ }
 /*
 
 

@@ -14,6 +14,11 @@
 function	Curseur(from, to, val_beg, val_end, left, right, target, actuval)
 // function	Curseur(from, to, val_beg, val_end, left, right)
 {
+
+	// this.perimetre = new Path.Rectangle(from, to);
+	// this.perimetre.strokeColor = 'orange';
+
+
 	this.group = new Group();
 	// console.warn(actuval);
 	this.left_mobile = left;

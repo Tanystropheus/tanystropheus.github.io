@@ -112,6 +112,7 @@ function	get_next_from_unite(time)
 	// console.info("return:"+(( time + (time - (time % this.unite)))) / (1000 * 60));
 	// time_to_console(time);
 	// time_to_console((time + ));
+
 	return ( time + (this.unite - (time % this.unite)));
 }
 // 
@@ -141,7 +142,7 @@ function	draw_time_line(tab_unit, all_tab, from, to, begin, end, group, coef_lin
 {
 	var min_line 	= 40; 
 	var min_text 	= 40;
-	var min_lvl		= 100;
+	var min_lvl		= 100; //
 	var	coef = (to.x - from.x) / (end - begin);
 
 	var time;
@@ -307,7 +308,7 @@ function	generate_time_tab(from, to, begin, end, tab_init)
 		// console.warn("x:"+x+" 	nbr day: "+(new Date(the_time).getDay())+"	unite:"+(tab_init[x].unite / (1000 * 60 * 60 * 24)));
 	// console.log("		the_time:"+(the_time / (1000 * 60)))
 		// time_to_console(the_time);    
-		while (the_time < end)
+		while (the_time <= end)
 		{
 			all_tab[x][i] = {};
 			all_tab[x][i].time = 	the_time;

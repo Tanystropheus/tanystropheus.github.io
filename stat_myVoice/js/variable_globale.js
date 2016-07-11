@@ -48,6 +48,11 @@ paper.install(window);
 window.onload = function()
 {
     paper.setup('myCanvas');
+
+    var time = Date.now();
+    // next_month(time);
+
+
     // test_time_unite_rendu();
     aleatoire();
     my_stat();
