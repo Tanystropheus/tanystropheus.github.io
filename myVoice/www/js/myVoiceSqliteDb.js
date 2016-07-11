@@ -61,30 +61,16 @@ function openDb(okcb, failcb) {
 
 function initialInsert(){
 	//~ alert("Begin wating for initialInsert");
-	//~ return genInitSql();
 	var insertSql = genInitSql();
 	var insertPromises = [];
 	for (var sqlReq in insertSql){
-		//~ alert(JSON.stringify(sqlReq));
-		return insertSql[sqlReq];//.then(function(val){alert("test1: " + JSON.stringify(val, null, 4));}, function(err, err2){alert("test2 error: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));},function(val){alert("test3 pending: " + JSON.stringify(val, null, 4));});
-		//~ insertPromises.push(new Promise(function(){
-			//~ //alert("sql: " + insertSql[sqlReq]);
-			//~ window.db.executeSql( insertSql[sqlReq], null, function(res){
-				//~ //alert(insertSql[sqlReq] + " finish succes");
-				//~ resolve(res);
-			//~ }, function(err, err2){
-				//~ alert(insertSql[sqlReq] + " finish Error: " + JSON.stringify(err, null, 4) + JSON.stringify(err2, null, 4));
-				//~ return reject(err);
-			//~ });
-		//~ }));
+		return insertSql[sqlReq];
 	}
-	insertPromises = insertSql;//genInitSql();
-	//~ alert(JSON.stringify(insertPromises, null, 4));
+	insertPromises = insertSql;
 	return new Promise(
 		function(resolve, reject){
 			Promise.all(insertPromises).then(
 				function(val){
-					//alert("Insert initial data ok" + JSON.STringify(val, null, 4));
 					if(resolve) return resolve("initial insert ok");
 				},
 				function(err, err2){
@@ -97,7 +83,6 @@ function initialInsert(){
 }
 
 function initialSelect(){
-	//~ alert("Begin wating for initialSelect");
 	var selectPromises = [
 		selectLanguage( "" , window.appData.language, null),
 		selectLibraryLst("", window.appData.libraryLst, null),
@@ -109,12 +94,7 @@ function initialSelect(){
                 selectLibElem("", window.appData.libElem, null)
 	];
 
-	var selectPromiseALL = Promise.all(selectPromises);/*.then(function(value){
-		//~ alert("Initial Select data ok" + JSON.stringify(value, null, 4));
-		//~ alert(JSON.stringify(window.appData, null, 4));
-	}, function(err1, err2){
-		alert("Error selectPromiseALL!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));
-	}).catch(function(err1, err2){alert("Error Catch1!!!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));})*/;
+	var selectPromiseALL = Promise.all(selectPromises);
 	return selectPromiseALL;
 }
 
@@ -156,9 +136,7 @@ function initDb(callback){
 	var createTablePromises = [];
 	var initPromise;
 	for (var sqlReq in createTableSql){
-		//~ alert("sqlReq: " + sqlReq + " createTableSql[sqlReq]: " + createTableSql[sqlReq])
 		createTablePromises.push(new Promise(function(resolve, reject){
-			//~ alert("sql: " + createTableSql[sqlReq]);
 			window.db.executeSql( createTableSql[sqlReq], null, function(res){
 				return resolve(res);
 			},
@@ -167,7 +145,6 @@ function initDb(callback){
 			});
 		}));
 	}
-	//~ initialInsert().then(function(){alert("ok test fin Insert");initialSelect().then(function(a){alert("ok test fin initial Select: " + a);})}, function(err){alert("fail test fin: " + err);});
 
 	if(sqlReq = createTableSql.length){
 		return Promise.all(createTableSql).then(
@@ -181,17 +158,10 @@ function initDb(callback){
 				alert("Error Insert!! " + JSON.stringify(err1, null, 4) + "\n" + JSON.stringify(err2, null, 4));
 			}
 		).then(function(){
-			//~ alert("test");
 			if (callback){
-				//~ alert("init cb");
 				callback();
 			}
-			//~ var tableLst = [ "Language", "Tag", "LibraryLst", "Library", "User", "GlobElemAssociation", "ElemAssociation", "Text", "Elements", "ElemStat", "GlobElemStat", "Sound", "LerningStat", "Context"];
-			//~ alert("DROP Des tables!");
-			//~ for(var table in tableLst){
-				//~ dropSqliteTable(tableLst[table]);
-			//~ }
-		}).catch(function(){alert("Caca bordel de merde!!!!!!!");});
+		});
 	}
 };
 
@@ -210,7 +180,7 @@ function myExecSqliteSQL(sql, okcb, errcb) {
 		//alert("sql: " + createTableSql[sqlReq]);
 		window.db.transaction(function(tx) {
 			 tx.executeSql(sql, null, okcb, errcb);
-		}, function(){alert("Error transaction init");});
+		}, function(e, e2){alert("Error transaction init: " + JSON.stringify(e, null, 4) + " " + + JSON.stringify(e2, null, 4));});
 	});
 };
 
@@ -227,7 +197,7 @@ function myObjExecSqliteSQL(sql, values, okcb, errcb) {
                //alert("sql: " + createTableSql[sqlReq]);
                 window.db.transaction(function(tx) {
                         tx.executeSql(sql, values, okcb, errcb);
-               }, function(){alert("Error transaction init");});
+               }, function(e, e2){alert("Error transaction init: " + JSON.stringify(e, null, 4) + " " + + JSON.stringify(e2, null, 4));});
        });
 
 	//~ return new Promise(function(resolve, reject){

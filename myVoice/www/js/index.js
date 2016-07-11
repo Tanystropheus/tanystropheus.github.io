@@ -46,7 +46,14 @@ var app = {
 		window.localStorage.setItem("waitInternetCo", 0);
 		//~ app.receivedEvent('deviceready');
 		//alert("Device Ready");
-		//~ console.log = function(val){alert(val)};
+		console.log = function(val){alert(val)};
+		
+		pictureSource = navigator.camera.PictureSourceType;
+		//~ alert(JSON.stringify(pictureSource));
+
+		window.destinationType = navigator.camera.DestinationType;
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null);
+		
 		window.open = cordova.InAppBrowser.open;
 		if (!window.localStorage.getItem("Interfaces_Setings")){
 			window.appData.interfaces_setings = {

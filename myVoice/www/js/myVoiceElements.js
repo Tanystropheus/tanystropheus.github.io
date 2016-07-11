@@ -22,9 +22,9 @@ function myVoiceSetings(width, writing, sound, lastchange) {
 
 function myVoiceElem(elemurl, soundid, textid, state) {
 	this.elemid = null;
-	this.elemurl = elemUrl;
-	this.soundid = soundId;
-	this.textid = textId;
+	this.elemurl = elemurl;
+	this.soundid = soundid;
+	this.textid = textid;
 	this.state = state;
 };
 

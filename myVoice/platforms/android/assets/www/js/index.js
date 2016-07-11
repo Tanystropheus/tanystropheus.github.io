@@ -22,6 +22,7 @@ var app = {
 	// Application Constructor
 	initialize: function() {
 		this.bindEvents();
+		window.libChecbox = "";
 		window.appData = {
 			interfaces_setings: {},
 			language: {},
@@ -32,7 +33,8 @@ var app = {
 			text: {},
 			elements: {},
 			elemStat: {},
-			sound: {}
+			sound: {},
+                        libElem: {}
 		};
 	},
 
@@ -44,7 +46,14 @@ var app = {
 		window.localStorage.setItem("waitInternetCo", 0);
 		//~ app.receivedEvent('deviceready');
 		//alert("Device Ready");
-		//~ console.log = function(val){alert(val)};
+		console.log = function(val){alert(val)};
+		
+		pictureSource = navigator.camera.PictureSourceType;
+		//~ alert(JSON.stringify(pictureSource));
+
+		window.destinationType = navigator.camera.DestinationType;
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null);
+		
 		window.open = cordova.InAppBrowser.open;
 		if (!window.localStorage.getItem("Interfaces_Setings")){
 			window.appData.interfaces_setings = {
@@ -80,13 +89,16 @@ var app = {
 				return initDb(function(objLst){
 					//~ genSetingForm(document.getElementById("setingArea"));
 					//~ alert("appData: " + JSON.stringify(window.appData, null, 4));
+                                        alert("first");
+                                        start_app();
 					window.localStorage.setItem("notFirstStart", 1 );
 				});
 			} else {
 				//~ alert("not First Start");
 				return initialSelect().then(function(){
-					alert("appData:" + JSON.stringify(window.appData, null, 4))
-                                        start_app();
+					//alert("appData:" + JSON.stringify(window.appData, null, 4))
+					//~ alert("other");
+					start_app();
 					setInterval(function(){checkConnection(function(){alert("replace callback by sending data");})}, 60000 * 60);
 				});
 			}

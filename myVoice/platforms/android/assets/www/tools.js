@@ -1,75 +1,89 @@
-function defilement_droite(base, id, type){
-    var first = "#" + base + "_0";
-    var last = $(id).children(type).length - 1;
-    last = (last < 0) ? 0 : last;
-    last =  "#" + base + "_" + last;
-    $(last).after($(first));
-}
-function defilement_gauche(base, id, type){
-    var first = "#" + base + "_0";
-    var last = $(id).children(type).length - 1;
-    last = (last < 0) ? 0 : last;
-    last =  "#" + base + "_" + last;
-    $(first).before($(last));
-}
 function reorganisation_tab(direction)
 {
-    if (direction === 0)
-        defilement_droite('tab', '#libraries_field_user','li');
-    else
-        defilement_gauche('tab', '#libraries_field_user','li');
-    var str = "";
-    var name;
-    var nb = $("#libraries_field_user").children("li").length;
-    for (i = 0; i <= nb - 1; i++)
-    {
-        str = document.getElementById("libraries_field_user").childNodes[i].id;
-        name = $("#"+str).attr("name");
-        document.getElementById(str).id = "tmp_tab_" + i;
-        name = $("#tmp_tab_" + i).attr("name");
+    var t = [];
+    var tmp = [];
+    var n = 0;
+    var str = [];
+    for(var i = 0; i < $("#libraries_field_user").children("li").length; i++){
+        if($("#libraries_field_user").children("li")[i].id !== "pass_A" && $("#libraries_field_user").children("li")[i].id !== "pass_B"){
+            t[n] = $("#libraries_field_user").children("li")[i];
+            n++;
+        }
     }
-    for (i = 0; i <= nb - 1; i++)
-    {
-        document.getElementById("tmp_tab_"+i).id = "tab_" + i;
-        name = $("#tab_" + i).attr("name");
+    str[0] = $("#libraries_field_user").children("li")[0];
+    str[1] = $("#libraries_field_user").children("li")[6];
+    $(".tab_menu").remove();
+    tmp[0] = t[t.length - 1];
+    n = 1;
+    for (var i = 0; i < t.length - 1; i++){
+    tmp[n] = t[i];
+       n++;
+    }
+    $("#libraries_field_user").append(str[0]);
+    n = 1;
+    for (var all in tmp){
+        $("#libraries_field_user").append(tmp[all]);
+        $("#"+tmp[all].id).data('categorie', tab_data["#"+tmp[all].id]);
+        n++;
+        if (n === 6){
+            $("#libraries_field_user").append(str[1]);
+            n++;
+        }
     }
 }
-function reorganisation_tab_admin(direction)
+function show_active_tab(id, who)
 {
-    if (direction === 0)
-        defilement_droite('taba', '#libraries_field_admin','li');
-    else
-        defilement_gauche('taba', '#libraries_field_admin','li');
-    var str = "";
-    var name;
-    var nb = $("#libraries_field_admin").children("li").length;
-    for (i = 0; i <= nb - 1; i++)
+    var id_tab = who === "user" ? "#tab_" : "#taba_";
+    selected_tab = $("#"+id.getAttribute("id")).data("categorie");
+    nb = $("#libraries_field_"+who).children("li").length;
+    for (i = 1; i <= nb; i++)
     {
-        str = document.getElementById("libraries_field_admin").childNodes[i].id;
-        name = $("#"+str).attr("name");
-        document.getElementById(str).id = "tmp_taba_" + i;
-        name = $("#tmp_taba_" + i).attr("name");
+		selected_tab_color = window.appData.library[i].color;
+        if (selected_tab.libtitle === $(id_tab+i).attr("name")){
+            $(id_tab+i).css("background-color", active_tab_color);
+            $(id_tab+i+" h1").css("color", selected_tab_color);
+        }
+        else
+        {
+            $(id_tab+i).css("background-color", selected_tab_color);
+            $(id_tab+i+" h1").css("color", active_tab_color);
+        }
     }
-    for (i = 0; i <= nb - 1; i++)
-    {
-        document.getElementById("tmp_taba_"+i).id = "taba_" + i;
-        name = $("#taba_" + i).attr("name");
-    }
-}
-function show_libraries_nav(item){
-    var html_str_user = ""; /*chaine contenant du code html*/
-    var html_str_admin = "<li id='taba_0' name='bdd_images' onclick='show_active_tab(this);'><h1>Galerie</h1></li>"; 
-    var nb = 0;
-    for(var i in item){
-        html_str_user = html_str_user + "<li id='tab_"+ nb +"' name='"+ item[i].libtitle +"' onclick='show_active_tab(this);'><h1>" + item[i].libtitle + "</h1></li>";
-        html_str_admin = html_str_admin + "<li id='taba_"+ (nb + 1) +"' name='"+ item[i].libtitle +"' onclick='show_active_tab(this);'><h1>" + item[i].libtitle + "</h1></li>";
-        nb++;
-    }; /*Pour chaque élément, ajoute un élément nommé dans une liste*/
-    document.getElementById("user_header").innerHTML = "<ul id='libraries_field_user'></ul>";
-    document.getElementById("libraries_field_user").innerHTML = html_str_user;
-    document.getElementById("admin_header").innerHTML = "<ul id='libraries_field_admin'></ul>";
-    document.getElementById("libraries_field_admin").innerHTML = html_str_admin;
-    for(var i in item){
-        $("#tab_"+i).data('categorie', item[i]);
+    select_grid(selected_tab);
+    set_grid(1,"user");
+    for (var i in window.appData.library){
+        var name = "."+window.appData.library[i].libtitle+"_drag";
+        $(name).draggable({helper: "clone", cursorAt: { top:50, left:100 }});
+        var name = "."+window.appData.library[i].libtitle+"_drop";
+        $(name+" span").droppable({drop:voice_drop});
     }
 };
+function voice_drop(event, ui){
+    var index_drag = $(ui.draggable).attr("id").substr(5,1);
+    var a = $(ui.draggable).attr("id").substr(7);
+    var index_drop = $(this).attr("id").substr(5,1);
+    var img_drag = $(ui.draggable).html();
+    var img_drop = $(this).html();
+    var tmp;
+    if (a === $(this).attr("id").substr(7)){
+    tmp = set_img[index_drag];
+    set_img[index_drag] = set_img[index_drop];
+    set_img[index_drop] = tmp;
+    $(ui.draggable).html("");
+    $(this).html("");
+    $(ui.draggable).html(img_drop);
+    $(this).html(img_drag);
+    localStorage.setItem(a, JSON.stringify(set_img));
+    }
+    else{
+      var n = 0;
+    var tt = "<img src='"+$(ui.draggable).children("img").attr("src")+"' style='height:189px; width:189px' >";
+    for (var i = 0; i < voice_choice; i++){
+        if($("#voice_drag_"+i).children("img").attr("src") === $(ui.draggable).children("img").attr("src")){
+            n++;
+        }
+    }
+    if (n === 0)
+        $(this).html(tt);
+    }
+}
